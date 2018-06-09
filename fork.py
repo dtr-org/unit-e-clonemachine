@@ -92,21 +92,25 @@ def f(path):
   with open(path, 'r') as source_file:
     contents = source_file.read()
   altered = substitute(contents, "bitcoin", replaceBitcoinIdentifier, case_sensitive = False, blacklist = [
-    "The Bitcoin Core developers"
+    "The Bitcoin Core developers",
+    "Bitcoin Developer",
+    "As Bitcoin relies on 80 byte header hashes"
   ])
   with open(path, 'w') as target_file:
     target_file.write(altered)
 
 replaceRecursively("8333", "7182")
 subprocess.run(['git', 'commit', '-am', 'Turned mainnet port 8333 into 7182'])
+subprocess.run(['git', 'push'])
 
 replaceRecursively("18333", "17182")
 subprocess.run(['git', 'commit', '-am', 'Turned testnet port 18333 into 17182'])
+subprocess.run(['git', 'push'])
 
 applyRecursively(lambda path: gitMoveFile(path, "bitcoin", "unite"))
 subprocess.run(['git', 'commit', '-am', 'Moved paths containing "bitcoin" to respective "unite" paths'])
 
 applyRecursively(f, ['grep', '-RIFil', 'bitcoin', '.'])
 subprocess.run(['git', 'commit', '-am', 'Renamed occurences of "bitcoin" to "unite"'])
-
+subprocess.run(['git', 'push'])
 
