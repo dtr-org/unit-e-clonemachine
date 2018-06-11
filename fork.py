@@ -14,10 +14,15 @@ substitution_blacklist = [
   "Bitcoin Developer",
   # that's a test fixture which checks SHA256 hashing
   "As Bitcoin relies on 80 byte header hashes",
-  # That's a hyperlink which for some reason fudges up the travis build if not blacklisted
-  "bitcoin.sipa.be",
   # binary data in 'custom_dsstore.py
   "\\x07bitcoin"
+]
+
+excluded_directories = [
+  "src/secp256k1",
+  "src/crypto/ctaes",
+  "src/univalue",
+  "src/leveldb"
 ]
 
 other_substitutions = {
@@ -95,11 +100,22 @@ def replaceRecursively(needle: str,
     with open(path, 'w') as source_file:
       source_file.write(out)
 
+def isHiddenFile(path):
+  return any(map(lambda x: len(x) > 1 and x.startswith('.'), path.split('/')[:-1]))
+
+def isInExcludedDirectory(path):
+  global excluded_directories
+  normalized = "/".join(filter(lambda x: x != '.' and len(x) > 0, path.split('/')))
+  for excl in excluded_directories:
+    if normalized.startswith(excl):
+      return True
+  return False
+
 def applyRecursively(func, command = ['find', '.', '-type', 'f']):
   files = subprocess.run(command, stdout=subprocess.PIPE)
   for f in files.stdout.splitlines():
     path = f.decode('utf8')
-    if any(map(lambda x: len(x) > 1 and x.startswith('.'), path.split('/')[:-1])):
+    if isHiddenFile(path) or isInExcludedDirectory(path):
       continue;
     func(path)
 
