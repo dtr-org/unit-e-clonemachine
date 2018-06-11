@@ -88,10 +88,11 @@ def replaceBitcoinIdentifier(occurence: str):
     return 'UnitE'
   raise Exception("Don't know how to handle %s" % occurence)
 
-def f(path):
+def substituteBitcoin(path):
   with open(path, 'r') as source_file:
     contents = source_file.read()
   altered = substitute(contents, "bitcoin", replaceBitcoinIdentifier, case_sensitive = False, blacklist = [
+    "bitcoincore.org",
     "The Bitcoin Core developers",
     "Bitcoin Developer",
     "As Bitcoin relies on 80 byte header hashes"
@@ -99,18 +100,51 @@ def f(path):
   with open(path, 'w') as target_file:
     target_file.write(altered)
 
+substitutions = {
+  'guiutil.cpp': {
+    'uri.replace(0, 10, "unite:");': 'uri.replace(0, 8, "unite:");'
+  },
+  'addrman_tests.cpp': {
+    'for (int i = 0; i < 20; ++i) {': 'for (int i = 0; i < 100; ++i) {'
+  },
+  'clientversion.cpp': {
+    'const std::string CLIENT_NAME("Satoshi");': 'const std::string CLIENT_NAME("Feuerland");'
+  },
+  'uniteunits.cpp': {
+    'Number of Satoshis (1e-8) per unit': 'Number of Eees (1e-8) per unit'
+  }
+}
+
+def substituteOther(path):
+  basename = path.split('/')[-1]
+  if basename in substitutions:
+    with open(path, 'r') as source_file:
+      contents = source_file.read()
+    for needle, replacement in substitutions[basename].items():
+      contents = contents.replace(needle, replacement)
+    with open(path, 'w') as target_file:
+      target_file.write(contents)
+
 replaceRecursively("8333", "7182")
 subprocess.run(['git', 'commit', '-am', 'Turned mainnet port 8333 into 7182'])
-subprocess.run(['git', 'push'])
+# subprocess.run(['git', 'push'])
 
 replaceRecursively("18333", "17182")
 subprocess.run(['git', 'commit', '-am', 'Turned testnet port 18333 into 17182'])
+# subprocess.run(['git', 'push'])
+
+replaceRecursively("BTC", "UNT", match_before = "$|[^a-ln-tv-zA-Z]")
+subprocess.run(['git', 'commit', '-am', 'Changed currency token BTC to UNT'])
 subprocess.run(['git', 'push'])
 
 applyRecursively(lambda path: gitMoveFile(path, "bitcoin", "unite"))
 subprocess.run(['git', 'commit', '-am', 'Moved paths containing "bitcoin" to respective "unite" paths'])
 
-applyRecursively(f, ['grep', '-RIFil', 'bitcoin', '.'])
+applyRecursively(substituteBitcoin, ['grep', '-RIFil', 'bitcoin', '.'])
 subprocess.run(['git', 'commit', '-am', 'Renamed occurences of "bitcoin" to "unite"'])
+# subprocess.run(['git', 'push'])
+
+applyRecursively(substituteOther)
+subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
 subprocess.run(['git', 'push'])
 
