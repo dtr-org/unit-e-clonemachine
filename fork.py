@@ -41,6 +41,10 @@ other_substitutions = {
   'uniteunits.cpp': {
     # the smallest unit in Unit E is "an eee", not "a satoshi".
     'Number of Satoshis (1e-8) per unit': 'Number of Eees (1e-8) per unit'
+  },
+  'rpc_signmessage.py': {
+    "expected_signature = 'INbVnW4e6PeRmsv2Qgu8NuopvrVjkcxob+sX8OcZG0SALhWybUjzMLPdAsXI46YZGb0KQTRii+wWIQzRpG/U+S0='": \
+      "expected_signature = 'HzSnrVR/sJC1Rg4SQqeecq9GAmIFtlj1u87aIh5i6Mi1bEkm7b+bsI7pIKWJsRZkjAQRkKhcTTYuVJAl0bmdWvY='"
   }
 }
 
