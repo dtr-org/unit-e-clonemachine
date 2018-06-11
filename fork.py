@@ -5,6 +5,37 @@ import subprocess
 import re
 from typing import *
 
+substitution_blacklist = [
+  # the mac build downloads dependencies from here
+  "bitcoincore.org",
+  # copyright notice must be retained
+  "The Bitcoin Core developers",
+  # also copyright
+  "Bitcoin Developer",
+  # that's a test fixture which checks SHA256 hashing
+  "As Bitcoin relies on 80 byte header hashes",
+
+]
+
+other_substitutions = {
+  'guiutil.cpp': {
+    # "unite:" is 2 characters shorter than "bitcoin:"
+    'uri.replace(0, 10, "unite:");': 'uri.replace(0, 8, "unite:");'
+  },
+  'addrman_tests.cpp': {
+    # the address manager select tests draw 20 addresses which does not pop out our port, a hundred do though.
+    'for (int i = 0; i < 20; ++i) {': 'for (int i = 0; i < 100; ++i) {'
+  },
+  'clientversion.cpp': {
+    # this renames the client from 'Satoshi' to 'Feuerland'.
+    'const std::string CLIENT_NAME("Satoshi");': 'const std::string CLIENT_NAME("Feuerland");'
+  },
+  'uniteunits.cpp': {
+    # the smallest unit in Unit E is "an eee", not "a satoshi".
+    'Number of Satoshis (1e-8) per unit': 'Number of Eees (1e-8) per unit'
+  }
+}
+
 def toLower(s: str) -> str:
   return s.translate(str.maketrans(
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -91,60 +122,35 @@ def replaceBitcoinIdentifier(occurence: str):
 def substituteBitcoin(path):
   with open(path, 'r') as source_file:
     contents = source_file.read()
-  altered = substitute(contents, "bitcoin", replaceBitcoinIdentifier, case_sensitive = False, blacklist = [
-    "bitcoincore.org",
-    "The Bitcoin Core developers",
-    "Bitcoin Developer",
-    "As Bitcoin relies on 80 byte header hashes"
-  ])
+  altered = substitute(contents, "bitcoin", replaceBitcoinIdentifier, case_sensitive = False, blacklist = substitution_blacklist)
   with open(path, 'w') as target_file:
     target_file.write(altered)
 
-substitutions = {
-  'guiutil.cpp': {
-    'uri.replace(0, 10, "unite:");': 'uri.replace(0, 8, "unite:");'
-  },
-  'addrman_tests.cpp': {
-    'for (int i = 0; i < 20; ++i) {': 'for (int i = 0; i < 100; ++i) {'
-  },
-  'clientversion.cpp': {
-    'const std::string CLIENT_NAME("Satoshi");': 'const std::string CLIENT_NAME("Feuerland");'
-  },
-  'uniteunits.cpp': {
-    'Number of Satoshis (1e-8) per unit': 'Number of Eees (1e-8) per unit'
-  }
-}
-
 def substituteOther(path):
   basename = path.split('/')[-1]
-  if basename in substitutions:
+  if basename in other_substitutions:
     with open(path, 'r') as source_file:
       contents = source_file.read()
-    for needle, replacement in substitutions[basename].items():
+    for needle, replacement in other_substitutions[basename].items():
       contents = contents.replace(needle, replacement)
     with open(path, 'w') as target_file:
       target_file.write(contents)
 
 replaceRecursively("8333", "7182")
 subprocess.run(['git', 'commit', '-am', 'Turned mainnet port 8333 into 7182'])
-# subprocess.run(['git', 'push'])
 
 replaceRecursively("18333", "17182")
 subprocess.run(['git', 'commit', '-am', 'Turned testnet port 18333 into 17182'])
-# subprocess.run(['git', 'push'])
 
 replaceRecursively("BTC", "UNT", match_before = "$|[^a-ln-tv-zA-Z]")
 subprocess.run(['git', 'commit', '-am', 'Changed currency token BTC to UNT'])
-subprocess.run(['git', 'push'])
 
 applyRecursively(lambda path: gitMoveFile(path, "bitcoin", "unite"))
 subprocess.run(['git', 'commit', '-am', 'Moved paths containing "bitcoin" to respective "unite" paths'])
 
 applyRecursively(substituteBitcoin, ['grep', '-RIFil', 'bitcoin', '.'])
 subprocess.run(['git', 'commit', '-am', 'Renamed occurences of "bitcoin" to "unite"'])
-# subprocess.run(['git', 'push'])
 
 applyRecursively(substituteOther)
 subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
-subprocess.run(['git', 'push'])
 
