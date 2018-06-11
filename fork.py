@@ -14,7 +14,10 @@ substitution_blacklist = [
   "Bitcoin Developer",
   # that's a test fixture which checks SHA256 hashing
   "As Bitcoin relies on 80 byte header hashes",
-
+  # That's a hyperlink which for some reason fudges up the travis build if not blacklisted
+  "bitcoin.sipa.be",
+  # binary data in 'custom_dsstore.py
+  "\\x07bitcoin"
 ]
 
 other_substitutions = {
