@@ -14,6 +14,8 @@ substitution_blacklist = [
   "Bitcoin Developer",
   # that's a test fixture which checks SHA256 hashing
   "As Bitcoin relies on 80 byte header hashes",
+  # onion routing in feature_proxy.py
+  "bitcoinostk4e4re",
   # binary data in 'custom_dsstore.py
   "\\x07bitcoin"
 ]
