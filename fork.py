@@ -24,7 +24,8 @@ excluded_directories = [
   "src/secp256k1",
   "src/crypto/ctaes",
   "src/univalue",
-  "src/leveldb"
+  "src/leveldb",
+  "release-notes"
 ]
 
 other_substitutions = {
@@ -74,6 +75,14 @@ protocol_economics_substitutions = {
  * critical; in unusual circumstances like a(nother) overflow bug that allowed
  * for the creation of coins out of thin air modification could lead to a fork.
  *''': ''
+  },
+  'main_tests.cpp': {
+    'CAmount nInitialSubsidy = 50 * UNIT;': 'CAmount nInitialSubsidy = 10 * UNIT;',
+    'BOOST_CHECK(nSubsidy <= 50 * UNIT);': 'BOOST_CHECK(nSubsidy <= 10 * UNIT);',
+    'BOOST_CHECK_EQUAL(nSum, 2099999997690000ULL);': 'BOOST_CHECK_EQUAL(nSum, 419999997270000ULL);'
+  },
+  'miner_test.cpp': {
+    'const CAmount BLOCKSUBSIDY = 50*UNIT': 'const CAmount BLOCKSUBSIDY = 10*UNIT'
   }
 }
 
@@ -209,11 +218,12 @@ subprocess.run(['git', 'commit', '-am', 'Renamed occurences of "bitcoin" to "uni
 applyRecursively(substituteAny(other_substitutions))
 subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
 
-applyRecursively(substituteAny(protocol_economics_substitutions))
-subprocess.run(['git', 'commit', '-am', 'Apply protocol economics changes (max supply, reward, ...)'])
+# applyRecursively(substituteAny(protocol_economics_substitutions))
+# subprocess.run(['git', 'commit', '-am', 'Apply protocol economics changes (max supply, reward, ...)'])
 
 replaceRecursively("COIN", "UNIT")
 subprocess.run(['git', 'commit', '-am', 'Changed identifier COIN to UNIT'])
 
 replaceRecursively("CENT", "EEES")
 subprocess.run(['git', 'commit', '-am', 'Changed identifier CENT to EEES'])
+
