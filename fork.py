@@ -40,13 +40,40 @@ other_substitutions = {
     # this renames the client from 'Satoshi' to 'Feuerland'.
     'const std::string CLIENT_NAME("Satoshi");': 'const std::string CLIENT_NAME("Feuerland");'
   },
-  'uniteunits.cpp': {
-    # the smallest unit in Unit E is "an eee", not "a satoshi".
-    'Number of Satoshis (1e-8) per unit': 'Number of Eees (1e-8) per unit'
-  },
   'rpc_signmessage.py': {
+    # the message now contains UnitE instead of Bitcoin, thus it's signature changes
     "expected_signature = 'INbVnW4e6PeRmsv2Qgu8NuopvrVjkcxob+sX8OcZG0SALhWybUjzMLPdAsXI46YZGb0KQTRii+wWIQzRpG/U+S0='": \
       "expected_signature = 'HzSnrVR/sJC1Rg4SQqeecq9GAmIFtlj1u87aIh5i6Mi1bEkm7b+bsI7pIKWJsRZkjAQRkKhcTTYuVJAl0bmdWvY='"
+  }
+}
+
+protocol_economics_substitutions = {
+  'validation.cpp': {
+    # initial block reward in UnitE is 10 coins, as opposed to 50 in bitcoin
+    'CAmount nSubsidy = 50 * COIN;': 'CAmount nSubsidy = 10 * COIN;',
+    # block interval is 100M, as opposed to 210k in bitcoin
+    '// Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.':
+      '// Subsidy is cut in half every 100M blocks which will occur approximately every 13 years.'
+  },
+  'amount.h': {
+    # adds a comment to clarify the order of magnitude
+    'static const CAmount COIN = 100000000;': 'static const CAmount COIN = 100000000; // 10 ** 8',
+    # adds a comment to clarify the order of magnitude
+    'static const CAmount CENT = 1000000;': 'static const CAmount CENT = 1000000;   // 10 ** 6',
+    # adds a comment to explain the method of calculation
+    # and changes MAX_MONEY (total supply) that value
+    'static const CAmount MAX_MONEY = 21000000 * COIN;':
+      'static const CAmount MAX_MONEY = 271828182845904544; // 1 bln * COIN * exp(1)',
+    # get rid of a bitcoin specific comment
+'''
+ *
+ * Note that this constant is *not* the total money supply, which in UnitE
+ * currently happens to be less than 21,000,000 UNT for various reasons, but
+ * rather a sanity check. As this sanity check is used by consensus-critical
+ * validation code, the exact value of the MAX_MONEY constant is consensus
+ * critical; in unusual circumstances like a(nother) overflow bug that allowed
+ * for the creation of coins out of thin air modification could lead to a fork.
+ *''': ''
   }
 }
 
@@ -151,15 +178,18 @@ def substituteBitcoin(path):
   with open(path, 'w') as target_file:
     target_file.write(altered)
 
-def substituteOther(path):
-  basename = path.split('/')[-1]
-  if basename in other_substitutions:
-    with open(path, 'r') as source_file:
-      contents = source_file.read()
-    for needle, replacement in other_substitutions[basename].items():
-      contents = contents.replace(needle, replacement)
-    with open(path, 'w') as target_file:
-      target_file.write(contents)
+# String -> (String -> IO ())
+def substituteAny(substitutions):
+  def subst(path):
+    basename = path.split('/')[-1]
+    if basename in substitutions:
+      with open(path, 'r') as source_file:
+        contents = source_file.read()
+      for needle, replacement in substitutions[basename].items():
+        contents = contents.replace(needle, replacement)
+      with open(path, 'w') as target_file:
+        target_file.write(contents)
+  return subst
 
 replaceRecursively("8333", "7182")
 subprocess.run(['git', 'commit', '-am', 'Turned mainnet port 8333 into 7182'])
@@ -176,6 +206,9 @@ subprocess.run(['git', 'commit', '-am', 'Moved paths containing "bitcoin" to res
 applyRecursively(substituteBitcoin, ['grep', '-RIFil', 'bitcoin', '.'])
 subprocess.run(['git', 'commit', '-am', 'Renamed occurences of "bitcoin" to "unite"'])
 
-applyRecursively(substituteOther)
+applyRecursively(substituteAny(other_substitutions))
 subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
+
+applyRecursively(substituteAny(protocol_economics_substitutions))
+subprocess.run(['git', 'commit', '-am', 'Apply protocol economics changes (max supply, reward, ...)'])
 
