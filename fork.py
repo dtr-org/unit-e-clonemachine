@@ -212,3 +212,8 @@ subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constant
 applyRecursively(substituteAny(protocol_economics_substitutions))
 subprocess.run(['git', 'commit', '-am', 'Apply protocol economics changes (max supply, reward, ...)'])
 
+replaceRecursively("COIN", "UNIT")
+subprocess.run(['git', 'commit', '-am', 'Changed identifier COIN to UNIT'])
+
+replaceRecursively("CENT", "EEES")
+subprocess.run(['git', 'commit', '-am', 'Changed identifier CENT to EEES'])
