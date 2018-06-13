@@ -5,6 +5,7 @@ This python script applies basic transformations to the bitcoin-core codebase:
 - replaces `bitcoin` with `unite`
 - replaces names of units like `COIN → UNIT` and `CENT → EEES`
 - renames files
+- changes the name of the client from `Satoshi` to `Feuerland`
 - fixes tests accordingly
 - etc.
 
