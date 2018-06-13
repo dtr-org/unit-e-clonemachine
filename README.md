@@ -13,7 +13,7 @@ This python script applies basic transformations to the bitcoin-core codebase:
 
 The idea is to apply this script every time we rebase against/merge with
 the bitcoincore repository. This way we can have things renamed nicely and
-safe ourselves a lot of merge headaches.
+save ourselves a lot of merge headaches.
 
 ## mechanics
 
