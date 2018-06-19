@@ -186,25 +186,25 @@ def substitute_any(substitutions):
 
 
 replace_recursively("8333", "7182")
-subprocess.run(['git', 'commit', '-am', 'Turned mainnet port 8333 into 7182'])
+subprocess.run(['git', 'commit', '-am', 'Change mainnet port 8333 into 7182'])
 
 replace_recursively("18333", "17182")
-subprocess.run(['git', 'commit', '-am', 'Turned testnet port 18333 into 17182'])
+subprocess.run(['git', 'commit', '-am', 'Change testnet port 18333 into 17182'])
 
 replace_recursively("BTC", "UNT", match_before="$|[^a-ln-tv-zA-Z]")
-subprocess.run(['git', 'commit', '-am', 'Changed currency token BTC to UNT'])
+subprocess.run(['git', 'commit', '-am', 'Change currency token BTC to UNT'])
 
 apply_recursively(lambda path: git_move_file(path, "bitcoin", "unite"))
-subprocess.run(['git', 'commit', '-am', 'Moved paths containing "bitcoin" to respective "unite" paths'])
+subprocess.run(['git', 'commit', '-am', 'Move paths containing "bitcoin" to respective "unite" paths'])
 
 apply_recursively(substitute_bitcoin_identifier_in_file, ['grep', '-RIFil', 'bitcoin', '.'])
-subprocess.run(['git', 'commit', '-am', 'Renamed occurences of "bitcoin" to "unite"'])
+subprocess.run(['git', 'commit', '-am', 'Rename occurences of "bitcoin" to "unite"'])
 
 apply_recursively(substitute_any(other_substitutions))
 subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
 
 replace_recursively("COIN", "UNIT")
-subprocess.run(['git', 'commit', '-am', 'Changed identifier COIN to UNIT'])
+subprocess.run(['git', 'commit', '-am', 'Change identifier COIN to UNIT'])
 
 replace_recursively("CENT", "EEES")
-subprocess.run(['git', 'commit', '-am', 'Changed identifier CENT to EEES'])
+subprocess.run(['git', 'commit', '-am', 'Change identifier CENT to EEES'])
