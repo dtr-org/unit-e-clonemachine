@@ -15,6 +15,21 @@ The idea is to apply this script every time we rebase against/merge with
 the bitcoincore repository. This way we can have things renamed nicely and
 save ourselves a lot of merge headaches.
 
+## workflow
+
+We work on our fork of bitcoin. Whenever we want to merge with bitcoin upstream
+we fork the bitcoin branch we want to merge with _again_ and apply the clonemachine
+one it. Then we merge with that adjusted fork.
+
+```
+# do not blindly copy n paste, this outlines the procedure
+git remote add bitcoin git@github.com:bitcoin/bitcoin.git
+git fetch bitcoin
+git checkout -b bitcoin-integration bitcoin/master
+<path>/<to>/<clonemachine>/clonemachine.py
+git merge master
+```
+
 ## mechanics
 
 The transformations are carried out in a safe way, i.e. certain replacements
