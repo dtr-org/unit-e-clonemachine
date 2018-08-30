@@ -25,7 +25,10 @@ substitution_blacklist = [
     # reference to secp256k1
     "github.com/bitcoin-core/secp256k1",
     # reference to ctaes
-    "github.com/unite-core/ctaes"
+    "github.com/unite-core/ctaes",
+    # Python packagages used in functional tests
+    "python-bitcoinrpc",
+    "python-bitcoinlib"
 ]
 
 excluded_directories = [
