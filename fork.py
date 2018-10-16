@@ -28,7 +28,9 @@ substitution_blacklist = [
     "github.com/unite-core/ctaes",
     # Python packagages used in functional tests
     "python-bitcoinrpc",
-    "python-bitcoinlib"
+    "python-bitcoinlib",
+    # PPA for getting BDB 4.8 packages
+    "ppa:bitcoin/bitcoin"
 ]
 
 excluded_directories = [
@@ -88,11 +90,16 @@ def substitute(string: str,
         for item in blacklist:
             item_haystack = item if case_sensitive else to_lower(item)
             item_ix = item_haystack.find(needle)
-            ctx_begin_offset = begin_offset - item_ix
-            ctx_end_offset = ctx_begin_offset + len(item)
-            context = string[ctx_begin_offset: ctx_end_offset]
-            if context == item:
-                blacklisted = True
+            while item_ix >= 0:
+                ctx_begin_offset = begin_offset - item_ix
+                ctx_end_offset = ctx_begin_offset + len(item)
+                context = string[ctx_begin_offset: ctx_end_offset]
+                if context == item:
+                    blacklisted = True
+                    break
+                else:
+                    item_ix = item_haystack.find(needle, item_ix + len(match))
+            if blacklisted:
                 break
         if not blacklisted and re.match(match_before, before) and re.match(match_after, after):
             out.append(string[ix: begin_offset])
@@ -188,26 +195,27 @@ def substitute_any(substitutions):
     return subst
 
 
-replace_recursively("8333", "7182")
-subprocess.run(['git', 'commit', '-am', 'Change mainnet port 8333 into 7182'])
+if __name__ == '__main__':
+    replace_recursively("8333", "7182")
+    subprocess.run(['git', 'commit', '-am', 'Change mainnet port 8333 into 7182'])
 
-replace_recursively("18333", "17182")
-subprocess.run(['git', 'commit', '-am', 'Change testnet port 18333 into 17182'])
+    replace_recursively("18333", "17182")
+    subprocess.run(['git', 'commit', '-am', 'Change testnet port 18333 into 17182'])
 
-replace_recursively("BTC", "UNT", match_before="$|[^a-ln-tv-zA-Z]")
-subprocess.run(['git', 'commit', '-am', 'Change currency token BTC to UNT'])
+    replace_recursively("BTC", "UNT", match_before="$|[^a-ln-tv-zA-Z]")
+    subprocess.run(['git', 'commit', '-am', 'Change currency token BTC to UNT'])
 
-apply_recursively(lambda path: git_move_file(path, "bitcoin", "unite"))
-subprocess.run(['git', 'commit', '-am', 'Move paths containing "bitcoin" to respective "unite" paths'])
+    apply_recursively(lambda path: git_move_file(path, "bitcoin", "unite"))
+    subprocess.run(['git', 'commit', '-am', 'Move paths containing "bitcoin" to respective "unite" paths'])
 
-apply_recursively(substitute_bitcoin_identifier_in_file, ['grep', '-RIFil', 'bitcoin', '.'])
-subprocess.run(['git', 'commit', '-am', 'Rename occurences of "bitcoin" to "unite"'])
+    apply_recursively(substitute_bitcoin_identifier_in_file, ['grep', '-RIFil', 'bitcoin', '.'])
+    subprocess.run(['git', 'commit', '-am', 'Rename occurences of "bitcoin" to "unite"'])
 
-apply_recursively(substitute_any(other_substitutions))
-subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
+    apply_recursively(substitute_any(other_substitutions))
+    subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
 
-replace_recursively("COIN", "UNIT")
-subprocess.run(['git', 'commit', '-am', 'Change identifier COIN to UNIT'])
+    replace_recursively("COIN", "UNIT")
+    subprocess.run(['git', 'commit', '-am', 'Change identifier COIN to UNIT'])
 
-replace_recursively("CENT", "EEES")
-subprocess.run(['git', 'commit', '-am', 'Change identifier CENT to EEES'])
+    replace_recursively("CENT", "EEES")
+    subprocess.run(['git', 'commit', '-am', 'Change identifier CENT to EEES'])
