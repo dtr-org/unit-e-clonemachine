@@ -38,7 +38,7 @@ excluded_directories = [
     "src/crypto/ctaes",
     "src/univalue",
     "src/leveldb",
-    "release-notes"
+    "doc/release-notes"
 ]
 
 other_substitutions = {
