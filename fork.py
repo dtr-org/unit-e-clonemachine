@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 expandtab
+# Copyright (c) 2018 The unit-e developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import subprocess
 import re
