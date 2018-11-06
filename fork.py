@@ -6,6 +6,7 @@
 
 import subprocess
 import re
+import sys
 from typing import *
 
 substitution_blacklist = [
@@ -147,9 +148,18 @@ def apply_recursively(func, command=['find', '.', '-type', 'f']):
     for f in files.stdout.splitlines():
         path = f.decode('utf8')
         if is_hidden_file(path) or is_in_excluded_directory(path):
-            continue;
+            continue
         func(path)
 
+def remove_trailing_whitespace(file_pattern):
+    if sys.platform == "linux":
+        sed = "sed"
+    elif sys.platform == "darwin":
+        sed = "gsed"
+    else:
+        raise RuntimeError("Unsupported platform: '{}'".format(sys.platform))
+    subprocess.run(['find', '.', '-type', 'f', '-name', file_pattern,
+      '-exec', sed, '--in-place', r's/[[:space:]]\+$//', '{}', '+'])
 
 def git_move_file(path, needle, replacement):
     target = path.replace(needle, replacement)
@@ -222,3 +232,7 @@ if __name__ == '__main__':
 
     replace_recursively("CENT", "EEES")
     subprocess.run(['git', 'commit', '-am', 'Change identifier CENT to EEES'])
+
+    remove_trailing_whitespace('*.md')
+    remove_trailing_whitespace('*.py')
+    subprocess.run(['git', 'commit', '-am', 'Remove trailing whitespace'])

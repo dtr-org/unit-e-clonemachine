@@ -4,7 +4,7 @@
 
 # Functional test for clonemachine
 #
-# Run it with `python3 -m unittest -v test_idempotence.py`
+# Run it with `python3 -m unittest -v test_clonemachine.py`
 
 import unittest
 
@@ -13,16 +13,25 @@ import os
 import subprocess
 from pathlib import Path
 
-class TestIdempotence(unittest.TestCase):
-    def run_git(self, arguments, cwd):
-        result = subprocess.run(["git"] + arguments, cwd = cwd, capture_output=True)
+class TestClonemachine(unittest.TestCase):
+    def run_cmd(self, command_and_arguments, cwd = None):
+        result = subprocess.run(command_and_arguments, cwd = cwd, stdout=subprocess.PIPE)
         return result.stdout.rstrip().decode("utf-8")
 
-    def setUp(self):
-        self.bitcoin_git_dir = os.path.dirname(__file__) / Path("tmp/bitcoin")
+    def run_git(self, arguments, cwd):
+        result = subprocess.run(["git"] + arguments, cwd = cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return result.stdout.rstrip().decode("utf-8")
 
+    def find_files_with_trailing_whitespace(self, file_pattern):
+        return self.run_cmd(["find",
+            self.bitcoin_git_dir, "-type", "f", "-name", file_pattern,
+            "-exec", "egrep", "-l", " +$", "{}", ";"])
+
+    def setUp(self):
+        self.clonemachine = (Path(os.path.dirname(__file__)) / "../fork.py").resolve()
+        self.bitcoin_git_dir = os.path.dirname(__file__) / Path("tmp/bitcoin")
         self.bitcoin_branch = "0.17"
-        self.bitcoin_git_revision = "9e87d82e7f0696a40d08c6e4cff3f040a447ece5"
+        self.bitcoin_git_revision = "1e49fe450dbb0c258776526dba3ee583461d42ff"
 
         if not os.path.exists(self.bitcoin_git_dir):
             subprocess.run(["git", "clone", "--depth", "1", "--branch",
@@ -34,16 +43,23 @@ class TestIdempotence(unittest.TestCase):
             raise RuntimeError("Expected git revision '{}', got '{}'".format(
                     self.bitcoin_git_revision, git_revision))
 
-    def test_run_clonemachine_twice(self):
-        clonemachine = (Path(os.path.dirname(__file__)) / "../fork.py").resolve()
-        subprocess.run([clonemachine], cwd = self.bitcoin_git_dir, capture_output=True)
+    def test_idempotence(self):
+        subprocess.run([self.clonemachine], cwd = self.bitcoin_git_dir, stdout=subprocess.PIPE)
         git_revision = self.run_git(["rev-parse", "HEAD"], self.bitcoin_git_dir)
         # Check that some substitution was done and new commits where added
         self.assertNotEqual(git_revision, self.bitcoin_git_revision)
-        subprocess.run([clonemachine], cwd = self.bitcoin_git_dir, capture_output=True)
+        subprocess.run([self.clonemachine], cwd = self.bitcoin_git_dir, stdout=subprocess.PIPE)
         new_git_revision = self.run_git(["rev-parse", "HEAD"], self.bitcoin_git_dir)
         # Check that no new commits where added
         self.assertEqual(git_revision, new_git_revision)
+
+    def test_remove_trailing_whitespace(self):
+        subprocess.run([self.clonemachine], cwd = self.bitcoin_git_dir, stdout=subprocess.PIPE)
+
+        files_with_trailing_whitespace = self.find_files_with_trailing_whitespace("*.md")
+        self.assertEqual(files_with_trailing_whitespace, "")
+        files_with_trailing_whitespace = self.find_files_with_trailing_whitespace("*.py")
+        self.assertEqual(files_with_trailing_whitespace, "")
 
 if __name__ == '__main__':
     unittest.main()

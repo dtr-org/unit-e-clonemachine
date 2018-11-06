@@ -10,11 +10,12 @@ import unittest
 
 import tempfile
 import os
+from pathlib import Path
 
 from fork import substitute_bitcoin_identifier_in_file
+from fork import remove_trailing_whitespace
 
 class TestSubstituteBitcoinIdentifier(unittest.TestCase):
-
     def run_and_test_substitution(self, original, expected_result):
         try:
             with tempfile.NamedTemporaryFile(delete=False) as file:
@@ -51,6 +52,31 @@ FALLBACK_DOWNLOAD_PATH ?= https://bitcoincore.org/depends-sources
     sudo add-apt-repository ppa:bitcoin/bitcoin
 '''
         self.run_and_test_substitution(original, original)
+
+class TestRemoveTrailingWhitespace(unittest.TestCase):
+    def test_whitespace(self):
+        try:
+            tmp_dir = Path(tempfile.mkdtemp())
+
+            original = "one \ntwo  two  \nno\n"
+            expected_result = "one\ntwo  two\nno\n"
+
+            file_name = tmp_dir / "test.py"
+            with open(file_name, "w") as file:
+                file.write(original)
+
+            old_dir = os.getcwd()
+            os.chdir(tmp_dir)
+            remove_trailing_whitespace("*.py")
+            os.chdir(old_dir)
+
+            with open(file_name) as result_file:
+                result = result_file.read()
+
+            self.assertEqual(result, expected_result)
+        finally:
+            os.remove(file_name)
+            os.rmdir(tmp_dir)
 
 if __name__ == '__main__':
     unittest.main()
