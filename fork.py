@@ -65,6 +65,12 @@ other_substitutions = {
     }
 }
 
+appropriated_files = [
+    "README.md",
+    "CONTRIBUTING.md",
+    "doc/developer-notes.md"
+]
+
 
 def to_lower(s: str) -> str:
     return s.translate(str.maketrans(
@@ -208,7 +214,20 @@ def substitute_any(substitutions):
     return subst
 
 
-if __name__ == '__main__':
+def appropriate_files(branch):
+    for file in appropriated_files:
+        subprocess.run(['git', 'checkout', branch, file])
+    result = subprocess.run(['git', 'rev-parse', branch], stdout=subprocess.PIPE)
+    return result.stdout.decode('utf-8').rstrip()
+
+def main(unite_branch, bitcoin_branch):
+    if unite_branch and bitcoin_branch:
+        print("Changes of appropriated files since last merge:")
+        result = subprocess.run(['git', 'merge-base', 'HEAD', unite_branch], stdout=subprocess.PIPE)
+        merge_base = result.stdout.decode('utf-8').rstrip()
+        for file in appropriated_files:
+            subprocess.run(['git', 'log', '-p', merge_base + '..' + bitcoin_branch, file])
+
     replace_recursively("8333", "7182")
     subprocess.run(['git', 'commit', '-am', 'Change mainnet port 8333 into 7182'])
 
@@ -236,3 +255,10 @@ if __name__ == '__main__':
     remove_trailing_whitespace('*.md')
     remove_trailing_whitespace('*.py')
     subprocess.run(['git', 'commit', '-am', 'Remove trailing whitespace'])
+
+    if unite_branch:
+        source_revision = appropriate_files(unite_branch)
+        subprocess.run(['git', 'commit', '-m', 'Appropriate files from UnitE\n\nSource revision: {}\n'.format(source_revision)])
+
+if __name__ == '__main__':
+    main(None, None)
