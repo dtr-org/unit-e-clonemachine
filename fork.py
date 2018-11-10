@@ -234,8 +234,8 @@ def main(unite_branch, bitcoin_branch):
     replace_recursively("18333", "17182")
     subprocess.run(['git', 'commit', '-am', 'Change testnet port 18333 into 17182'])
 
-    replace_recursively("BTC", "UNT", match_before="$|[^a-ln-tv-zA-Z]")
-    subprocess.run(['git', 'commit', '-am', 'Change currency token BTC to UNT'])
+    replace_recursively("BTC", "UTE", match_before="$|[^a-bd-ln-tv-zA-Z]")
+    subprocess.run(['git', 'commit', '-am', 'Change currency token BTC to UTE'])
 
     apply_recursively(lambda path: git_move_file(path, "bitcoin", "unite"))
     subprocess.run(['git', 'commit', '-am', 'Move paths containing "bitcoin" to respective "unite" paths'])
