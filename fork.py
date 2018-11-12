@@ -7,6 +7,7 @@
 import subprocess
 import re
 import sys
+import os
 from typing import *
 
 substitution_blacklist = [
@@ -71,6 +72,9 @@ appropriated_files = [
     "doc/developer-notes.md"
 ]
 
+removed_files = [
+    ".github/ISSUE_TEMPLATE.md",
+]
 
 def to_lower(s: str) -> str:
     return s.translate(str.maketrans(
@@ -220,13 +224,26 @@ def appropriate_files(branch):
     result = subprocess.run(['git', 'rev-parse', branch], stdout=subprocess.PIPE)
     return result.stdout.decode('utf-8').rstrip()
 
+
+def remove_files():
+    for file in removed_files:
+        if os.path.exists(file):
+            subprocess.run(['git', 'rm', file])
+
+
 def main(unite_branch, bitcoin_branch):
     if unite_branch and bitcoin_branch:
-        print("Changes of appropriated files since last merge:")
         result = subprocess.run(['git', 'merge-base', 'HEAD', unite_branch], stdout=subprocess.PIPE)
         merge_base = result.stdout.decode('utf-8').rstrip()
+        print("Changes of appropriated files since last merge:")
         for file in appropriated_files:
             subprocess.run(['git', 'log', '-p', merge_base + '..' + bitcoin_branch, file])
+        print("Changes of removed files since last merge:")
+        for file in removed_files:
+            subprocess.run(['git', 'log', '-p', merge_base + '..' + bitcoin_branch, file])
+
+    remove_files()
+    subprocess.run(['git', 'commit', '-am', 'Remove files'])
 
     replace_recursively("8333", "7182")
     subprocess.run(['git', 'commit', '-am', 'Change mainnet port 8333 into 7182'])

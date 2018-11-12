@@ -31,7 +31,7 @@ class TestClonemachine(unittest.TestCase):
         self.clonemachine = (Path(os.path.dirname(__file__)) / "../fork.py").resolve()
         self.bitcoin_git_dir = os.path.dirname(__file__) / Path("tmp/bitcoin")
         self.bitcoin_branch = "0.17"
-        self.bitcoin_git_revision = "1e49fe450dbb0c258776526dba3ee583461d42ff"
+        self.bitcoin_git_revision = "5150accdd2a7c7f0edf964d56bd7d34b5f740cdc"
 
         if not os.path.exists(self.bitcoin_git_dir):
             subprocess.run(["git", "clone", "--depth", "1", "--branch",
@@ -60,6 +60,16 @@ class TestClonemachine(unittest.TestCase):
         self.assertEqual(files_with_trailing_whitespace, "")
         files_with_trailing_whitespace = self.find_files_with_trailing_whitespace("*.py")
         self.assertEqual(files_with_trailing_whitespace, "")
+
+    def test_remove_files(self):
+        file_to_be_removed = self.bitcoin_git_dir / ".github/ISSUE_TEMPLATE.md"
+        self.assertTrue(os.path.isfile(file_to_be_removed))
+        subprocess.run([self.clonemachine], cwd = self.bitcoin_git_dir, stdout=subprocess.PIPE)
+        self.assertFalse(os.path.isfile(file_to_be_removed))
+        # Check that all changes are committed and checkout is clean
+        git_status = self.run_git(["status", "--porcelain"], self.bitcoin_git_dir)
+        self.assertEqual(git_status, "")
+
 
 if __name__ == '__main__':
     unittest.main()
