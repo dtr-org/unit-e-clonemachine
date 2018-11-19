@@ -57,3 +57,7 @@ It does not apply certain patches which alter the behavior of the coin.
 All you get from applying this script is a generic altcoin which works
 exactly like bitcoin but is named unite. It helps, but it does not do
 everything (and it is not intended to).
+
+## requirements
+
+Clonemachine requires Python 3.6 or later.
