@@ -69,7 +69,8 @@ other_substitutions = {
 appropriated_files = [
     "README.md",
     "CONTRIBUTING.md",
-    "doc/developer-notes.md"
+    "doc/developer-notes.md",
+    "contrib/devtools/copyright_header.py"
 ]
 
 removed_files = [
