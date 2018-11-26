@@ -140,6 +140,16 @@ def replace_recursively(needle: str,
         with open(path, 'w') as source_file:
             source_file.write(out)
 
+def replace_in_file(path: str,
+                    needle: str,
+                    replacement: str,
+                    match_before: str = "$|[^a-zA-Z0-9]",
+                    match_after: str = "$|[^a-zA-Z0-9]"):
+    with open(path, 'r') as source_file:
+        contents = source_file.read()
+    out = substitute(contents, needle, lambda x: replacement, match_before, match_after)
+    with open(path, 'w') as source_file:
+        source_file.write(out)
 
 def is_hidden_file(path):
     return any(map(lambda x: len(x) > 1 and x.startswith('.'), path.split('/')[:-1]))
