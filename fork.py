@@ -134,6 +134,8 @@ def replace_recursively(needle: str,
     files = subprocess.run(["grep", "-RIF", "-l", needle, "."], stdout=subprocess.PIPE)
     for f in files.stdout.splitlines():
         path = f.decode('utf8')
+        if is_hidden_file(path) or is_in_excluded_directory(path):
+            continue
         with open(path, 'r') as source_file:
             contents = source_file.read()
         out = substitute(contents, needle, lambda x: replacement, match_before, match_after)
@@ -256,11 +258,26 @@ def main(unite_branch, bitcoin_branch):
     remove_files()
     subprocess.run(['git', 'commit', '-am', 'Remove files'])
 
+    replace_recursively("8332", "7181")
+    subprocess.run(['git', 'commit', '-am', 'Change mainnet rpc port 8332 into 7181'])
+
     replace_recursively("8333", "7182")
     subprocess.run(['git', 'commit', '-am', 'Change mainnet port 8333 into 7182'])
 
+    replace_recursively("18332", "17181")
+    subprocess.run(['git', 'commit', '-am', 'Change testnet rpc port 18332 into 17181'])
+
     replace_recursively("18333", "17182")
     subprocess.run(['git', 'commit', '-am', 'Change testnet port 18333 into 17182'])
+
+    replace_recursively("18443", "17291")
+    subprocess.run(['git', 'commit', '-am', 'Change regtest rpc port 18443 into 17291'])
+
+    replace_recursively("18444", "17292")
+    subprocess.run(['git', 'commit', '-am', 'Change regtest port 18444 into 17292'])
+
+    replace_recursively("28332", "27181")
+    subprocess.run(['git', 'commit', '-am', 'Change ssl rpc proxy port 28332 into 27181'])
 
     replace_recursively("BTC", "UTE", match_before="$|[^a-bd-ln-tv-zA-Z]")
     subprocess.run(['git', 'commit', '-am', 'Change currency token BTC to UTE'])
