@@ -31,12 +31,18 @@ class TestClonemachine(unittest.TestCase):
         self.clonemachine = (Path(os.path.dirname(__file__)) / "../fork.py").resolve()
         self.bitcoin_git_dir = os.path.dirname(__file__) / Path("tmp/bitcoin")
         self.bitcoin_branch = "0.17"
-        self.bitcoin_git_revision = "5150accdd2a7c7f0edf964d56bd7d34b5f740cdc"
+        bitcoin_revision_file = os.path.dirname(__file__) / Path("tmp") / "bitcoin-revision"
 
-        if not os.path.exists(self.bitcoin_git_dir):
+        if os.path.exists(self.bitcoin_git_dir):
+            with open(bitcoin_revision_file, "r") as file:
+                self.bitcoin_git_revision = file.read()
+        else:
             subprocess.run(["git", "clone", "--depth", "1", "--branch",
                     self.bitcoin_branch, "https://github.com/bitcoin/bitcoin",
                     self.bitcoin_git_dir])
+            self.bitcoin_git_revision = self.run_git(["rev-parse", "HEAD"], self.bitcoin_git_dir)
+            with open(bitcoin_revision_file, "w") as file:
+                file.write(self.bitcoin_git_revision)
         self.run_git(["checkout", self.bitcoin_git_revision], self.bitcoin_git_dir)
         git_revision = self.run_git(["rev-parse", "HEAD"], self.bitcoin_git_dir)
         if git_revision != self.bitcoin_git_revision:
