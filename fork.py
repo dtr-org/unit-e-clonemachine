@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 expandtab
-# Copyright (c) 2018 The unit-e developers
+# Copyright (c) 2018 The Unit-e developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,6 +17,8 @@ substitution_blacklist = [
     "The Bitcoin Core developers",
     # also copyright
     "Bitcoin Developer",
+    # also copyright
+    "Bitcoin Core Developers",
     # that's a test fixture which checks SHA256 hashing
     "As Bitcoin relies on 80 byte header hashes",
     # onion routing in feature_proxy.py
@@ -38,12 +40,17 @@ substitution_blacklist = [
     "ppa:bitcoin/bitcoin"
 ]
 
-excluded_directories = [
+excluded_paths = [
+    # git subtrees
     "src/secp256k1",
     "src/crypto/ctaes",
     "src/univalue",
     "src/leveldb",
-    "doc/release-notes"
+    # Removed directories
+    "doc/release-notes",
+    "src/qt",
+    # Clonemachine can't handle CRLF line endings so ignoring this file for now
+    "doc/README_windows.txt",
 ]
 
 other_substitutions = {
@@ -60,9 +67,9 @@ other_substitutions = {
         'const std::string CLIENT_NAME("Satoshi");': 'const std::string CLIENT_NAME("Feuerland");'
     },
     'rpc_signmessage.py': {
-        # the message now contains UnitE instead of Bitcoin, thus it's signature changes
+        # the message now contains "Unit-e" in strMessageMagic instead of "Bitcoin", thus its signature changes
         "expected_signature = 'INbVnW4e6PeRmsv2Qgu8NuopvrVjkcxob+sX8OcZG0SALhWybUjzMLPdAsXI46YZGb0KQTRii+wWIQzRpG/U+S0='": \
-            "expected_signature = 'HzSnrVR/sJC1Rg4SQqeecq9GAmIFtlj1u87aIh5i6Mi1bEkm7b+bsI7pIKWJsRZkjAQRkKhcTTYuVJAl0bmdWvY='"
+            "expected_signature = 'IBn0HqnF0UhqTgGOiEaQouMyisWG4AOVQS+OJwVXGF2eK+11/YswSl3poGNeDLqYcNIIfTxMMy7o3XfEnxozgIM='"
     }
 }
 
@@ -131,10 +138,10 @@ def replace_recursively(needle: str,
                         replacement: str,
                         match_before: str = "$|[^a-zA-Z0-9]",
                         match_after: str = "$|[^a-zA-Z0-9]"):
-    files = subprocess.run(["grep", "-RIF", "-l", needle, "."], stdout=subprocess.PIPE)
+    files = subprocess.run(["git", "grep", "-l", needle], stdout=subprocess.PIPE)
     for f in files.stdout.splitlines():
         path = f.decode('utf8')
-        if is_hidden_file(path) or is_in_excluded_directory(path):
+        if is_hidden_file(path) or is_in_excluded_path(path):
             continue
         with open(path, 'r') as source_file:
             contents = source_file.read()
@@ -147,6 +154,10 @@ def replace_in_file(path: str,
                     replacement: str,
                     match_before: str = "$|[^a-zA-Z0-9]",
                     match_after: str = "$|[^a-zA-Z0-9]"):
+    if not os.path.exists(path):
+        print("WARNING: File '%s' does not exist for replacement of '%s' by '%s'" % (
+                path, needle, replacement), file=sys.stderr)
+        return
     with open(path, 'r') as source_file:
         contents = source_file.read()
     out = substitute(contents, needle, lambda x: replacement, match_before, match_after)
@@ -157,10 +168,10 @@ def is_hidden_file(path):
     return any(map(lambda x: len(x) > 1 and x.startswith('.'), path.split('/')[:-1]))
 
 
-def is_in_excluded_directory(path):
-    global excluded_directories
+def is_in_excluded_path(path):
+    global excluded_paths
     normalized = "/".join(filter(lambda x: x != '.' and len(x) > 0, path.split('/')))
-    for excl in excluded_directories:
+    for excl in excluded_paths:
         if normalized.startswith(excl):
             return True
     return False
@@ -170,7 +181,7 @@ def apply_recursively(func, command=['find', '.', '-type', 'f']):
     files = subprocess.run(command, stdout=subprocess.PIPE)
     for f in files.stdout.splitlines():
         path = f.decode('utf8')
-        if is_hidden_file(path) or is_in_excluded_directory(path):
+        if is_hidden_file(path) or is_in_excluded_path(path):
             continue
         func(path)
 
@@ -180,7 +191,7 @@ def remove_trailing_whitespace(file_pattern):
     elif sys.platform == "darwin":
         sed = "gsed"
     else:
-        raise RuntimeError("Unsupported platform: '{}'".format(sys.platform))
+        raise RuntimeError(f"Unsupported platform: '{sys.platform}'")
     subprocess.run(['find', '.', '-type', 'f', '-name', file_pattern,
       '-exec', sed, '--in-place', r's/[[:space:]]\+$//', '{}', '+'])
 
@@ -199,18 +210,54 @@ def replace_bitcoin_identifier(occurence: str):
     if occurence == 'bitcoin':
         return 'unite'
     if occurence == 'BITCOIN':
-        return 'UNITE'
+        return 'UNIT-E'
     if occurence == 'Bitcoin':
-        return 'UnitE'
+        return 'Unit-e'
+    raise Exception("Don't know how to handle %s" % occurence)
+
+
+def replace_bitcoin_core_identifier(occurence: str):
+    if occurence in ['bitcoin core', 'Bitcoin Core', 'Bitcoin core']:
+      return 'unit-e'
     raise Exception("Don't know how to handle %s" % occurence)
 
 
 def substitute_bitcoin_identifier_in_file(path):
     with open(path, 'r') as source_file:
         contents = source_file.read()
+    # Substitutions in the form [needle, match_after, replacement_string]
+    substitutions = [
+        ["BITCOIND", "", "UNITED"],
+        ["BITCOINCLI", "", "UNITECLI"],
+        ["BITCOINTX", "", "UNITETX"],
+        ["BITCOINQT", "", "UNITEQT"],
+        ["BITCOIN", "[_C]", "UNITE"],
+        ["bitcoin address", "", "Unit-e address"],
+        ["bitcoin transaction", "", "Unit-e transaction"],
+        ["Bitcoin", "[A-CE-Z]", "UnitE"],
+    ]
+    for substitution in substitutions:
+        contents = substitute(string = contents,
+                              needle = substitution[0],
+                              match_after = substitution[1],
+                              replacer = lambda occurence: substitution[2],
+                              case_sensitive=True,
+                              blacklist = substitution_blacklist)
     altered = substitute(string = contents,
                          needle = "bitcoin",
                          replacer = replace_bitcoin_identifier,
+                         case_sensitive=False,
+                         blacklist=substitution_blacklist)
+    with open(path, 'w') as target_file:
+        target_file.write(altered)
+
+
+def substitute_bitcoin_core_identifier_in_file(path):
+    with open(path, 'r') as source_file:
+        contents = source_file.read()
+    altered = substitute(string = contents,
+                         needle = "bitcoin core",
+                         replacer = replace_bitcoin_core_identifier,
                          case_sensitive=False,
                          blacklist=substitution_blacklist)
     with open(path, 'w') as target_file:
@@ -285,8 +332,25 @@ def main(unite_branch, bitcoin_branch):
     apply_recursively(lambda path: git_move_file(path, "bitcoin", "unite"))
     subprocess.run(['git', 'commit', '-am', 'Move paths containing "bitcoin" to respective "unite" paths'])
 
-    apply_recursively(substitute_bitcoin_identifier_in_file, ['grep', '-RIFil', 'bitcoin', '.'])
-    subprocess.run(['git', 'commit', '-am', 'Rename occurences of "bitcoin" to "unite"'])
+    # Identifier in copyright statement
+    replace_in_file('src/util.cpp', '.find("Bitcoin Core")', '.find("Unit-e")')
+    replace_in_file('src/util.cpp', 'strPrefix + "The Bitcoin Core developers";',
+                                    'strPrefix + "The Unit-e developers";')
+    replace_in_file('configure.ac', 'COPYRIGHT_HOLDERS_SUBSTITUTION,[[Bitcoin Core]])',
+                                    'COPYRIGHT_HOLDERS_SUBSTITUTION,[[Unit-e]])')
+    # all other cases
+    apply_recursively(substitute_bitcoin_core_identifier_in_file, ['git', 'grep', '-il', 'bitcoin core'])
+    subprocess.run(['git', 'commit', '-am', 'Rename occurences of "bitcoin core" to "unit-e"'])
+
+    # special case of daemon name at beginning of the sentence
+    with open("doc/zmq.md") as file:
+        print(file.read())
+    replace_in_file('doc/zmq.md', 'Bitcoind appends', 'The unit-e daemon appends')
+    # it's a unit, not a name, in this file
+    replace_in_file('test/functional/wallet_labels.py', "50 Bitcoins", "50 UTEs")
+    # all other cases
+    apply_recursively(substitute_bitcoin_identifier_in_file, ['git', 'grep', '-il', 'bitcoin', '.'])
+    subprocess.run(['git', 'commit', '-am', 'Rename occurences of "bitcoin" to "unit-e"'])
 
     apply_recursively(substitute_any(other_substitutions))
     subprocess.run(['git', 'commit', '-am', 'Apply adjustments to tests and constants for name changes'])
@@ -303,7 +367,7 @@ def main(unite_branch, bitcoin_branch):
 
     if unite_branch:
         source_revision = appropriate_files(unite_branch)
-        subprocess.run(['git', 'commit', '-m', 'Appropriate files from UnitE\n\nSource revision: {}\n'.format(source_revision)])
+        subprocess.run(['git', 'commit', '-m', f'Appropriate files from unit-e\n\nSource revision: {source_revision}\n'])
 
 if __name__ == '__main__':
     main(None, None)

@@ -1,0 +1,2 @@
+docopts
+pyyaml

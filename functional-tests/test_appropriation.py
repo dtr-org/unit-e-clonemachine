@@ -1,4 +1,4 @@
-# Copyright (c) 2018 The unit-e developers
+# Copyright (c) 2018-2019 The unit-e developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,8 +32,7 @@ class TestAppropriation(unittest.TestCase):
         self.run_git(["checkout", self.unite_git_revision], self.unite_git_dir)
         git_revision = self.run_git(["rev-parse", "HEAD"], self.unite_git_dir)
         if git_revision != self.unite_git_revision:
-            raise RuntimeError("Expected git revision '{}', got '{}'".format(
-                    self.unite_git_revision, git_revision))
+            raise RuntimeError(f"Expected git revision '{self.unite_git_revision}', got '{git_revision}'")
 
         remotes = self.run_git(["remote"], self.unite_git_dir)
         if remotes == "origin":

@@ -1,8 +1,8 @@
-# UnitE clone machine
+# Unit-e clonemachine
 
-This python script applies basic transformations to the bitcoin-core codebase:
+This python script applies basic transformations to the Bitcoin Core codebase:
 
-- replaces `bitcoin` with `unite`
+- replaces `bitcoin` with `unit-e` (in various variations)
 - replaces names of units like `COIN → UNIT` and `CENT → EEES`
 - renames files
 - changes the name of the client from `Satoshi` to `Feuerland`
@@ -11,9 +11,9 @@ This python script applies basic transformations to the bitcoin-core codebase:
 
 ## purpose
 
-The idea is to apply this script every time we rebase against/merge with
-the bitcoincore repository. This way we can have things renamed nicely and
-save ourselves a lot of merge headaches.
+The idea is to apply this script every time we rebase against/merge with the
+[Bitcoin Core repository](https://github.com/bitcoin/bitcoin). This way we can
+have things renamed nicely and save ourselves a lot of merge headaches.
 
 ## workflow
 
@@ -31,7 +31,7 @@ git merge master
 ```
 
 Clonemachine has a list of appropriated files, i.e. files which have changed so
-much in UnitE that it doesn't make sense to try to merge them. They are replaced
+much in unit-e that it doesn't make sense to try to merge them. They are replaced
 by the version from the unit-e repository. You need to pass the branch where the
 unit-e code is with the `--unite-branch` option.
 
@@ -55,9 +55,45 @@ not `grunt`).
 
 It does not apply certain patches which alter the behavior of the coin.
 All you get from applying this script is a generic altcoin which works
-exactly like bitcoin but is named unite. It helps, but it does not do
+exactly like bitcoin but is named unit-e. It helps, but it does not do
 everything (and it is not intended to).
 
 ## requirements
 
 Clonemachine requires Python 3.6 or later.
+
+## setup
+
+In order to run clonemachine and its tests you need to install its dependencies.
+You can do so by running `pip3 install -r requirements.txt` in the root dir of
+the repository.
+
+## tests
+
+Clonemachine comes with a couple of unit, integration, and regression tests.
+They can be run through `make`. See the [`Makefile`](Makefile) for some more
+details.
+
+All but the unit tests work on checkouts of `unit-e` and `bitcoin` in a so it
+might take a little bit to set up the initial clones. Once they are there, the
+tests reuse the existing checkouts. Use `make clean` to delete them and get a
+clean slate again. The temporary data is stored in a directory `tmp` in the
+[`functional-tests`](functional-tests) directory.
+
+There is a regression test which compares the changes clonemachine creates with
+a known good reference. This reference is stored as a diff file in
+[`functional--tests/test_data`](functional-tests/test_data). To create or
+update the reference data there is the script
+[`create_reference_data.py`](functional-tests/create_reference_data.py).
+
+If the regression fails, it writes a file `diff.diff` in the `tmp` directory.
+There you can see what changes are different from what is expected. It's a diff
+of diffs so brace yourself with some abstraction when reading it ;-).
+
+## changes of how substitutions are done
+
+If substitutions are changed in clonemachine so that it substitutes differently
+than at previous runs, there will be merge conflicts, if the code in the
+`unit-e` code base is not adapted accordingly. Clonemachine can be used for that
+as well. See the `--substitute-unit-e-naming` option for an example how to do it
+and `test_unit_e_substitutions.py` for how to test it.
