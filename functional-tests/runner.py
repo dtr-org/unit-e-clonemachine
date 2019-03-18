@@ -60,10 +60,10 @@ class Runner:
             raise RuntimeError(f"Expected git revision '{self.bitcoin_git_revision}', got '{git_revision}'")
 
     def run_clonemachine(self, option=None):
-        cmd = [self.clonemachine, "--unite-branch", "master"]
+        cmd = [self.clonemachine, "--unit-e-branch", "master"]
         if option:
             cmd.append(option)
-        subprocess.run(cmd, cwd = self.unite_git_dir, stdout=subprocess.PIPE)
+        subprocess.run(cmd, cwd = self.unite_git_dir, stdout=subprocess.PIPE, check=True)
 
     def get_commit_date(self, git_revision, git_dir):
         if git_revision.endswith("+changes"):

@@ -2,9 +2,9 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-# Functional test for clonemachine
+# Functional test for clonemachine using shallow checkout of bitcoin repo
 #
-# Run it with `python3 -m unittest -v test_clonemachine.py`
+# Run it with `python3 -m unittest -v test_shallow_checkout.py`
 
 import unittest
 
@@ -13,7 +13,7 @@ import os
 import subprocess
 from pathlib import Path
 
-class TestClonemachine(unittest.TestCase):
+class TestShallowCheckout(unittest.TestCase):
     def run_cmd(self, command_and_arguments, cwd = None):
         result = subprocess.run(command_and_arguments, cwd = cwd, stdout=subprocess.PIPE)
         return result.stdout.rstrip().decode("utf-8")

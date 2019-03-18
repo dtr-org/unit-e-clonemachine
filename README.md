@@ -26,14 +26,14 @@ one it. Then we merge with that adjusted fork.
 git remote add bitcoin git@github.com:bitcoin/bitcoin.git
 git fetch bitcoin
 git checkout -b bitcoin-integration bitcoin/master
-<path>/<to>/<clonemachine>/clonemachine.py --unite-branch=master
+<path>/<to>/<clonemachine>/clonemachine.py --unit-e-branch=master
 git merge master
 ```
 
 Clonemachine has a list of appropriated files, i.e. files which have changed so
 much in unit-e that it doesn't make sense to try to merge them. They are replaced
 by the version from the unit-e repository. You need to pass the branch where the
-unit-e code is with the `--unite-branch` option.
+unit-e code is with the `--unit-e-branch` option.
 
 When you also specify the `--bitcoin-branch` option (in the scenario from above
 it would be `--bitcoin-branch=bitcoin/master`) then clonemachine shows the

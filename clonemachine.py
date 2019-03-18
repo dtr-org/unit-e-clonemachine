@@ -8,7 +8,7 @@
 
 Options:
   -h --help                   Show this help
-  --unite-branch=<name>       Name of unit-e branch [default: master]
+  --unit-e-branch=<name>      Name of unit-e branch [default: master]
   --bitcoin-branch=<name>     Name of bitcoin branch (e.g. bitcoin/master), when
                               this option is set, the diff of appropriated files
                               is shown
@@ -31,7 +31,7 @@ from fork import replace_recursively
 
 if __name__ == "__main__":
     arguments = docopt(__doc__)
-    unite_branch = arguments["--unite-branch"]
+    unit_e_branch = arguments["--unit-e-branch"]
     bitcoin_branch = arguments["--bitcoin-branch"]
     if arguments["--file"]:
         filename = arguments["--file"]
@@ -73,4 +73,4 @@ if __name__ == "__main__":
         replace_in_file('configure.ac', 'COPYRIGHT_HOLDERS_SUBSTITUTION,[[unit-e]])',
                                         'COPYRIGHT_HOLDERS_SUBSTITUTION,[[Unit-e]])')
     else:
-        main(unite_branch, bitcoin_branch)
+        main(unit_e_branch, bitcoin_branch)

@@ -9,6 +9,8 @@ import re
 import sys
 import os
 from typing import *
+from pathlib import Path
+import yaml
 
 substitution_blacklist = [
     # the mac build downloads dependencies from here
@@ -77,7 +79,7 @@ appropriated_files = [
     "README.md",
     "CONTRIBUTING.md",
     "doc/developer-notes.md",
-    "contrib/devtools/copyright_header.py"
+    "contrib/devtools/copyright_header.py",
 ]
 
 removed_files = [
@@ -278,22 +280,32 @@ def substitute_any(substitutions):
     return subst
 
 
+def read_config(branch, config_key, initial_value):
+    combined_value = initial_value
+    if branch:
+        result = subprocess.run(['git', 'show', branch + ':.clonemachine'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.returncode == 0:
+            config = yaml.load(result.stdout.decode('utf-8'))
+            combined_value = set(config[config_key]).union(initial_value)
+    return combined_value
+
+
 def appropriate_files(branch):
-    for file in appropriated_files:
+    for file in read_config(branch, "appropriated_files", appropriated_files):
         subprocess.run(['git', 'checkout', branch, file])
     result = subprocess.run(['git', 'rev-parse', branch], stdout=subprocess.PIPE)
     return result.stdout.decode('utf-8').rstrip()
 
 
-def remove_files():
-    for file in removed_files:
+def remove_files(branch):
+    for file in read_config(branch, "removed_files", removed_files):
         if os.path.exists(file):
             subprocess.run(['git', 'rm', file])
 
 
-def main(unite_branch, bitcoin_branch):
-    if unite_branch and bitcoin_branch:
-        result = subprocess.run(['git', 'merge-base', 'HEAD', unite_branch], stdout=subprocess.PIPE)
+def main(unit_e_branch, bitcoin_branch):
+    if unit_e_branch and bitcoin_branch:
+        result = subprocess.run(['git', 'merge-base', 'HEAD', unit_e_branch], stdout=subprocess.PIPE)
         merge_base = result.stdout.decode('utf-8').rstrip()
         print("Changes of appropriated files since last merge:")
         for file in appropriated_files:
@@ -302,7 +314,7 @@ def main(unite_branch, bitcoin_branch):
         for file in removed_files:
             subprocess.run(['git', 'log', '-p', merge_base + '..' + bitcoin_branch, file])
 
-    remove_files()
+    remove_files(unit_e_branch)
     subprocess.run(['git', 'commit', '-am', 'Remove files'])
 
     replace_recursively("8332", "7181")
@@ -365,8 +377,8 @@ def main(unite_branch, bitcoin_branch):
     remove_trailing_whitespace('*.py')
     subprocess.run(['git', 'commit', '-am', 'Remove trailing whitespace'])
 
-    if unite_branch:
-        source_revision = appropriate_files(unite_branch)
+    if unit_e_branch:
+        source_revision = appropriate_files(unit_e_branch)
         subprocess.run(['git', 'commit', '-m', f'Appropriate files from unit-e\n\nSource revision: {source_revision}\n'])
 
 if __name__ == '__main__':

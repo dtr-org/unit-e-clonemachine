@@ -6,10 +6,10 @@ check:
 	python3 -m unittest -v test_fork.py
 
 integration-tests:
-	python3 -m unittest -v functional-tests/test_clonemachine.py
+	python3 -m unittest -v functional-tests/test_shallow_checkout.py
 
 local-tests:
-	python3 -m unittest -v functional-tests/test_appropriation.py
+	python3 -m unittest -v functional-tests/test_full_checkout.py
 	python3 functional-tests/test_unit_e_substitutions.py -v
 
 regression-tests:
