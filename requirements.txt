@@ -1,2 +1,4 @@
-docopts
+docopt
 pyyaml
+pytest>=3.9
+pytest-mypy

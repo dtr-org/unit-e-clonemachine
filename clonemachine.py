@@ -23,54 +23,54 @@ Options:
                               and "UnitE" by "Unit-e".
 """
 from docopt import docopt
-from fork import main
-from fork import substitute_bitcoin_core_identifier_in_file
-from fork import substitute_bitcoin_identifier_in_file
-from fork import replace_in_file
-from fork import replace_recursively
+
+from processor import Processor
+from fork import Fork
+from fork import ForkConfig
 
 if __name__ == "__main__":
     arguments = docopt(__doc__)
+    processor = Processor(ForkConfig())
     unit_e_branch = arguments["--unit-e-branch"]
     bitcoin_branch = arguments["--bitcoin-branch"]
     if arguments["--file"]:
         filename = arguments["--file"]
         print(f"Substituting strings in file {filename}")
-        substitute_bitcoin_core_identifier_in_file(filename)
-        substitute_bitcoin_identifier_in_file(filename)
-        replace_in_file(filename, "BTC", "UTE", match_before="$|[^a-bd-ln-tv-zA-Z]")
+        processor.substitute_bitcoin_core_identifier_in_file(filename)
+        processor.substitute_bitcoin_identifier_in_file(filename)
+        processor.replace_in_file(filename, "BTC", "UTE", match_before="$|[^a-bd-ln-tv-zA-Z]")
     elif arguments["--substitute-unit-e-naming"]:
-        replace_recursively("unite core", "unit-e")
-        replace_recursively("UnitE Core", "unit-e")
-        replace_in_file("src/init.h", "UnitE core", "unit-e")
+        processor.replace_recursively("unite core", "unit-e")
+        processor.replace_recursively("UnitE Core", "unit-e")
+        processor.replace_in_file("src/init.h", "UnitE core", "unit-e")
 
-        replace_recursively("UnitE", "Unit-e")
+        processor.replace_recursively("UnitE", "Unit-e")
 
-        replace_recursively("unite address", "Unit-e address")
-        replace_recursively("unite addresses", "Unit-e addresses")
-        replace_recursively("unite transaction", "Unit-e transaction")
+        processor.replace_recursively("unite address", "Unit-e address")
+        processor.replace_recursively("unite addresses", "Unit-e addresses")
+        processor.replace_recursively("unite transaction", "Unit-e transaction")
 
         # Follow convention "BITCOIN" -> "UNIT-E" where dashes are allowed
-        replace_in_file("doc/man/unite-cli.1", "UNITE-CLI", "UNIT-E-CLI")
-        replace_in_file("doc/man/unite-qt.1", "UNITE-QT", "UNIT-E-QT")
-        replace_in_file("doc/man/unite-cli.1", "UNITE-CLI", "UNIT-E-CLI")
-        replace_in_file("doc/man/unite-tx.1", "UNITE-TX", "UNIT-E-TX")
-        replace_in_file("doc/tor.md", "UNITE", "UNIT-E")
+        processor.replace_in_file("doc/man/unite-cli.1", "UNITE-CLI", "UNIT-E-CLI")
+        processor.replace_in_file("doc/man/unite-qt.1", "UNITE-QT", "UNIT-E-QT")
+        processor.replace_in_file("doc/man/unite-cli.1", "UNITE-CLI", "UNIT-E-CLI")
+        processor.replace_in_file("doc/man/unite-tx.1", "UNITE-TX", "UNIT-E-TX")
+        processor.replace_in_file("doc/tor.md", "UNITE", "UNIT-E")
 
         # Handle special cases
-        replace_in_file("doc/zmq.md", "UnitEd", "The unit-e daemon")
-        replace_in_file("test/functional/wallet_labels.py", "UnitEs", "UTEs")
-        replace_in_file("test/functional/rpc_signmessage.py",
+        processor.replace_in_file("doc/zmq.md", "UnitEd", "The unit-e daemon")
+        processor.replace_in_file("test/functional/wallet_labels.py", "UnitEs", "UTEs")
+        processor.replace_in_file("test/functional/rpc_signmessage.py",
             "expected_signature = 'HzSnrVR/sJC1Rg4SQqeecq9GAmIFtlj1u87aIh5i6Mi1bEkm7b+bsI7pIKWJsRZkjAQRkKhcTTYuVJAl0bmdWvY='",
             "expected_signature = 'IBn0HqnF0UhqTgGOiEaQouMyisWG4AOVQS+OJwVXGF2eK+11/YswSl3poGNeDLqYcNIIfTxMMy7o3XfEnxozgIM='")
 
         # Has already been removed. It's only here to satisfy the tests
-        replace_in_file("doc/shared-libraries.md", "NUnitE", "NUnit-e")
+        processor.replace_in_file("doc/shared-libraries.md", "NUnitE", "NUnit-e")
         # Has already been fixed. It's only here to satisfy the tests
-        replace_in_file("src/util.cpp", '.find("unit-e")', '.find("Unit-e")')
-        replace_in_file("src/util.cpp", 'strPrefix + "The Bitcoin Core developers";',
+        processor.replace_in_file("src/util.cpp", '.find("unit-e")', '.find("Unit-e")')
+        processor.replace_in_file("src/util.cpp", 'strPrefix + "The Bitcoin Core developers";',
                                         'strPrefix + "The Unit-e developers";')
-        replace_in_file('configure.ac', 'COPYRIGHT_HOLDERS_SUBSTITUTION,[[unit-e]])',
+        processor.replace_in_file('configure.ac', 'COPYRIGHT_HOLDERS_SUBSTITUTION,[[unit-e]])',
                                         'COPYRIGHT_HOLDERS_SUBSTITUTION,[[Unit-e]])')
     else:
-        main(unit_e_branch, bitcoin_branch)
+        Fork().run(unit_e_branch, bitcoin_branch)

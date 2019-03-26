@@ -4,28 +4,23 @@
 
 # Regression tests for clonemachine, checks against known good substitutions
 #
-# Run it with `python3 -m unittest -v test_regressions.py`
+# Run it with `pytest -v test_regressions.py`
 
-import unittest
-
-import tempfile
-import os
-import subprocess
-from pathlib import Path
+import pytest
 
 from runner import Runner
 
-class TestRegressions(unittest.TestCase):
-    def setUp(self):
-        self.runner = Runner()
-        self.runner.checkout_unit_e()
-        self.runner.reset_unit_e("naming")
-        self.runner.fetch_bitcoin()
+@pytest.fixture
+def runner():
+    """Set up git checkout for test and return a runner to run operations
+    on it.
+    """
+    runner = Runner("unit-e")
+    runner.checkout_unit_e_clone(label="naming")
+    runner.fetch_bitcoin()
+    return runner
 
-    def test_naming(self):
-        self.runner.run_clonemachine()
-        self.runner.write_diff("naming")
-        self.assertEqual(self.runner.compare_latest_diffs("naming"), "")
-
-if __name__ == '__main__':
-    unittest.main()
+def test_naming(runner):
+    runner.run_clonemachine()
+    runner.write_diff("naming")
+    assert runner.compare_latest_diffs("naming") == ""

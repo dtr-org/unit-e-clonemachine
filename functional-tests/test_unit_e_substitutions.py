@@ -4,29 +4,25 @@
 
 # Regression tests for clonemachine, checks against known good substitutions
 #
-# Run it with `python3 test_unit_e_substitutions.py -v`
+# Run it with `pytest -v test_unit_e_substitutions.py`
 
-import unittest
-
-import tempfile
-import os
-import subprocess
-from pathlib import Path
+import pytest
 
 from runner import Runner
 
-class TestUnitESubstitutions(unittest.TestCase):
-    def setUp(self):
-        self.runner = Runner()
-        self.runner.checkout_unit_e()
-        self.runner.fetch_bitcoin()
+@pytest.fixture
+def runner():
+    """Set up git checkout for test and return a runner to run operations
+    on it.
+    """
+    runner = Runner("unit-e")
+    runner.checkout_unit_e_clone()
+    runner.fetch_bitcoin()
+    return runner
 
-    def test_naming(self):
-        self.runner.apply_diff("old-naming")
-        self.runner.run_clonemachine("--substitute-unit-e-naming")
-        self.runner.commit("Ran clonemachine.py --substitute-unit-e-naming")
-        self.runner.write_diff("naming")
-        self.assertEqual(self.runner.compare_latest_diffs("naming"), "")
-
-if __name__ == '__main__':
-    unittest.main()
+def test_naming(runner):
+    runner.apply_diff("old-naming")
+    runner.run_clonemachine("--substitute-unit-e-naming")
+    runner.commit("Ran clonemachine.py --substitute-unit-e-naming")
+    runner.write_diff("naming")
+    assert runner.compare_latest_diffs("naming") == ""
