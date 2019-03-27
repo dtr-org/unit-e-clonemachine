@@ -18,7 +18,7 @@ class Runner:
         self.clonemachine = (self.base_path / "../clonemachine.py").resolve()
         self.bitcoin_branch = "0.17"
         self.bitcoin_git_revision = "1e49fe450dbb0c258776526dba3ee583461d42ff"
-        self.unite_git_revision_known = "967145951f1e685c65b5bcbf1a53c03aaeaa9568"
+        self.unite_git_revision_known = "cc3bb51638a2e3dc756412f055aae92ae305a467"
 
     def run_git(self, arguments, cwd=None):
         if not cwd:

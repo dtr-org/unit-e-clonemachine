@@ -94,6 +94,17 @@ class Processor:
         with open(path, 'w') as source_file:
             source_file.write(out)
 
+    def replace_in_file_regex(self, path: str, regex: str, replacement: str):
+        if not os.path.exists(path):
+            print(f"WARNING: File '{path}' does not exist for replacement of '{regex}' by '{replacement}'",
+                  file=sys.stderr)
+            return
+        with open(path, 'r') as source_file:
+            contents = source_file.read()
+        out = re.sub(regex, replacement, contents)
+        with open(path, 'w') as source_file:
+            source_file.write(out)
+
     def is_hidden_file(self, path):
         return any(map(lambda x: len(x) > 1 and x.startswith('.'), path.split('/')[:-1]))
 

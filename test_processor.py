@@ -28,15 +28,9 @@ class TestSubstituteBitcoinIdentifier:
         finally:
             os.remove(file.name)
 
-    def test_git_clone(self):
-        original = '''
-     git clone https://github.com/bitcoin/bitcoin.git
-     cd bitcoin/
-'''
-        expected_result = '''
-     git clone https://github.com/unite/unite.git
-     cd unite/
-'''
+    def test_bitcoin(self):
+        original = 'bitcoin bitcoin.git'
+        expected_result = 'unite unite.git'
         self.run_and_test_substitution(original, expected_result)
 
     def test_bitcoincore(self):
@@ -121,6 +115,23 @@ unit-e
         file.write(original)
 
     Processor(ForkConfig()).substitute_bitcoin_core_identifier_in_file(file_name)
+
+    with file_name.open() as result_file:
+        result = result_file.read()
+
+    assert result == expected_result
+
+def test_replace_in_file_regex(tmp_path):
+    original = " * @see https://unite.org/en/developer-reference#version"
+    expected_result = " * @see https://docs.unit-e.io/reference/p2p/version.html"
+
+    file_name = tmp_path / "test"
+    with file_name.open("w") as file:
+        file.write(original)
+
+    Processor(ForkConfig()).replace_in_file_regex(file_name,
+            r"https://unite.org/en/developer-reference#(\w+)",
+            r"https://docs.unit-e.io/reference/p2p/\1.html")
 
     with file_name.open() as result_file:
         result = result_file.read()

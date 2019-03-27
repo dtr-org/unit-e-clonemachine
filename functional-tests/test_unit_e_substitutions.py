@@ -20,9 +20,9 @@ def runner():
     runner.fetch_bitcoin()
     return runner
 
-def test_naming(runner):
-    runner.apply_diff("old-naming")
-    runner.run_clonemachine("--substitute-unit-e-naming")
-    runner.commit("Ran clonemachine.py --substitute-unit-e-naming")
-    runner.write_diff("naming")
-    assert runner.compare_latest_diffs("naming") == ""
+def test_urls(runner):
+    runner.apply_diff("naming")
+    runner.run_clonemachine("--substitute-unit-e-urls")
+    runner.commit("Ran clonemachine.py --substitute-unit-e-urls")
+    runner.write_diff("urls")
+    assert runner.compare_latest_diffs("urls") == ""

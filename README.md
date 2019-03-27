@@ -97,3 +97,23 @@ than at previous runs, there will be merge conflicts, if the code in the
 `unit-e` code base is not adapted accordingly. Clonemachine can be used for that
 as well. See the `--substitute-unit-e-naming` option for an example how to do it
 and `test_unit_e_substitutions.py` for how to test it.
+
+When changing the rules of how clonemachine does substitutions you can use the
+following scheme to adapt the unit-e codebase and clonemachine in sync so that
+they yield the same results:
+
+* Implement a `--substitute-unit-e-*` option to do the substitutions in the
+  unit-e code base. Use the existing ones as an example.
+* Check that you get the desired substitutions by comparing the diff on unit-e
+* Adapt the test in `test_unit_e_substitutions.py` to take the last diff as a
+  base and compare with a newly created one after applying `clonemachine.py
+  --substitute-unit-e-*`.
+* Create a new reference diff by running `./create_reference_data.py` in the
+  `functional-tests` directrory.
+* Implement the corresponding changes in clonemachine in `fork.py`.
+* Run `pytest test_unit_e_substitutions.py` to check that the changes have the
+  same result. If they don't you can find the diff in
+  `functional-tests/tmp/diff.diff`. Iterate until the diff is empty and the test
+  passes.
+* Submit pull request for `unit-e` after applying `clonemachine.py
+  --substitute-unit-e-*` and for clonemachine commit the changes there.

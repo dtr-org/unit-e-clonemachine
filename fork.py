@@ -37,7 +37,21 @@ class ForkConfig:
             "python-bitcoinrpc",
             "python-bitcoinlib",
             # PPA for getting BDB 4.8 packages
-            "ppa:bitcoin/bitcoin"
+            "ppa:bitcoin/bitcoin",
+            # Fuzzer inputs (doc/fuzzing.md)
+            "download.visucore.com/bitcoin/bitcoin_fuzzy_in.tar.xz",
+            # DNS seeder reference implementation (doc/dnsseed-policy.md)
+            "bitcoin-seeder",
+            # Test case (contrib/testgen/base58.py)
+            "gitorious.org/bitcoin/python-base58.git",
+            # Upstream build instructions
+            "projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD",
+            # Links to issues and pull requests in bitcoin repository
+            "github.com/bitcoin/bitcoin",
+            # Bitcoin home page,
+            "bitcoin.org",
+            # BIPs
+            "github.com/bitcoin/bips",
         ]
 
         self.excluded_paths = [
@@ -49,6 +63,7 @@ class ForkConfig:
             # Removed directories
             "doc/release-notes",
             "src/qt",
+            "contrib/debian",
             # Clonemachine can't handle CRLF line endings so ignoring this file for now
             "doc/README_windows.txt",
         ]
@@ -107,26 +122,30 @@ class Fork:
         self.commit('Remove files')
 
     def replace_ports(self):
+        msg = 'Change ports\n\n'
+
         self.processor.replace_recursively("8332", "7181")
-        self.commit('Change mainnet rpc port 8332 into 7181')
+        msg += '* Change mainnet rpc port 8332 into 7181\n'
 
         self.processor.replace_recursively("8333", "7182")
-        self.commit('Change mainnet port 8333 into 7182')
+        msg += '* Change mainnet port 8333 into 7182\n'
 
         self.processor.replace_recursively("18332", "17181")
-        self.commit('Change testnet rpc port 18332 into 17181')
+        msg += '* Change testnet rpc port 18332 into 17181\n'
 
         self.processor.replace_recursively("18333", "17182")
-        self.commit('Change testnet port 18333 into 17182')
+        msg += '* Change testnet port 18333 into 17182\n'
 
         self.processor.replace_recursively("18443", "17291")
-        self.commit('Change regtest rpc port 18443 into 17291')
+        msg += '* Change regtest rpc port 18443 into 17291\n'
 
         self.processor.replace_recursively("18444", "17292")
-        self.commit('Change regtest port 18444 into 17292')
+        msg += '* Change regtest port 18444 into 17292\n'
 
         self.processor.replace_recursively("28332", "27181")
-        self.commit('Change ssl rpc proxy port 28332 into 27181')
+        msg += '* Change ssl rpc proxy port 28332 into 27181\n'
+
+        self.commit(msg)
 
     def replace_currency_symbol(self):
         self.processor.replace_recursively("BTC", "UTE", match_before="$|[^a-bd-ln-tv-zA-Z]")
@@ -135,6 +154,17 @@ class Fork:
     def move_paths(self):
         self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoin", "unite"))
         self.commit('Move paths containing "bitcoin" to respective "unite" paths')
+
+    def adapt_urls(self):
+        # home page
+        self.processor.replace_recursively("www.bitcoin.org", "unit-e.io")
+        # git instructions
+        self.processor.replace_in_file("contrib/devtools/README.md", "bitcoin/bitcoin", "dtr-org/unit-e")
+        # links to p2p message documentation
+        self.processor.replace_in_file_regex("src/protocol.h",
+            r"https://bitcoin.org/en/developer-reference#(\w+)",
+            r"https://docs.unit-e.io/reference/p2p/\1.html")
+        self.commit('Adapt URLs')
 
     def replace_bitcoin_core_identifiers(self):
         # Identifier in copyright statement
@@ -149,8 +179,6 @@ class Fork:
 
     def replace_bitcoin_identifiers(self):
         # special case of daemon name at beginning of the sentence
-        with open("doc/zmq.md") as file:
-            print(file.read())
         self.processor.replace_in_file('doc/zmq.md', 'Bitcoind appends', 'The unit-e daemon appends')
         # it's a unit, not a name, in this file
         self.processor.replace_in_file('test/functional/wallet_labels.py', "50 Bitcoins", "50 UTEs")
@@ -163,11 +191,14 @@ class Fork:
         self.commit('Apply adjustments to tests and constants for name changes')
 
     def replace_unit_names(self):
+        msg = 'Change unit identifier\n\n'
         self.processor.replace_recursively("COIN", "UNIT")
-        self.commit('Change identifier COIN to UNIT')
+        msg += '* Change identifier COIN to UNIT\n'
 
         self.processor.replace_recursively("CENT", "EEES")
-        self.commit('Change identifier CENT to EEES')
+        msg += '* Change identifier CENT to EEES\n'
+
+        self.commit(msg)
 
     def remove_trailing_whitespace(self):
         self.processor.remove_trailing_whitespace('*.md')
@@ -186,6 +217,7 @@ class Fork:
         self.replace_ports()
         self.replace_currency_symbol()
         self.move_paths()
+        self.adapt_urls()
         self.replace_bitcoin_core_identifiers()
         self.replace_bitcoin_identifiers()
         self.adjust_code()

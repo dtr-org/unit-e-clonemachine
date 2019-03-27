@@ -229,7 +229,7 @@ index d1772e43e..8b489179e 100644
                travis_wait 50 contrib/verify-commits/verify-commits.py;
            fi
 diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
-index 3d5dc3221..c7ef4570b 100644
+index 3d5dc3221..72ff5cc1a 100644
 --- a/CONTRIBUTING.md
 +++ b/CONTRIBUTING.md
 @@ -1,67 +1,81 @@
@@ -511,31 +511,31 @@ index 3d5dc3221..c7ef4570b 100644
 +title with `WIP:`. You can use [Tasks
 +Lists](https://help.github.com/articles/basic-writing-and-formatting-syntax/#task-lists)
 +in the body of the pull request to indicate tasks are pending.
-+
+ 
+-### Features
 +If you continue to work in the pull request and it gets to a state where it's
 +ready to be merged, remove the `WIP:` and notify reviewers that it's ready to be
 +reviewed for merge.
- 
--### Features
-+Use this mechanism also to get early feedback on concepts or incomplete
-+implementations which aren't integrated with the overall code yet. Create a pull
-+request on master with the `WIP:` prefix in the title so the discussion is
-+available in the main project but it's clear that the code doesn't get merged as
-+it is.
  
 -When adding a new feature, thought must be given to the long term technical debt
 -and maintenance that feature may require after inclusion. Before proposing a new
 -feature that will require maintenance, please consider if you are willing to
 -maintain it (including bug fixing). If features get orphaned with no maintainer
 -in the future, they may be removed by the Repository Maintainer.
++Use this mechanism also to get early feedback on concepts or incomplete
++implementations which aren't integrated with the overall code yet. Create a pull
++request on master with the `WIP:` prefix in the title so the discussion is
++available in the main project but it's clear that the code doesn't get merged as
++it is.
+ 
 +#### Features
  
+-### Refactoring
 +When adding a new feature, thought must be given to the long term maintenance
 +that feature may require after inclusion. Before proposing a new feature that
 +will require maintenance, please consider if you are willing to maintain it
 +(including bug fixing).
- 
--### Refactoring
++
 +#### Refactoring
  
  Refactoring is a necessary part of any software project's evolution. The
@@ -552,26 +552,19 @@ index 3d5dc3221..c7ef4570b 100644
 +Code review is essential to keep up code quality. It also is a great way to
 +learn and to positively collaborate. Good code review improves the code and the
 +team.
- 
--Trivial pull requests or pull requests that refactor the code with no clear
--benefits may be immediately closed by the maintainers to reduce unnecessary
--workload on reviewing.
++
 +Some great general resources about code review are [Designing awesome code
 +reviews](https://medium.com/unpacking-trunk-club/designing-awesome-code-reviews-5a0d9cd867e3)
 +(an overview of how to do code reviews that are good for code and people) and
 +[Awesome code review](https://github.com/joho/awesome-code-review) (a curated
 +list of resources related to code review).
- 
++
 +#### Peer Review
- 
--"Decision Making" Process
---------------------------
++
 +Anyone may participate in peer review which is expressed by comments in the pull
 +request. Use the features of the GitHub review system. Comment on the code,
 +propose changes, ask questions, and add a summary of your review.
- 
--The following applies to code changes to the Bitcoin Core project (and related
--projects such as libsecp256k1), and is not to be confused with overall Bitcoin
++
 +Typically reviewers will review the code for obvious errors, as well as
 +test out the patch set and opine on the technical merits of the patch. Project
 +maintainers take into account the peer review when determining if there is
@@ -592,19 +585,26 @@ index 3d5dc3221..c7ef4570b 100644
 +higher in terms of discussion and peer review requirements, keeping in mind that
 +mistakes could be very costly to the wider community. This includes refactoring
 +of consensus critical code.
-+
+ 
+-Trivial pull requests or pull requests that refactor the code with no clear
+-benefits may be immediately closed by the maintainers to reduce unnecessary
+-workload on reviewing.
 +Patches that change unit-e consensus rules are considerably more involved than
 +normal because they affect the entire ecosystem. They must be accompanied by a
 +design document and a discussion will have preceded it, which should be
 +referenced (for example the pull request which merged the design document).
-+
+ 
 +While each case will
 +be different, one should be prepared to expend more time and effort than for
 +other kinds of patches because of increased peer review and consensus building
 +requirements.
-+
+ 
+-"Decision Making" Process
+--------------------------
 +#### Adding changes to the pull request
-+
+ 
+-The following applies to code changes to the Bitcoin Core project (and related
+-projects such as libsecp256k1), and is not to be confused with overall Bitcoin
 +At this stage one should expect comments and review from other contributors. You
 +can add more commits to your pull request by committing them locally and pushing
 +to your fork until you have satisfied all feedback.
@@ -656,7 +656,7 @@ index 3d5dc3221..c7ef4570b 100644
  
  Maintainers will take into consideration if a patch is in line with the general
  principles of the project; meets the minimum standards for inclusion; and will
-@@ -209,98 +311,82 @@ In general, all pull requests must:
+@@ -209,98 +311,78 @@ In general, all pull requests must:
      the project (for example refactoring for modularisation);
    - Be well peer reviewed;
    - Have unit tests and functional tests where appropriate;
@@ -799,25 +799,21 @@ index 3d5dc3221..c7ef4570b 100644
 +
 +Add a copyright notice when you add a substantial amount of work not covered by
 +the existing copyright notice.
-+
+ 
+-Copyright
+----------
 +There is a script to add license headers to new files, update year ranges in
 +copyright notices, and create reports about copyright statements in
 +[`contrib/devtools/copyright_header.py`](contrib/devtools/copyright_header.py).
 +You can use that to add a proper license header when you are creating new files.
  
--Copyright
-----------
-+If you are incorporating code from other sources make sure that its license
-+allows that, keep license headers and attributions, and add a reference to its
-+original source.
- 
 -By contributing to this repository, you agree to license your work under the 
 -MIT license unless specified otherwise in `contrib/debian/copyright` or at 
 -the top of the file itself. Any work contributed where you are not the original 
 -author must contain its license header with the original author(s) and source.
-+The file `contrib/debian/copyright` contains a full list of licenses used in
-+Unit-e and to which files they apply. This is used for Debian packaging but also
-+can serve as a general machine-readable form of license information.
++If you are incorporating code from other sources make sure that its license
++allows that, keep license headers and attributions, and add a reference to its
++original source.
 diff --git a/INSTALL.md b/INSTALL.md
 index 520a47d96..daae8e305 100644
 --- a/INSTALL.md
@@ -2141,41 +2137,6 @@ index 891591976..10d236df2 100644
  ### [Verify Binaries](/contrib/verifybinaries) ###
 -This script attempts to download and verify the signature file SHA256SUMS.asc from bitcoin.org.
 +This script attempts to download and verify the signature file SHA256SUMS.asc from unite.org.
-diff --git a/contrib/debian/copyright b/contrib/debian/copyright
-index 21cca7d9a..076f99804 100644
---- a/contrib/debian/copyright
-+++ b/contrib/debian/copyright
-@@ -1,13 +1,13 @@
- Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
--Upstream-Name: Bitcoin
-+Upstream-Name: Unit-e
- Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
-- irc://#bitcoin@freenode.net
--Source: https://github.com/bitcoin/bitcoin
-+ irc://#unite@freenode.net
-+Source: https://github.com/unite/unite
- 
- Files: *
- Copyright: 2009-2018, Bitcoin Core Developers
- License: Expat
--Comment: The Bitcoin Core Developers encompasses the current developers listed on bitcoin.org,
-+Comment: The Bitcoin Core Developers encompasses the current developers listed on unite.org,
-          as well as the numerous contributors to the project.
- 
- Files: debian/*
-@@ -86,9 +86,9 @@ License: Expat
- Comment: Modifications of Stephan Hutchings Typicons
- 
- Files: src/qt/res/icons/about.png
--       src/qt/res/icons/bitcoin.*
--       share/pixmaps/bitcoin*
--       src/qt/res/src/bitcoin.svg
-+       src/qt/res/icons/unite.*
-+       share/pixmaps/unite*
-+       src/qt/res/src/unite.svg
- Copyright: Bitboy, Jonas Schnelli
- License: public-domain
- Comment: Site: https://bitcointalk.org/?topic=1756.0
 diff --git a/contrib/devtools/README.md b/contrib/devtools/README.md
 index a0b622534..e8758ab32 100644
 --- a/contrib/devtools/README.md
@@ -2242,7 +2203,7 @@ index a0b622534..e8758ab32 100644
  update-translations.py
  ======================
 diff --git a/contrib/devtools/copyright_header.py b/contrib/devtools/copyright_header.py
-index c5fcddea0..4a02296ba 100755
+index c5fcddea0..79cfc7d08 100755
 --- a/contrib/devtools/copyright_header.py
 +++ b/contrib/devtools/copyright_header.py
 @@ -1,5 +1,5 @@
@@ -2252,7 +2213,7 @@ index c5fcddea0..4a02296ba 100755
  # Distributed under the MIT software license, see the accompanying
  # file COPYING or http://www.opensource.org/licenses/mit-license.php.
  
-@@ -15,35 +15,36 @@ import os
+@@ -15,35 +15,33 @@ import os
  ################################################################################
  
  EXCLUDE = [
@@ -2270,7 +2231,6 @@ index c5fcddea0..4a02296ba 100755
 -    'src/univalue/lib/univalue_escapes.h',
      # auto generated:
 -    'src/qt/bitcoinstrings.cpp',
-+    'src/qt/unitestrings.cpp',
      'src/chainparamsseeds.h',
      # other external copyrights:
      'src/tinyformat.h',
@@ -2294,8 +2254,6 @@ index c5fcddea0..4a02296ba 100755
 +    "src/secp256k1/",
 +    "src/univalue/",
 +    "src/leveldb/",
-+    # translation files for Qt client
-+    "src/qt/locale/"
 +]
 +
  def applies_to_file(filename):
@@ -2305,7 +2263,7 @@ index c5fcddea0..4a02296ba 100755
      return ((EXCLUDE_COMPILED.match(filename) is None) and
              (INCLUDE_COMPILED.match(filename) is not None))
  
-@@ -81,7 +82,7 @@ ANY_COPYRIGHT_STYLE_OR_YEAR_STYLE = ("%s %s" % (ANY_COPYRIGHT_STYLE,
+@@ -81,7 +79,7 @@ ANY_COPYRIGHT_STYLE_OR_YEAR_STYLE = ("%s %s" % (ANY_COPYRIGHT_STYLE,
  ANY_COPYRIGHT_COMPILED = re.compile(ANY_COPYRIGHT_STYLE_OR_YEAR_STYLE)
  
  def compile_copyright_regex(copyright_style, year_style, name):
@@ -2314,7 +2272,7 @@ index c5fcddea0..4a02296ba 100755
  
  EXPECTED_HOLDER_NAMES = [
      "Satoshi Nakamoto\n",
-@@ -107,6 +108,17 @@ EXPECTED_HOLDER_NAMES = [
+@@ -107,6 +105,17 @@ EXPECTED_HOLDER_NAMES = [
      "Jan-Klaas Kollhof\n",
      "Sam Rushing\n",
      "ArtForz -- public domain half-a-node\n",
@@ -2332,7 +2290,7 @@ index c5fcddea0..4a02296ba 100755
  ]
  
  DOMINANT_STYLE_COMPILED = {}
-@@ -146,7 +158,7 @@ def file_has_without_c_style_copyright_for_holder(contents, holder_name):
+@@ -146,7 +155,7 @@ def file_has_without_c_style_copyright_for_holder(contents, holder_name):
  ################################################################################
  
  def read_file(filename):
@@ -2341,7 +2299,7 @@ index c5fcddea0..4a02296ba 100755
  
  def gather_file_info(filename):
      info = {}
-@@ -279,7 +291,7 @@ Usage:
+@@ -279,7 +288,7 @@ Usage:
      $ ./copyright_header.py report <base_directory> [verbose]
  
  Arguments:
@@ -2350,7 +2308,7 @@ index c5fcddea0..4a02296ba 100755
      [verbose] - Includes a list of every file of each subcategory in the report.
  """
  
-@@ -325,13 +337,13 @@ def get_most_recent_git_change_year(filename):
+@@ -325,13 +334,13 @@ def get_most_recent_git_change_year(filename):
  ################################################################################
  
  def read_file_lines(filename):
@@ -2366,7 +2324,7 @@ index c5fcddea0..4a02296ba 100755
      f.write(''.join(file_lines))
      f.close()
  
-@@ -339,10 +351,10 @@ def write_file_lines(filename, file_lines):
+@@ -339,10 +348,10 @@ def write_file_lines(filename, file_lines):
  # update header years execution
  ################################################################################
  
@@ -2379,7 +2337,7 @@ index c5fcddea0..4a02296ba 100755
  UPDATEABLE_LINE_COMPILED = re.compile(' '.join([COPYRIGHT, YEAR_RANGE, HOLDER]))
  
  def get_updatable_copyright_line(file_lines):
-@@ -410,24 +422,24 @@ def exec_update_header_year(base_directory):
+@@ -410,24 +419,24 @@ def exec_update_header_year(base_directory):
  ################################################################################
  
  UPDATE_USAGE = """
@@ -2409,7 +2367,7 @@ index c5fcddea0..4a02296ba 100755
  
  where the update is appropriate.
  
-@@ -435,7 +447,7 @@ Usage:
+@@ -435,7 +444,7 @@ Usage:
      $ ./copyright_header.py update <base_directory>
  
  Arguments:
@@ -2418,7 +2376,7 @@ index c5fcddea0..4a02296ba 100755
  """
  
  def print_file_action_message(filename, action):
-@@ -456,20 +468,27 @@ def update_cmd(argv):
+@@ -456,20 +465,27 @@ def update_cmd(argv):
  
  def get_header_lines(header, start_year, end_year):
      lines = header.split('\n')[1:-1]
@@ -2450,7 +2408,7 @@ index c5fcddea0..4a02296ba 100755
  # Distributed under the MIT software license, see the accompanying
  # file COPYING or http://www.opensource.org/licenses/mit-license.php.
  '''
-@@ -477,6 +496,40 @@ PYTHON_HEADER = '''
+@@ -477,6 +493,40 @@ PYTHON_HEADER = '''
  def get_python_header_lines_to_insert(start_year, end_year):
      return reversed(get_header_lines(PYTHON_HEADER, start_year, end_year))
  
@@ -2491,7 +2449,7 @@ index c5fcddea0..4a02296ba 100755
  ################################################################################
  # query git for year of last change
  ################################################################################
-@@ -514,20 +567,36 @@ def insert_python_header(filename, file_lines, start_year, end_year):
+@@ -514,20 +564,36 @@ def insert_python_header(filename, file_lines, start_year, end_year):
          file_lines.insert(insert_idx, line)
      write_file_lines(filename, file_lines)
  
@@ -2529,7 +2487,7 @@ index c5fcddea0..4a02296ba 100755
      else:
          insert_cpp_header(filename, file_lines, start_year, end_year)
  
-@@ -536,7 +605,7 @@ def exec_insert_header(filename, style):
+@@ -536,7 +602,7 @@ def exec_insert_header(filename, style):
  ################################################################################
  
  INSERT_USAGE = """
@@ -2538,7 +2496,7 @@ index c5fcddea0..4a02296ba 100755
  file in either Python or C++ style as determined by the file extension. If the
  file is a Python file and it has a '#!' starting the first line, the header is
  inserted in the line below it.
-@@ -550,14 +619,14 @@ where <year_introduced> is according to the 'git log' history. If
+@@ -550,14 +616,14 @@ where <year_introduced> is according to the 'git log' history. If
  
  "<current_year>"
  
@@ -2555,7 +2513,7 @@ index c5fcddea0..4a02296ba 100755
  """
  
  def insert_cmd(argv):
-@@ -568,11 +637,16 @@ def insert_cmd(argv):
+@@ -568,11 +634,16 @@ def insert_cmd(argv):
      if not os.path.isfile(filename):
          sys.exit("*** bad filename: %s" % filename)
      _, extension = os.path.splitext(filename)
@@ -2573,7 +2531,7 @@ index c5fcddea0..4a02296ba 100755
      else:
          style = 'cpp'
      exec_insert_header(filename, style)
-@@ -582,8 +656,8 @@ def insert_cmd(argv):
+@@ -582,8 +653,8 @@ def insert_cmd(argv):
  ################################################################################
  
  USAGE = """
@@ -2685,139 +2643,703 @@ index f0098cfcd..633dfdc3c 100755
                      for error in errors:
                          print('%s: %s' % (filename, error))
 diff --git a/contrib/gitian-build.py b/contrib/gitian-build.py
-index 5b8db1e73..b4c151934 100755
+index 5b8db1e73..e2e860c1d 100755
 --- a/contrib/gitian-build.py
 +++ b/contrib/gitian-build.py
-@@ -23,13 +23,13 @@ def setup():
-         programs += ['lxc', 'debootstrap']
-     subprocess.check_call(['sudo', 'apt-get', 'install', '-qq'] + programs)
-     if not os.path.isdir('gitian.sigs'):
+@@ -1,144 +1,400 @@
+ #!/usr/bin/env python3
++# Copyright (c) 2018-2019 The Bitcoin Core developers
++# Copyright (c) 2019 The Unit-e developers
++# Distributed under the MIT software license, see the accompanying
++# file COPYING or https://opensource.org/licenses/MIT.
+ 
+ import argparse
+ import os
+ import subprocess
+ import sys
+ 
+-def setup():
+-    global args, workdir
+-    programs = ['ruby', 'git', 'apt-cacher-ng', 'make', 'wget']
++import platform
++
++import tempfile
++
++from pathlib import Path
++from contextlib import contextmanager
++
++OSSLSIGNCODE_VER = '1.7.1'
++OSSLSIGNCODE_DIR = 'osslsigncode-'+OSSLSIGNCODE_VER
++
++@contextmanager
++def cd(destination_dir):
++    original_dir = os.getcwd()
++    os.chdir(destination_dir)
++    try:
++        yield
++    finally:
++        os.chdir(original_dir)
++
++class Installer:
++    """ Wrapper around native package installer, supports apt-get and brew, only
++        installs packages which aren't installed yet."""
++    def __init__(self, backend=None, quiet=False):
++        if backend != "apt" and backend != "brew":
++            raise ValueError("Invalid value for backend argument: '%'. Valid values are `apt` and `brew`.")
++        self.backend = backend
++        self.updated = False
++        self.to_install = []
++        if quiet and self.backend == "apt":
++            self.flags = ['-qq']
++        else:
++            self.flags = []
++
++    def backend_command(self, subcommand):
++        if self.backend == 'apt':
++            if subcommand == 'ls':
++                command = ['dpkg', '-s']
++            else:
++                command = ['sudo', 'apt-get', subcommand] + self.flags
++        elif self.backend == 'brew':
++            command = ['brew', subcommand]
++        return command
++
++    def update(self):
++        if not self.updated:
++            self.updated = True
++            subprocess.check_call(self.backend_command('update'))
++
++    def try_to_install(self, *programs):
++        self.update()
++        print(self.backend + ': installing', ", ".join(programs))
++        return subprocess.call(self.backend_command('install') + list(programs)) == 0
++
++    def batch_install(self):
++        if not self.to_install:
++            print(self.backend + ': nothing to install')
++            return
++
++        if not self.try_to_install(*self.to_install):
++            print('Could not install packages.', file=sys.stderr)
++            exit(1)
++        self.to_install = []
++
++    def is_installed(self, program):
++        return subprocess.call(self.backend_command('ls') + [program], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0
++
++    def add_requirements(self, *programs):
++        for program in programs:
++            if not self.is_installed(program):
++                self.to_install.append(program)
++
++
++def verify_user_specified_osslsigncode(user_spec_path):
++    if not Path(user_spec_path).is_file():
++        raise Exception('provided osslsign does not exists: {}'.format(user_spec_path))
++
++    try:
++        if subprocess.call([user_spec_path, '--version'], stderr=subprocess.DEVNULL) != 255:
++            raise Exception('cannot execute provided osslsigncode: {}'.format(user_spec_path))
++    except subprocess.CalledProcessError as e:
++        raise Exception('unexpected exception raised while executing provided osslsigncode: {}'.format(str(e)))
++
++    return Path(user_spec_path).resolve()
++
++def find_osslsigncode(user_spec_path):
++    if user_spec_path:
++        return verify_user_specified_osslsigncode(user_spec_path)
++
++    which_ossl_proc = subprocess.Popen(['which', 'osslsigncode'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
++    if which_ossl_proc.wait() == 0:
++        ossl_path = which_ossl_proc.communicate()[0].split()[0].decode()
++        if subprocess.call([ossl_path, '--version'], stderr=subprocess.DEVNULL) == 255:
++            return ossl_path
++
++    expected_path = Path(OSSLSIGNCODE_DIR, 'osslsigncode')
++    if expected_path.is_file() and subprocess.call([expected_path, '--version'], stderr=subprocess.DEVNULL) == 255:
++        return expected_path.resolve()
++
++    return None
++
++def install_osslsigner():
++    subprocess.check_call(['wget', '-N', 'https://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-'+OSSLSIGNCODE_VER+'.tar.gz'])
++    subprocess.check_call(['wget', '-N', 'https://bitcoincore.org/cfields/osslsigncode-Backports-to-'+OSSLSIGNCODE_VER+'.patch'])
++    subprocess.check_call(["echo 'a8c4e9cafba922f89de0df1f2152e7be286aba73f78505169bc351a7938dd911 osslsigncode-Backports-to-"+OSSLSIGNCODE_VER+".patch' | sha256sum -c"], shell=True)
++    subprocess.check_call(["echo 'f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9 osslsigncode-"+OSSLSIGNCODE_VER+".tar.gz' | sha256sum -c"], shell=True)
++    subprocess.check_call(['tar', '-xzf', 'osslsigncode-'+OSSLSIGNCODE_VER+'.tar.gz'])
++    subprocess.check_call(['patch -p1 < ../osslsigncode-Backports-to-'+OSSLSIGNCODE_VER+'.patch'], shell=True, cwd=OSSLSIGNCODE_DIR)
++    subprocess.check_call(['./configure', '--without-gsf', '--without-curl', '--disable-dependency-tracking'], cwd=OSSLSIGNCODE_DIR)
++    subprocess.check_call(['make'], cwd=OSSLSIGNCODE_DIR)
++    return Path(OSSLSIGNCODE_DIR, 'osslsigncode').resolve()
++
++
++def install_libssl_dev(apt):
++    dist_str = platform.dist()
++    dist_type = dist_str[0]
++    dist_no = int(dist_str[1].replace('.', ''))
++    if dist_type == 'Ubuntu' and dist_no < 1800 or dist_type == 'Debian' and dist_no < 900:
++        apt.add_requirements('libssl-dev')
++    else:
++        apt.add_requirements('libssl1.0-dev')
++
++
++def install_linux_deps(args):
++    apt = Installer(backend='apt', quiet=args.quiet)
++    apt.add_requirements('ruby', 'git', 'make')
+     if args.kvm:
+-        programs += ['python-vm-builder', 'qemu-kvm', 'qemu-utils']
++        apt.add_requirements('apt-cacher-ng', 'python-vm-builder', 'qemu-kvm', 'qemu-utils')
+     elif args.docker:
+-        dockers = ['docker.io', 'docker-ce']
+-        for i in dockers:
+-            return_code = subprocess.call(['sudo', 'apt-get', 'install', '-qq', i])
+-            if return_code == 0:
+-                break
+-        if return_code != 0:
+-            print('Cannot find any way to install docker', file=sys.stderr)
+-            exit(1)
++        if subprocess.call(['docker', '--version']) != 0:
++            if not apt.try_to_install('docker.io') and not apt.try_to_install('docker-ce'):
++                print('Cannot find any way to install docker', file=sys.stderr)
++                exit(1)
++    else:
++        apt.add_requirements('apt-cacher-ng', 'lxc', 'debootstrap')
++
++    should_make_ossl = False
++    if args.codesign and args.windows:
++        args.osslsigncode_path = find_osslsigncode(args.osslsigncode_path)
++        if not args.osslsigncode_path:
++            should_make_ossl = True
++            apt.add_requirements('tar', 'wget', 'patch', 'autoconf')
++            install_libssl_dev(apt)
++
++    apt.batch_install()
++
++    if should_make_ossl:
++        args.osslsigncode_path = install_osslsigner()
++
++def create_bin_symlink(link, target):
++    bin_path = Path("bin", link)
++    if not bin_path.exists():
++        bin_path.symlink_to(target)
++
++def install_mac_deps(args):
++    if not args.docker:
++        print('Mac can only work with docker, re-run with --docker flag.', file=sys.stderr)
++        exit(1)
++
++    if subprocess.call(['docker', '--version']) != 0:
++        print('Please install docker manually, e.g. with `brew cask install docker`.', file=sys.stderr)
++        exit(1)
++
++    brew = Installer(backend='brew')
++    brew.add_requirements('ruby', 'coreutils')
++    brew.batch_install()
++
++    create_bin_symlink("date", "/usr/local/bin/gdate")
++    create_bin_symlink("sha256sum", "/usr/local/bin/gsha256sum")
++
++def install_deps(args):
++    system_str = platform.system()
++    if system_str == 'Linux':
++        install_linux_deps(args)
++    elif system_str == 'Darwin':
++        install_mac_deps(args)
+     else:
+-        programs += ['lxc', 'debootstrap']
+-    subprocess.check_call(['sudo', 'apt-get', 'install', '-qq'] + programs)
+-    if not os.path.isdir('gitian.sigs'):
 -        subprocess.check_call(['git', 'clone', 'https://github.com/bitcoin-core/gitian.sigs.git'])
 -    if not os.path.isdir('bitcoin-detached-sigs'):
 -        subprocess.check_call(['git', 'clone', 'https://github.com/bitcoin-core/bitcoin-detached-sigs.git'])
-+        subprocess.check_call(['git', 'clone', 'https://github.com/unite-core/gitian.sigs.git'])
-+    if not os.path.isdir('unite-detached-sigs'):
-+        subprocess.check_call(['git', 'clone', 'https://github.com/unite-core/unite-detached-sigs.git'])
-     if not os.path.isdir('gitian-builder'):
+-    if not os.path.isdir('gitian-builder'):
++        print("Unsupported system '%s'." % system_str, file=sys.stderr)
++        exit(1)
++
++
++def setup(args):
++    install_deps(args)
++
++    if not Path('unit-e-sigs').is_dir():
++        subprocess.check_call(['git', 'clone', 'git@github.com:dtr-org/unit-e-sigs.git'])
++    if not Path('gitian-builder').is_dir():
          subprocess.check_call(['git', 'clone', 'https://github.com/devrandom/gitian-builder.git'])
 -    if not os.path.isdir('bitcoin'):
 -        subprocess.check_call(['git', 'clone', 'https://github.com/bitcoin/bitcoin.git'])
-+    if not os.path.isdir('unite'):
-+        subprocess.check_call(['git', 'clone', 'https://github.com/unite/unite.git'])
-     os.chdir('gitian-builder')
-     make_image_prog = ['bin/make-base-vm', '--suite', 'bionic', '--arch', 'amd64']
+-    os.chdir('gitian-builder')
+-    make_image_prog = ['bin/make-base-vm', '--suite', 'bionic', '--arch', 'amd64']
++    if not Path(args.git_dir).is_dir():
++        subprocess.check_call(['git', 'clone', args.url, args.git_dir])
++    make_image_prog = ['bin/make-base-vm', '--suite', 'trusty', '--arch', 'amd64']
      if args.docker:
-@@ -46,34 +46,34 @@ def setup():
- def build():
-     global args, workdir
+         make_image_prog += ['--docker']
+     elif not args.kvm:
+         make_image_prog += ['--lxc']
+-    subprocess.check_call(make_image_prog)
+-    os.chdir(workdir)
++    subprocess.check_call(make_image_prog, cwd='gitian-builder')
+     if args.is_bionic and not args.kvm and not args.docker:
+         subprocess.check_call(['sudo', 'sed', '-i', 's/lxcbr0/br0/', '/etc/default/lxc-net'])
+         print('Reboot is required')
+         exit(0)
+ 
+-def build():
+-    global args, workdir
++def gitian_descriptors(args, platform_str):
++    return '../work/gitian-descriptors/gitian-' + platform_str + '.yml'
  
 -    os.makedirs('bitcoin-binaries/' + args.version, exist_ok=True)
-+    os.makedirs('unite-binaries/' + args.version, exist_ok=True)
++def build(args):
++    os.makedirs('unit-e-binaries/' + args.version, exist_ok=True)
      print('\nBuilding Dependencies\n')
-     os.chdir('gitian-builder')
-     os.makedirs('inputs', exist_ok=True)
- 
-     subprocess.check_call(['wget', '-N', '-P', 'inputs', 'http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz'])
-     subprocess.check_call(['wget', '-N', '-P', 'inputs', 'https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch'])
+-    os.chdir('gitian-builder')
+-    os.makedirs('inputs', exist_ok=True)
+-
+-    subprocess.check_call(['wget', '-N', '-P', 'inputs', 'http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz'])
+-    subprocess.check_call(['wget', '-N', '-P', 'inputs', 'https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch'])
 -    subprocess.check_call(['make', '-C', '../bitcoin/depends', 'download', 'SOURCES_PATH=' + os.getcwd() + '/cache/common'])
-+    subprocess.check_call(['make', '-C', '../unite/depends', 'download', 'SOURCES_PATH=' + os.getcwd() + '/cache/common'])
- 
-     if args.linux:
-         print('\nCompiling ' + args.version + ' Linux')
+-
+-    if args.linux:
+-        print('\nCompiling ' + args.version + ' Linux')
 -        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'bitcoin='+args.commit, '--url', 'bitcoin='+args.url, '../bitcoin/contrib/gitian-descriptors/gitian-linux.yml'])
 -        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-linux', '--destination', '../gitian.sigs/', '../bitcoin/contrib/gitian-descriptors/gitian-linux.yml'])
 -        subprocess.check_call('mv build/out/bitcoin-*.tar.gz build/out/src/bitcoin-*.tar.gz ../bitcoin-binaries/'+args.version, shell=True)
-+        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'unite='+args.commit, '--url', 'unite='+args.url, '../unite/contrib/gitian-descriptors/gitian-linux.yml'])
-+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-linux', '--destination', '../gitian.sigs/', '../unite/contrib/gitian-descriptors/gitian-linux.yml'])
-+        subprocess.check_call('mv build/out/unite-*.tar.gz build/out/src/unite-*.tar.gz ../unite-binaries/'+args.version, shell=True)
- 
-     if args.windows:
-         print('\nCompiling ' + args.version + ' Windows')
+-
+-    if args.windows:
+-        print('\nCompiling ' + args.version + ' Windows')
 -        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'bitcoin='+args.commit, '--url', 'bitcoin='+args.url, '../bitcoin/contrib/gitian-descriptors/gitian-win.yml'])
 -        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-unsigned', '--destination', '../gitian.sigs/', '../bitcoin/contrib/gitian-descriptors/gitian-win.yml'])
 -        subprocess.check_call('mv build/out/bitcoin-*-win-unsigned.tar.gz inputs/bitcoin-win-unsigned.tar.gz', shell=True)
 -        subprocess.check_call('mv build/out/bitcoin-*.zip build/out/bitcoin-*.exe ../bitcoin-binaries/'+args.version, shell=True)
-+        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'unite='+args.commit, '--url', 'unite='+args.url, '../unite/contrib/gitian-descriptors/gitian-win.yml'])
-+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-unsigned', '--destination', '../gitian.sigs/', '../unite/contrib/gitian-descriptors/gitian-win.yml'])
-+        subprocess.check_call('mv build/out/unite-*-win-unsigned.tar.gz inputs/unite-win-unsigned.tar.gz', shell=True)
-+        subprocess.check_call('mv build/out/unite-*.zip build/out/unite-*.exe ../unite-binaries/'+args.version, shell=True)
- 
-     if args.macos:
-         print('\nCompiling ' + args.version + ' MacOS')
+-
+-    if args.macos:
+-        print('\nCompiling ' + args.version + ' MacOS')
 -        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'bitcoin='+args.commit, '--url', 'bitcoin='+args.url, '../bitcoin/contrib/gitian-descriptors/gitian-osx.yml'])
 -        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-osx-unsigned', '--destination', '../gitian.sigs/', '../bitcoin/contrib/gitian-descriptors/gitian-osx.yml'])
 -        subprocess.check_call('mv build/out/bitcoin-*-osx-unsigned.tar.gz inputs/bitcoin-osx-unsigned.tar.gz', shell=True)
 -        subprocess.check_call('mv build/out/bitcoin-*.tar.gz build/out/bitcoin-*.dmg ../bitcoin-binaries/'+args.version, shell=True)
-+        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'unite='+args.commit, '--url', 'unite='+args.url, '../unite/contrib/gitian-descriptors/gitian-osx.yml'])
-+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-osx-unsigned', '--destination', '../gitian.sigs/', '../unite/contrib/gitian-descriptors/gitian-osx.yml'])
-+        subprocess.check_call('mv build/out/unite-*-osx-unsigned.tar.gz inputs/unite-osx-unsigned.tar.gz', shell=True)
-+        subprocess.check_call('mv build/out/unite-*.tar.gz build/out/unite-*.dmg ../unite-binaries/'+args.version, shell=True)
+-
+-    os.chdir(workdir)
++    with cd('gitian-builder'):
++        os.makedirs('inputs', exist_ok=True)
++
++        subprocess.check_call(['make', '-C', Path('../', args.git_dir, 'depends'), 'download', 'SOURCES_PATH=' + os.getcwd() + '/cache/common'])
++
++        if args.linux:
++            print('\nCompiling ' + args.version + ' Linux')
++            subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'unit-e='+args.commit, '--url', 'unit-e='+args.url, gitian_descriptors(args, 'linux')])
++            subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-linux', '--destination', '../unit-e-sigs/', gitian_descriptors(args, 'linux')])
++            subprocess.check_call('mv build/out/unit-e-*.tar.gz build/out/src/unit-e-*.tar.gz ../unit-e-binaries/'+args.version, shell=True)
++
++        if args.windows:
++            print('\nCompiling ' + args.version + ' Windows')
++            subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'unit-e='+args.commit, '--url', 'unit-e='+args.url, gitian_descriptors(args, 'win')])
++            subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-unsigned', '--destination', '../unit-e-sigs/', gitian_descriptors(args, 'win')])
++            subprocess.check_call('mv build/out/unit-e-*-win-unsigned.tar.gz inputs/', shell=True)
++            subprocess.check_call('mv build/out/unit-e-*.zip build/out/unit-e-*.exe ../unit-e-binaries/'+args.version, shell=True)
++
++        if args.macos:
++            print('\nCompiling ' + args.version + ' MacOS')
++            subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'unit-e='+args.commit, '--url', 'unit-e='+args.url, gitian_descriptors(args, 'osx')])
++            subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-osx-unsigned', '--destination', '../unit-e-sigs/', gitian_descriptors(args, 'osx')])
++            subprocess.check_call('mv build/out/unit-e-*.tar.gz ../unit-e-binaries/'+args.version, shell=True)
  
-     os.chdir(workdir)
- 
-@@ -92,16 +92,16 @@ def sign():
- 
-     if args.windows:
-         print('\nSigning ' + args.version + ' Windows')
+     if args.commit_files:
+         print('\nCommitting '+args.version+' Unsigned Sigs\n')
+-        os.chdir('gitian.sigs')
+-        subprocess.check_call(['git', 'add', args.version+'-linux/'+args.signer])
+-        subprocess.check_call(['git', 'add', args.version+'-win-unsigned/'+args.signer])
+-        subprocess.check_call(['git', 'add', args.version+'-osx-unsigned/'+args.signer])
+-        subprocess.check_call(['git', 'commit', '-m', 'Add '+args.version+' unsigned sigs for '+args.signer])
+-        os.chdir(workdir)
+-
+-def sign():
+-    global args, workdir
+-    os.chdir('gitian-builder')
+-
+-    if args.windows:
+-        print('\nSigning ' + args.version + ' Windows')
 -        subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature='+args.commit, '../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml'])
 -        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-signed', '--destination', '../gitian.sigs/', '../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml'])
 -        subprocess.check_call('mv build/out/bitcoin-*win64-setup.exe ../bitcoin-binaries/'+args.version, shell=True)
 -        subprocess.check_call('mv build/out/bitcoin-*win32-setup.exe ../bitcoin-binaries/'+args.version, shell=True)
-+        subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature='+args.commit, '../unite/contrib/gitian-descriptors/gitian-win-signer.yml'])
-+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-signed', '--destination', '../gitian.sigs/', '../unite/contrib/gitian-descriptors/gitian-win-signer.yml'])
-+        subprocess.check_call('mv build/out/unite-*win64-setup.exe ../unite-binaries/'+args.version, shell=True)
-+        subprocess.check_call('mv build/out/unite-*win32-setup.exe ../unite-binaries/'+args.version, shell=True)
- 
-     if args.macos:
-         print('\nSigning ' + args.version + ' MacOS')
+-
+-    if args.macos:
+-        print('\nSigning ' + args.version + ' MacOS')
 -        subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature='+args.commit, '../bitcoin/contrib/gitian-descriptors/gitian-osx-signer.yml'])
 -        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-osx-signed', '--destination', '../gitian.sigs/', '../bitcoin/contrib/gitian-descriptors/gitian-osx-signer.yml'])
 -        subprocess.check_call('mv build/out/bitcoin-osx-signed.dmg ../bitcoin-binaries/'+args.version+'/bitcoin-'+args.version+'-osx.dmg', shell=True)
-+        subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature='+args.commit, '../unite/contrib/gitian-descriptors/gitian-osx-signer.yml'])
-+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-osx-signed', '--destination', '../gitian.sigs/', '../unite/contrib/gitian-descriptors/gitian-osx-signer.yml'])
-+        subprocess.check_call('mv build/out/unite-osx-signed.dmg ../unite-binaries/'+args.version+'/unite-'+args.version+'-osx.dmg', shell=True)
+-
+-    os.chdir(workdir)
++        with cd('unit-e-sigs'):
++            if args.linux:
++                subprocess.check_call(['git', 'add', args.version+'-linux/'+args.signer])
++            if args.windows:
++                subprocess.check_call(['git', 'add', args.version+'-win-unsigned/'+args.signer])
++            if args.macos:
++                subprocess.check_call(['git', 'add', args.version+'-osx-unsigned/'+args.signer])
++            subprocess.check_call(['git', 'commit', '-m', 'Add '+args.version+' unsigned sigs for '+args.signer])
++
++def get_signatures_path(platform_str, version):
++    return Path('unit-e-sigs', version + '-detached', 'unit-e-'+platform_str+'-signatures.tar.gz').resolve()
++
++
++def codesign_windows(osslsign_path, version, win_code_cert_path, win_code_key_path):
++    gitian_dir = Path('gitian-builder').resolve()
++    signatures_tarball = get_signatures_path('win', version)
++    if signatures_tarball.is_file():
++        print('Signatures already present at:', signatures_tarball, '\nI cowardly refuse to continue', file=sys.stderr)
++        exit(1)
++
++    signatures_tarball.parent.mkdir(exist_ok=True)
++
++    print('\nSigning ' + version + ' Windows')
++    with tempfile.TemporaryDirectory() as build_dir:
++        subprocess.check_call(['cp', 'inputs/unit-e-' + version + '-win-unsigned.tar.gz', Path(build_dir, 'unit-e-win-unsigned.tar.gz')], cwd=gitian_dir)
++        subprocess.check_call(['tar', '-xzf', 'unit-e-win-unsigned.tar.gz'], cwd=build_dir)
++
++        for fp in Path(build_dir).glob('unsigned/*.exe'):
++            subprocess.check_call([osslsign_path, 'sign', '-certs', win_code_cert_path, '-in', fp, '-out', str(fp)+'-signed', '-key', win_code_key_path, '-askpass'])
++            subprocess.check_call([osslsign_path, 'extract-signature', '-pem', '-in', str(fp)+'-signed', '-out', str(fp)+'.pem'])
++
++        subprocess.check_call(['tar', '-czf', signatures_tarball, *[path.name for path in Path(build_dir, 'unsigned').glob('*.exe.pem')]], cwd=Path(build_dir, 'unsigned'))
++
++
++def codesign(args):
++    if not args.windows:
++        print('Warning: codesigning requested, but windows not in the --os flag.', file=sys.stderr)
++        return
++
++    codesign_windows(args.osslsigncode_path, args.version, args.win_code_cert_path, args.win_code_key_path)
++
++    if args.commit_files:
++        print('\nCommitting '+args.version+' Detached Sigs\n')
++        subprocess.check_call(['git', 'add', Path(args.version + '-detached', 'unit-e-win-signatures.tar.gz')], cwd='unit-e-sigs')
++        subprocess.check_call(['git', 'commit', '-a', '-m', 'Add '+args.version+' detached signatures by '+args.signer], cwd='unit-e-sigs')
++
++
++
++def sign(args):
++    if not args.windows:
++        print('Warning: signing requested, but windows not in the --os flag.', file=sys.stderr)
++        return
++
++    gitian_dir = Path('gitian-builder').resolve()
++
++    subprocess.check_call(['wget', '-N', '-P', 'inputs', 'https://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-'+OSSLSIGNCODE_VER+'.tar.gz'], cwd=gitian_dir)
++    subprocess.check_call(['wget', '-N', '-P', 'inputs', 'https://bitcoincore.org/cfields/osslsigncode-Backports-to-'+OSSLSIGNCODE_VER+'.patch'], cwd=gitian_dir)
++
++    signatures_tarball = get_signatures_path('win', args.version)
++    if not signatures_tarball.is_file():
++        print('Signatures not present at:', signatures_tarball, file=sys.stderr)
++        exit(1)
++
++    print('\nSigning ' + args.version + ' Windows')
++    subprocess.check_call(['cp', signatures_tarball, 'inputs/unit-e-win-signatures.tar.gz'], cwd=gitian_dir)
++    subprocess.check_call(['cp', 'inputs/unit-e-' + args.version + '-win-unsigned.tar.gz', 'inputs/unit-e-win-unsigned.tar.gz'], cwd=gitian_dir)
++    subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature=master', gitian_descriptors(args, 'win-signer')], cwd=gitian_dir)
++    subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-signed', '--destination', '../unit-e-sigs/', gitian_descriptors(args, 'win-signer')], cwd=gitian_dir)
++    subprocess.check_call('mv build/out/unit-e-*win64-setup.exe ../unit-e-binaries/'+args.version, shell=True, cwd=gitian_dir)
++    subprocess.check_call('mv build/out/unit-e-*win32-setup.exe ../unit-e-binaries/'+args.version, shell=True, cwd=gitian_dir)
  
-     os.chdir(workdir)
- 
-@@ -118,15 +118,15 @@ def verify():
-     os.chdir('gitian-builder')
- 
-     print('\nVerifying v'+args.version+' Linux\n')
+     if args.commit_files:
+         print('\nCommitting '+args.version+' Signed Sigs\n')
+-        os.chdir('gitian.sigs')
+-        subprocess.check_call(['git', 'add', args.version+'-win-signed/'+args.signer])
+-        subprocess.check_call(['git', 'add', args.version+'-osx-signed/'+args.signer])
+-        subprocess.check_call(['git', 'commit', '-a', '-m', 'Add '+args.version+' signed binary sigs for '+args.signer])
+-        os.chdir(workdir)
+-
+-def verify():
+-    global args, workdir
+-    os.chdir('gitian-builder')
+-
+-    print('\nVerifying v'+args.version+' Linux\n')
 -    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-linux', '../bitcoin/contrib/gitian-descriptors/gitian-linux.yml'])
-+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-linux', '../unite/contrib/gitian-descriptors/gitian-linux.yml'])
-     print('\nVerifying v'+args.version+' Windows\n')
+-    print('\nVerifying v'+args.version+' Windows\n')
 -    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-win-unsigned', '../bitcoin/contrib/gitian-descriptors/gitian-win.yml'])
-+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-win-unsigned', '../unite/contrib/gitian-descriptors/gitian-win.yml'])
-     print('\nVerifying v'+args.version+' MacOS\n')
+-    print('\nVerifying v'+args.version+' MacOS\n')
 -    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-osx-unsigned', '../bitcoin/contrib/gitian-descriptors/gitian-osx.yml'])
-+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-osx-unsigned', '../unite/contrib/gitian-descriptors/gitian-osx.yml'])
-     print('\nVerifying v'+args.version+' Signed Windows\n')
+-    print('\nVerifying v'+args.version+' Signed Windows\n')
 -    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-win-signed', '../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml'])
-+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-win-signed', '../unite/contrib/gitian-descriptors/gitian-win-signer.yml'])
-     print('\nVerifying v'+args.version+' Signed MacOS\n')
+-    print('\nVerifying v'+args.version+' Signed MacOS\n')
 -    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-osx-signed', '../bitcoin/contrib/gitian-descriptors/gitian-osx-signer.yml'])
-+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-osx-signed', '../unite/contrib/gitian-descriptors/gitian-osx-signer.yml'])
+-
+-    os.chdir(workdir)
++        subprocess.check_call(['git', 'add', args.version+'-win-signed/'+args.signer], cwd='unit-e-sigs')
++        subprocess.check_call(['git', 'commit', '-a', '-m', 'Add '+args.version+' signed binary sigs for '+args.signer], cwd='unit-e-sigs')
++
++
++def verify(args):
++    """ Verify the builds. Exits with error in case any of the signatures fail to verify and if any of the signatures are missing. """
++    gitian_builder = Path('gitian-builder')
++    sigs_path = Path('unit-e-sigs')
++
++    builds_were_missing = False
++
++    for (sig_path_suffix, descriptor_suffix, build_name) in [
++            ('linux', 'linux', 'Linux'),
++            ('win-unsigned', 'win', 'Windows'),
++            ('osx-unsigned', 'osx', 'MacOS'),
++            ('win-signed', 'win-signer', 'Signed Windows'),
++        ]:
++        build_sig_dir = args.version + '-' + sig_path_suffix
++        if Path(sigs_path, build_sig_dir).is_dir():
++            print('\nVerifying v{} {}\n'.format(args.version, build_name))
++            descriptor = gitian_descriptors(args, descriptor_suffix)
++            subprocess.check_call(['bin/gverify', '-v', '-d', '../unit-e-sigs/', '-r', build_sig_dir, descriptor], cwd=gitian_builder)
++        else:
++            print('\nSkipping v{} {} as it is not present\n'.format(args.version, build_name))
++            builds_were_missing = True
++
++    if builds_were_missing:
++        print('Some builds were missing, please refer to previous logs.', file=sys.stderr)
++        exit(1)
  
-     os.chdir(workdir)
+-def main():
+-    global args, workdir
  
-@@ -135,7 +135,7 @@ def main():
- 
-     parser = argparse.ArgumentParser(usage='%(prog)s [options] signer version')
+-    parser = argparse.ArgumentParser(usage='%(prog)s [options] signer version')
++def prepare_git_dir(args):
++    with cd(args.git_dir):
++        if args.pull:
++            subprocess.check_call(['git', 'fetch', args.url, 'refs/pull/'+args.version+'/merge'])
++            os.chdir('../gitian-builder/inputs/unit-e')
++            subprocess.check_call(['git', 'fetch', args.url, 'refs/pull/'+args.version+'/merge'])
++            args.commit = subprocess.check_output(['git', 'show', '-s', '--format=%H', 'FETCH_HEAD'], universal_newlines=True, encoding='utf8').strip()
++            args.version = 'pull-' + args.version
++        print(args.commit)
++        if not args.skip_checkout:
++            subprocess.check_call(['git', 'fetch'])
++            subprocess.check_call(['git', 'checkout', args.commit])
++
++# Use only keyword-only arguments as defined in PEP 3102 to avoid accidentally swapping of arguments
++def prepare_gitian_descriptors(*, source, target, hosts=None):
++    descriptor_source_dir = Path(source)
++    descriptor_dir = Path(target)
++    if not descriptor_source_dir.is_dir():
++        raise Exception("Gitian descriptor dir '%s' does not exist" % descriptor_source_dir)
++    descriptor_dir.mkdir(parents=True, exist_ok=True)
++    for descriptor_path in descriptor_source_dir.glob("*.yml"):
++        filename = descriptor_path.relative_to(descriptor_source_dir)
++        descriptor_in = descriptor_source_dir / filename
++        descriptor_out = descriptor_dir / filename
++        with descriptor_out.open("w") as file_out, descriptor_in.open() as file_in:
++            for line in file_in:
++                if hosts and line.startswith('  HOSTS='):
++                    file_out.write('  HOSTS="%s"\n' % hosts)
++                else:
++                    file_out.write(line)
++
++def create_work_dir(work_dir):
++    work_dir = Path(work_dir)
++    if Path(work_dir).exists() and not Path(work_dir).is_dir():
++        raise Exception("Work dir '%s' exists but is not a directory." % work_dir)
++    if not work_dir.exists():
++        print("Creating working directory '%s'" % work_dir)
++        work_dir.mkdir()
++    return work_dir.resolve()
++
++def main():
++    parser = argparse.ArgumentParser(usage='%(prog)s [options]')
      parser.add_argument('-c', '--commit', action='store_true', dest='commit', help='Indicate that the version argument is for a commit or branch')
 -    parser.add_argument('-u', '--url', dest='url', default='https://github.com/bitcoin/bitcoin', help='Specify the URL of the repository. Default is %(default)s')
-+    parser.add_argument('-u', '--url', dest='url', default='https://github.com/unite/unite', help='Specify the URL of the repository. Default is %(default)s')
++    parser.add_argument('-p', '--pull', action='store_true', dest='pull', help='Indicate that the version argument is the number of a github repository pull request')
++    parser.add_argument('-u', '--url', dest='url', default='git@github.com:dtr-org/unit-e.git', help='Specify the URL of the repository. Default is %(default)s')
++    parser.add_argument('-g', '--git-dir', dest='git_dir', default='unit-e', help='Specify the name of the directory where the unit-e git repo is checked out. This is relative to the working directory (see --work-dir option)')
      parser.add_argument('-v', '--verify', action='store_true', dest='verify', help='Verify the Gitian build')
      parser.add_argument('-b', '--build', action='store_true', dest='build', help='Do a Gitian build')
-     parser.add_argument('-s', '--sign', action='store_true', dest='sign', help='Make signed binaries for Windows and MacOS')
-@@ -202,7 +202,7 @@ def main():
-     if args.setup:
-         setup()
+-    parser.add_argument('-s', '--sign', action='store_true', dest='sign', help='Make signed binaries for Windows and MacOS')
++    parser.add_argument('-C', '--codesign', action='store_true', dest='codesign', help='Make detached signatures for Windows and MacOS')
++    parser.add_argument('-s', '--sign', action='store_true', dest='sign', help='Make signed binaries for Windows')
+     parser.add_argument('-B', '--buildsign', action='store_true', dest='buildsign', help='Build both signed and unsigned binaries')
+     parser.add_argument('-o', '--os', dest='os', default='lwm', help='Specify which Operating Systems the build is for. Default is %(default)s. l for Linux, w for Windows, m for MacOS')
+     parser.add_argument('-j', '--jobs', dest='jobs', default='2', help='Number of processes to use. Default %(default)s')
+@@ -148,73 +404,130 @@ def main():
+     parser.add_argument('-S', '--setup', action='store_true', dest='setup', help='Set up the Gitian building environment. Uses LXC. If you want to use KVM, use the --kvm option. Only works on Debian-based systems (Ubuntu, Debian)')
+     parser.add_argument('-D', '--detach-sign', action='store_true', dest='detach_sign', help='Create the assert file for detached signing. Will not commit anything.')
+     parser.add_argument('-n', '--no-commit', action='store_false', dest='commit_files', help='Do not commit anything to git')
+-    parser.add_argument('signer', help='GPG signer to sign each build assert file')
+-    parser.add_argument('version', help='Version number, commit, or branch to build. If building a commit or branch, the -c option must be specified')
+-
++    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Do not prompt user for confirmations')
++    parser.add_argument('--osslsign', dest='osslsigncode_path', help='Path to osslsigncode executable.')
++    parser.add_argument('--win-code-cert', dest='win_code_cert_path', help='Path to code signing certificate.')
++    parser.add_argument('--win-code-key', dest='win_code_key_path', help='Path to key corresponding to code signing certificate.')
++    parser.add_argument('--signer', dest='signer', help='GPG signer to sign each build assert file. Required to build, sign or verify')
++    parser.add_argument('--version', dest='version', help='Version number, commit, or branch to build. If building a commit or branch, the -c option must be specified. Required to build, sign or verify')
++    parser.add_argument('--skip-checkout', dest='skip_checkout', action='store_true', help='Skip checkout of git repo. Use with care as it might leave you in an inconsistent state.')
++    parser.add_argument('--hosts', dest='hosts', help='Specify hosts for which is built. See the gitian descriptors for valid values.')
++    parser.add_argument('-w', '--work-dir', dest='work_dir', help='Working directory where data is checked out and the build takes place. The directory will be created if it does not exist.')
+     args = parser.parse_args()
+-    workdir = os.getcwd()
+ 
+-    args.linux = 'l' in args.os
+-    args.windows = 'w' in args.os
+-    args.macos = 'm' in args.os
++    if not args.work_dir:
++        print("Please provide a working directory (--work-dir <path>)", file=sys.stderr)
++        exit(1)
+ 
+-    args.is_bionic = b'bionic' in subprocess.check_output(['lsb_release', '-cs'])
++    if args.win_code_cert_path:
++        args.win_code_cert_path = Path(args.win_code_cert_path).resolve()
+ 
+-    if args.buildsign:
+-        args.build=True
+-        args.sign=True
++    if args.win_code_key_path:
++        args.win_code_key_path = Path(args.win_code_key_path).resolve()
+ 
+-    if args.kvm and args.docker:
+-        raise Exception('Error: cannot have both kvm and docker')
++    work_dir = create_work_dir(args.work_dir)
++    with cd(work_dir):
++        print("Using working directory '%s'" % work_dir)
+ 
+-    args.sign_prog = 'true' if args.detach_sign else 'gpg --detach-sign'
++        os.environ["PATH"] = str(Path("bin").resolve()) + ":" + os.environ["PATH"]
+ 
+-    # Set enviroment variable USE_LXC or USE_DOCKER, let gitian-builder know that we use lxc or docker
+-    if args.docker:
+-        os.environ['USE_DOCKER'] = '1'
+-    elif not args.kvm:
+-        os.environ['USE_LXC'] = '1'
+-        if not 'GITIAN_HOST_IP' in os.environ.keys():
+-            os.environ['GITIAN_HOST_IP'] = '10.0.3.1'
+-        if not 'LXC_GUEST_IP' in os.environ.keys():
+-            os.environ['LXC_GUEST_IP'] = '10.0.3.5'
+-
+-    # Disable for MacOS if no SDK found
+-    if args.macos and not os.path.isfile('gitian-builder/inputs/MacOSX10.11.sdk.tar.gz'):
+-        print('Cannot build for MacOS, SDK does not exist. Will build for other OSes')
+-        args.macos = False
+-
+-    script_name = os.path.basename(sys.argv[0])
+-    # Signer and version shouldn't be empty
+-    if args.signer == '':
+-        print(script_name+': Missing signer.')
+-        print('Try '+script_name+' --help for more information')
+-        exit(1)
+-    if args.version == '':
+-        print(script_name+': Missing version.')
+-        print('Try '+script_name+' --help for more information')
+-        exit(1)
++        args.linux = 'l' in args.os
++        args.windows = 'w' in args.os
++        args.macos = 'm' in args.os
++
++        args.is_bionic = platform.dist() == ('Ubuntu', '18.04', 'bionic')
++
++        if args.buildsign:
++            args.build = True
++            args.sign = True
++
++        if args.kvm and args.docker:
++            raise Exception('Error: cannot have both kvm and docker')
++
++        args.sign_prog = 'true' if args.detach_sign else 'gpg --detach-sign'
++
++        # Set environment variable USE_LXC or USE_DOCKER, let gitian-builder know that we use lxc or docker
++        if args.docker:
++            os.environ['USE_DOCKER'] = '1'
++            os.environ['USE_LXC'] = ''
++            os.environ['USE_VBOX'] = ''
++        elif not args.kvm:
++            os.environ['USE_LXC'] = '1'
++            os.environ['USE_DOCKER'] = ''
++            os.environ['USE_VBOX'] = ''
++            if not 'GITIAN_HOST_IP' in os.environ.keys():
++                os.environ['GITIAN_HOST_IP'] = '10.0.3.1'
++            if not 'LXC_GUEST_IP' in os.environ.keys():
++                os.environ['LXC_GUEST_IP'] = '10.0.3.5'
++
++        # Disable for MacOS if no SDK found
++        if args.macos and not Path('gitian-builder/inputs/MacOSX10.11.sdk.tar.gz').is_file():
++            print('Cannot build for MacOS, SDK does not exist. Will build for other OSes')
++            args.macos = False
++
++        if args.setup:
++            setup(args)
++
++        if not args.build and not args.sign and not args.verify and not args.codesign:
++            return
++
++        if not args.linux and not args.windows and not args.macos:
++            raise RuntimeError('No platform specified. Exiting.')
++
++        script_name = Path(sys.argv[0]).name
++
++        # Signer and version shouldn't be empty
++        if not args.signer:
++            print(script_name+': Missing signer.')
++            print('Try '+script_name+' --help for more information')
++            exit(1)
++
++        if not args.version:
++            print(script_name+': Missing version.')
++            print('Try '+script_name+' --help for more information')
++            exit(1)
++
++        # Check that path to osslsigncode executable is known
++        if args.windows and args.codesign:
++            if not args.setup:
++                args.osslsigncode_path = find_osslsigncode(args.osslsigncode_path)
++
++            if not args.osslsigncode_path:
++                print('Cannot find osslsigncode. Please provide it with --osslsign or run --setup to make it.', file=sys.stderr)
++                exit(1)
++
++            if not args.win_code_cert_path or not Path(args.win_code_cert_path).is_file():
++                print('Please provide code signing certificate path (--win-code-cert)', file=sys.stderr)
++                exit(1)
++
++            if not args.win_code_key_path or not Path(args.win_code_key_path).is_file():
++                print('Please provide code signing key path (--win-code-key)', file=sys.stderr)
++                exit(1)
++
++
++        # Add leading 'v' for tags
++        if args.commit and args.pull:
++            raise Exception('Cannot have both commit and pull')
++        args.commit = ('' if args.commit else 'v') + args.version
+ 
+-    # Add leading 'v' for tags
+-    args.commit = ('' if args.commit else 'v') + args.version
+-    print(args.commit)
++        if args.pull and args.skip_checkout:
++            raise Exception('Cannot pull and skip-checkout at the same time')
+ 
+-    if args.setup:
+-        setup()
++        prepare_git_dir(args)
++        prepare_gitian_descriptors(source=args.git_dir + "/contrib/gitian-descriptors/",
++                                   target="work/gitian-descriptors", hosts=args.hosts)
  
 -    os.chdir('bitcoin')
-+    os.chdir('unite')
-     subprocess.check_call(['git', 'fetch'])
-     subprocess.check_call(['git', 'checkout', args.commit])
-     os.chdir(workdir)
+-    subprocess.check_call(['git', 'fetch'])
+-    subprocess.check_call(['git', 'checkout', args.commit])
+-    os.chdir(workdir)
++        if args.build:
++            build(args)
+ 
+-    if args.build:
+-        build()
++        if args.codesign:
++            codesign(args)
+ 
+-    if args.sign:
+-        sign()
++        if args.sign:
++            sign(args)
+ 
+-    if args.verify:
+-        verify()
++        if args.verify:
++            verify(args)
+ 
+ if __name__ == '__main__':
+     main()
 diff --git a/contrib/gitian-descriptors/gitian-linux.yml b/contrib/gitian-descriptors/gitian-linux.yml
 index 4255fb0c9..86b036368 100644
 --- a/contrib/gitian-descriptors/gitian-linux.yml
@@ -2866,40 +3388,48 @@ index 4255fb0c9..86b036368 100644
  
    # Workaround for tarball not building with the bare tag version (prep)
 diff --git a/contrib/gitian-descriptors/gitian-osx-signer.yml b/contrib/gitian-descriptors/gitian-osx-signer.yml
-index 297a136fa..1c10c1a55 100644
+deleted file mode 100644
+index 297a136fa..000000000
 --- a/contrib/gitian-descriptors/gitian-osx-signer.yml
-+++ b/contrib/gitian-descriptors/gitian-osx-signer.yml
-@@ -1,5 +1,5 @@
- ---
++++ /dev/null
+@@ -1,37 +0,0 @@
+----
 -name: "bitcoin-dmg-signer"
-+name: "unite-dmg-signer"
- suites:
- - "bionic"
- architectures:
-@@ -7,10 +7,10 @@ architectures:
- packages:
- - "faketime"
- remotes:
+-suites:
+-- "bionic"
+-architectures:
+-- "amd64"
+-packages:
+-- "faketime"
+-remotes:
 -- "url": "https://github.com/bitcoin-core/bitcoin-detached-sigs.git"
-+- "url": "https://github.com/unite-core/unite-detached-sigs.git"
-   "dir": "signature"
- files:
+-  "dir": "signature"
+-files:
 -- "bitcoin-osx-unsigned.tar.gz"
-+- "unite-osx-unsigned.tar.gz"
- script: |
-   WRAP_DIR=$HOME/wrapped
-   mkdir -p ${WRAP_DIR}
-@@ -27,8 +27,8 @@ script: |
-     chmod +x ${WRAP_DIR}/${prog}
-   done
- 
+-script: |
+-  WRAP_DIR=$HOME/wrapped
+-  mkdir -p ${WRAP_DIR}
+-  export PATH=`pwd`:$PATH
+-  FAKETIME_PROGS="dmg genisoimage"
+-
+-  # Create global faketime wrappers
+-  for prog in ${FAKETIME_PROGS}; do
+-    echo '#!/usr/bin/env bash' > ${WRAP_DIR}/${prog}
+-    echo "REAL=\`which -a ${prog} | grep -v ${WRAP_DIR}/${prog} | head -1\`" >> ${WRAP_DIR}/${prog}
+-    echo 'export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1' >> ${WRAP_DIR}/${prog}
+-    echo "export FAKETIME=\"${REFERENCE_DATETIME}\"" >> ${WRAP_DIR}/${prog}
+-    echo "\$REAL \$@" >> $WRAP_DIR/${prog}
+-    chmod +x ${WRAP_DIR}/${prog}
+-  done
+-
 -  UNSIGNED=bitcoin-osx-unsigned.tar.gz
 -  SIGNED=bitcoin-osx-signed.dmg
-+  UNSIGNED=unite-osx-unsigned.tar.gz
-+  SIGNED=unite-osx-signed.dmg
- 
-   tar -xf ${UNSIGNED}
-   OSX_VOLNAME="$(cat osx_volname)"
+-
+-  tar -xf ${UNSIGNED}
+-  OSX_VOLNAME="$(cat osx_volname)"
+-  ./detached-sig-apply.sh ${UNSIGNED} signature/osx
+-  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "${OSX_VOLNAME}" -no-pad -r -dir-mode 0755 -apple -o uncompressed.dmg signed-app
+-  ${WRAP_DIR}/dmg dmg uncompressed.dmg ${OUTDIR}/${SIGNED}
 diff --git a/contrib/gitian-descriptors/gitian-osx.yml b/contrib/gitian-descriptors/gitian-osx.yml
 index fb59cf671..92fceb449 100644
 --- a/contrib/gitian-descriptors/gitian-osx.yml
@@ -3068,6 +3598,41 @@ index ffe4fb144..ea06e11c2 100644
  Add your key to the list if you provided Gitian signatures for two major or
 -minor releases of Bitcoin Core.
 +minor releases of unit-e.
+diff --git a/contrib/gitian-keys/keys.txt b/contrib/gitian-keys/keys.txt
+index 593fba1d0..e69de29bb 100644
+--- a/contrib/gitian-keys/keys.txt
++++ b/contrib/gitian-keys/keys.txt
+@@ -1,30 +0,0 @@
+-617C90010B3BD370B0AC7D424BB42E31C79111B8 Akira Takizawa
+-E944AE667CF960B1004BC32FCA662BE18B877A60 Andreas Schildbach
+-152812300785C96444D3334D17565732E08E5E41 Andrew Chow
+-912FD3228387123DC97E0E57D5566241A0295FA9 BtcDrak
+-C519EBCF3B926298946783EFF6430754120EC2F4 Christian Decker (cdecker)
+-F20F56EF6A067F70E8A5C99FFF95FAA971697405 centaur
+-C060A6635913D98A3587D7DB1C2491FFEB0EF770 Cory Fields
+-BF6273FAEF7CC0BA1F562E50989F6B3048A116B5 Dev Random
+-9A1689B60D1B3CCE9262307A2F40A9BF167FBA47 Erik Mossberg (erkmos)
+-D35176BE9264832E4ACA8986BF0792FBE95DC863 fivepiece
+-01CDF4627A3B88AAE4A571C87588242FBE38D3A8 Gavin Andresen
+-D3CC177286005BB8FF673294C5242A1AB3936517 jl2012
+-32EE5C4C3FA15CCADB46ABE529D4BCB6416F53EC Jonas Schnelli
+-4B4E840451149DD7FB0D633477DFAB5C3108B9A8 Jorge Timon
+-C42AFF7C61B3E44A1454CD3557AF762DB3353322 Karl-Johan Alm (kallewoof)
+-E463A93F5F3117EEDE6C7316BD02942421F4889F Luke Dashjr
+-B8B3F1C0E58C15DB6A81D30C3648A882F4316B9B Marco Falke
+-07DF3E57A548CCFB7530709189BBB8663E2E65CE Matt Corallo (BlueMatt)
+-CA03882CB1FC067B5D3ACFE4D300116E1C875A3D MeshCollider
+-E777299FC265DD04793070EB944D35F9AC3DB76A Michael Ford
+-9692B91BBF0E8D34DFD33B1882C5C009628ECF0C Michagogo
+-77E72E69DA7EE0A148C06B21B34821D4944DE5F7 Nils Schneider
+-D62A803E27E7F43486035ADBBCD04D8E9CCCAC2A Paul Rabahy
+-37EC7D7B0A217CDB4B4E007E7FAB114267E4FA04 Peter Todd
+-D762373D24904A3E42F33B08B9A408E71DAAC974 Pieter Wuille (Location: Leuven, Belgium)
+-133EAC179436F14A5CF1B794860FEB804E669320 Pieter Wuille
+-ED9BDF7AD6A55E232E84524257FF9BDBCC301009 Sjors Provoost
+-AEC1884398647C47413C1C3FB1179EB7347DC10D Warren Togami
+-79D00BAC68B56D422F945A8F8E3A8F3247DBCBBF Willy Ko
+-71A3B16735405025D447E8F274810B012346C9A6 Wladimir J. van der Laan
 diff --git a/contrib/init/README.md b/contrib/init/README.md
 index 8d3e57c52..3c1de0adb 100644
 --- a/contrib/init/README.md
@@ -6501,7 +7066,7 @@ index 83624f443..5aa610661 100644
      gen_base58_test_vectors.py invalid 50 > ../../src/test/data/base58_keys_invalid.json
 \ No newline at end of file
 diff --git a/contrib/testgen/base58.py b/contrib/testgen/base58.py
-index da67cb2d9..c811fa82c 100644
+index da67cb2d9..679ac71c7 100644
 --- a/contrib/testgen/base58.py
 +++ b/contrib/testgen/base58.py
 @@ -2,7 +2,7 @@
@@ -6522,15 +7087,6 @@ index da67cb2d9..c811fa82c 100644
      # leading 0-bytes in the input become leading-1s
      nPad = 0
      for c in v:
-@@ -106,7 +106,7 @@ def get_bcaddress_version(strAddress):
-     return ord(version)
- 
- if __name__ == '__main__':
--    # Test case (from http://gitorious.org/bitcoin/python-base58.git)
-+    # Test case (from http://gitorious.org/unite/python-base58.git)
-     assert get_bcaddress_version('15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC') is 0
-     _ohai = 'o hai'.encode('ascii')
-     _tmp = b58encode(_ohai)
 diff --git a/contrib/bitcoin-cli.bash-completion b/contrib/unite-cli.bash-completion
 similarity index 84%
 rename from contrib/bitcoin-cli.bash-completion
@@ -7621,7 +8177,7 @@ index 448918e8c..455a52efa 100644
 -* Building with downloaded Qt binaries is not officially supported. See the notes in [#7714](https://github.com/bitcoin/bitcoin/issues/7714)
 +* Building with downloaded Qt binaries is not officially supported. See the notes in [#7714](https://github.com/unite/unite/issues/7714)
 diff --git a/doc/build-unix.md b/doc/build-unix.md
-index a01ff59fa..62699bc66 100644
+index a01ff59fa..d560d84d9 100644
 --- a/doc/build-unix.md
 +++ b/doc/build-unix.md
 @@ -1,12 +1,12 @@
@@ -7756,13 +8312,11 @@ index a01ff59fa..62699bc66 100644
      ./autogen.sh
      ./configure --disable-wallet --without-gui --without-miniupnpc
      make check
-@@ -258,8 +258,8 @@ This example lists the steps necessary to setup and build a command line only, n
- Note:
+@@ -259,7 +259,7 @@ Note:
  Enabling wallet support requires either compiling against a Berkeley DB newer than 4.8 (package `db`) using `--with-incompatible-bdb`,
  or building and depending on a local version of Berkeley DB 4.8. The readily available Arch Linux packages are currently built using
--`--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD).
+ `--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD).
 -As mentioned above, when maintaining portability of the wallet between the standard Bitcoin Core distributions and independently built
-+`--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/unite/trunk/PKGBUILD).
 +As mentioned above, when maintaining portability of the wallet between the standard unit-e distributions and independently built
  node software is desired, Berkeley DB 4.8 must be used.
  
@@ -7937,7 +8491,7 @@ index 47e15e050..9536133dc 100644
  uncompressed, the set only includes P2PK and P2PKH scripts.
 \ No newline at end of file
 diff --git a/doc/developer-notes.md b/doc/developer-notes.md
-index da8384c53..fc4424e30 100644
+index da8384c53..9b58d0846 100644
 --- a/doc/developer-notes.md
 +++ b/doc/developer-notes.md
 @@ -1,121 +1,86 @@
@@ -8190,7 +8744,7 @@ index da8384c53..fc4424e30 100644
  ```c++
  //
  // ... text ...
-@@ -177,69 +129,57 @@ Not OK (used plenty in the current source, but not picked up):
+@@ -177,69 +129,54 @@ Not OK (used plenty in the current source, but not picked up):
  A full list of comment syntaxes picked up by doxygen can be found at http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html,
  but if possible use one of the above styles.
  
@@ -8208,14 +8762,14 @@ index da8384c53..fc4424e30 100644
 -
 -Run configure with `--enable-debug` to add additional compiler flags that
 -produce better debugging builds.
+-
+-### Compiling for gprof profiling
 +**compiling for debugging**
  
--### Compiling for gprof profiling
+-Run configure with the `--enable-gprof` option, then make.
 +Run configure with the --enable-debug option, then make. Or run configure with
 +CXXFLAGS="-g -ggdb -O0" or whatever debug flags you need.
  
--Run configure with the `--enable-gprof` option, then make.
--
 -### debug.log
 +**debug.log**
  
@@ -8227,12 +8781,11 @@ index da8384c53..fc4424e30 100644
  on all categories (and give you a very large debug.log file).
  
 -The Qt code routes `qDebug()` output to debug.log under category "qt": run with `-debug=qt`
-+The Qt code routes qDebug() output to debug.log under category "qt": run with -debug=qt
- to see it.
- 
--### Testnet and Regtest modes
+-to see it.
 +**testnet and regtest modes**
  
+-### Testnet and Regtest modes
+-
 -Run with the `-testnet` option to run with "play bitcoins" on the test network, if you
 +Run with the -testnet option to run with "play unites" on the test network, if you
  are testing multi-machine code that needs to operate across the internet.
@@ -8282,7 +8835,7 @@ index da8384c53..fc4424e30 100644
  
  LCOV can be used to generate a test coverage report based upon `make check`
  execution. LCOV must be installed on your system (e.g. the `lcov` package
-@@ -252,76 +192,25 @@ To enable LCOV report generation during test runs:
+@@ -252,76 +189,25 @@ To enable LCOV report generation during test runs:
  make
  make cov
  
@@ -8368,7 +8921,7 @@ index da8384c53..fc4424e30 100644
  
  Threads
  -------
-@@ -336,7 +225,7 @@ Threads
+@@ -336,7 +222,7 @@ Threads
  
  - ThreadMapPort : Universal plug-and-play startup/shutdown
  
@@ -8377,7 +8930,7 @@ index da8384c53..fc4424e30 100644
  
  - ThreadOpenAddedConnections : Opens network connections to added nodes.
  
-@@ -346,7 +235,13 @@ Threads
+@@ -346,7 +232,13 @@ Threads
  
  - DumpAddresses : Dumps IP addresses of nodes to peers.dat.
  
@@ -8392,7 +8945,7 @@ index da8384c53..fc4424e30 100644
  
  - Shutdown : Does an orderly shutdown of everything.
  
-@@ -356,7 +251,7 @@ Ignoring IDE/editor files
+@@ -356,7 +248,7 @@ Ignoring IDE/editor files
  In closed-source environments in which everyone uses the same IDE it is common
  to add temporary files it produces to the project-wide `.gitignore` file.
  
@@ -8401,7 +8954,7 @@ index da8384c53..fc4424e30 100644
  their own editors/IDE/tools, it is less common. Only you know what files your
  editor produces and this may change from version to version. The canonical way
  to do this is thus to create your local gitignore. Add this to `~/.gitconfig`:
-@@ -386,9 +281,9 @@ Development guidelines
+@@ -386,16 +278,11 @@ Development guidelines
  ============================
  
  A few non-style-related recommendations for developers, as well as points to
@@ -8412,8 +8965,15 @@ index da8384c53..fc4424e30 100644
 +General unit-e
  ----------------------
  
- - New features should be exposed on RPC first, then can be made available in the GUI
-@@ -460,21 +355,12 @@ C++ data structures
+-- New features should be exposed on RPC first, then can be made available in the GUI
+-
+-  - *Rationale*: RPC allows for better automatic testing. The test suite for
+-    the GUI is very limited
+-
+ - Make sure pull requests pass Travis CI before merging
+ 
+   - *Rationale*: Makes sure that they pass thorough testing, and that the tester will keep passing
+@@ -460,21 +347,12 @@ C++ data structures
  
  - Vector bounds checking is only enabled in debug mode. Do not rely on it
  
@@ -8438,7 +8998,7 @@ index da8384c53..fc4424e30 100644
  
  - By default, declare single-argument constructors `explicit`.
  
-@@ -509,39 +395,11 @@ Strings and formatting
+@@ -509,39 +387,11 @@ Strings and formatting
  
  - Use `ParseInt32`, `ParseInt64`, `ParseUInt32`, `ParseUInt64`, `ParseDouble` from `utilstrencodings.h` for number parsing
  
@@ -8480,7 +9040,7 @@ index da8384c53..fc4424e30 100644
  
  Variable names
  --------------
-@@ -554,13 +412,12 @@ E.g. in member initializers, prepend `_` to the argument name shadowing the
+@@ -554,13 +404,12 @@ E.g. in member initializers, prepend `_` to the argument name shadowing the
  member name:
  
  ```c++
@@ -8497,7 +9057,7 @@ index da8384c53..fc4424e30 100644
  ...
  ```
  
-@@ -605,14 +462,9 @@ Source code organization
+@@ -605,14 +454,9 @@ Source code organization
  
    - *Rationale*: Shorter and simpler header files are easier to read, and reduce compile time
  
@@ -8514,7 +9074,7 @@ index da8384c53..fc4424e30 100644
  
    - *Rationale*: Excluding headers because they are already indirectly included results in compilation
      failures when those indirect dependencies change. Furthermore, it obscures what the real code
-@@ -628,34 +480,24 @@ Source code organization
+@@ -628,135 +472,106 @@ Source code organization
  
  ```c++
  namespace mynamespace {
@@ -8549,103 +9109,105 @@ index da8384c53..fc4424e30 100644
 -...
 -#endif // BITCOIN_FOO_BAR_H
 -```
--
- GUI
- -----
++Subtrees
++----------
  
-@@ -665,98 +507,88 @@ GUI
-     should not interact with the user. That's where View classes come in. The converse also
-     holds: try to not directly access core data structures from Views.
+-GUI
+------
++Several parts of the repository are git subtrees of software maintained
++elsewhere. They are managed with
++[git-subtree](https://github.com/git/git/tree/master/contrib/subtree).
+ 
+-- Do not display or manipulate dialogs in model code (classes `*Model`)
++Some of these are maintained by active developers of Bitcoin Core, some are
++external projects without a tight relationship to Bitcoin Core.
+ 
+-  - *Rationale*: Model classes pass through events and data from the core, they
+-    should not interact with the user. That's where View classes come in. The converse also
+-    holds: try to not directly access core data structures from Views.
++Changes on the parts of the code which are pulled in as a git subtree are
++ideally done through contributions to the original upstream and then pulled in
++via subtree updates in bitcoin upstream and then merged to unit-e with a bitcoin
++merge.
  
 -- Avoid adding slow or blocking code in the GUI thread. In particular do not
 -  add new `interfaces::Node` and `interfaces::Wallet` method calls, even if they
 -  may be fast now, in case they are changed to lock or communicate across
 -  processes in the future.
-+Subtrees
-+----------
- 
--  Prefer to offload work from the GUI thread to worker threads (see
--  `RPCExecutor` in console code as an example) or take other steps (see
--  https://doc.qt.io/archives/qq/qq27-responsive-guis.html) to keep the GUI
--  responsive.
-+Several parts of the repository are git subtrees of software maintained
-+elsewhere. They are managed with
-+[git-subtree](https://github.com/git/git/tree/master/contrib/subtree).
- 
--  - *Rationale*: Blocking the GUI thread can increase latency, and lead to
--    hangs and deadlocks.
-+Some of these are maintained by active developers of Bitcoin Core, some are
-+external projects without a tight relationship to Bitcoin Core.
- 
--Subtrees
------------
-+Changes on the parts of the code which are pulled in as a git subtree are
-+ideally done through contributions to the original upstream and then pulled in
-+via subtree updates in bitcoin upstream and then merged to unit-e with a bitcoin
-+merge.
-+
 +Where this is too slow changes might also be done via pull request to the
 +Bitcoin Core version of the code. See the [bitcoin developer
 +notes](https://github.com/dtr-org/unit-e/blob/master/doc/developer-notes.md#subtrees)
 +for their policies on that.
  
--Several parts of the repository are subtrees of software maintained elsewhere.
+-  Prefer to offload work from the GUI thread to worker threads (see
+-  `RPCExecutor` in console code as an example) or take other steps (see
+-  https://doc.qt.io/archives/qq/qq27-responsive-guis.html) to keep the GUI
+-  responsive.
 +If something needs to be merged urgently we create a fork of the repo where the
 +subtree is coming from, apply the patches there and merge that as subtree from
 +our fork. This makes it clear where changes are coming from and it keeps the
 +integrity of the git subtrees in the unit-e repository without local changes.
  
+-  - *Rationale*: Blocking the GUI thread can increase latency, and lead to
+-    hangs and deadlocks.
++### Current subtrees
+ 
+-Subtrees
+-----------
++You can list the git subtrees of a repo with the command
+ 
+-Several parts of the repository are subtrees of software maintained elsewhere.
++    git log | grep git-subtree-dir | awk '{ print $2 }' | sort | uniq
+ 
 -Some of these are maintained by active developers of Bitcoin Core, in which case changes should probably go
 -directly upstream without being PRed directly against the project.  They will be merged back in the next
 -subtree merge.
-+### Current subtrees
++These are the current subtrees and where they are coming from:
  
 -Others are external projects without a tight relationship with our project.  Changes to these should also
 -be sent upstream but bugfixes may also be prudent to PR against Bitcoin Core so that they can be integrated
 -quickly.  Cosmetic changes should be purely taken upstream.
-+You can list the git subtrees of a repo with the command
++- src/leveldb
  
 -There is a tool in `test/lint/git-subtree-check.sh` to check a subtree directory for consistency with
 -its upstream repository.
-+    git log | grep git-subtree-dir | awk '{ print $2 }' | sort | uniq
++  Upstream at https://github.com/google/leveldb, maintained by Google
  
 -Current subtrees include:
-+These are the current subtrees and where they are coming from:
++- src/libsecp256k1
  
- - src/leveldb
+-- src/leveldb
 -  - Upstream at https://github.com/google/leveldb ; Maintained by Google, but
 -    open important PRs to Core to avoid delay.
 -  - **Note**: Follow the instructions in [Upgrading LevelDB](#upgrading-leveldb) when
 -    merging upstream changes to the leveldb subtree.
-+
-+  Upstream at https://github.com/google/leveldb, maintained by Google
- 
- - src/libsecp256k1
--  - Upstream at https://github.com/bitcoin-core/secp256k1/ ; actively maintaned by Core contributors.
- 
--- src/crypto/ctaes
--  - Upstream at https://github.com/bitcoin-core/ctaes ; actively maintained by Core contributors.
 +  Upstream at https://github.com/bitcoin-core/secp256k1, actively maintained
 +  by Bitcoin Core contributors.
  
--- src/univalue
--  - Upstream at https://github.com/jgarzik/univalue ; report important PRs to Core to avoid delay.
+-- src/libsecp256k1
+-  - Upstream at https://github.com/bitcoin-core/secp256k1/ ; actively maintaned by Core contributors.
 +  Subtree pulled in from a fork of the upstream repo at
 +  https://github.com/dtr-org/secp256k1-fork from the `unit-e` branch, maintained
 +  by the Unit-e developers. It contains additional patches to enable the
 +  multiset module.
  
+ - src/crypto/ctaes
+-  - Upstream at https://github.com/bitcoin-core/ctaes ; actively maintained by Core contributors.
+-
+-- src/univalue
+-  - Upstream at https://github.com/jgarzik/univalue ; report important PRs to Core to avoid delay.
+ 
 -Upgrading LevelDB
 ----------------------
-+- src/crypto/ctaes
- 
--Extra care must be taken when upgrading LevelDB. This section explains issues
--you must be aware of.
 +  Upstream at https://github.com/bitcoin-core/ctaes, actively maintained by
 +  Bitcoin Core contributors.
  
--### File Descriptor Counts
+-Extra care must be taken when upgrading LevelDB. This section explains issues
+-you must be aware of.
 +- src/univalue
+ 
+-### File Descriptor Counts
++  Upstream at https://github.com/jgarzik/univalue
  
 -In most configurations we use the default LevelDB value for `max_open_files`,
 -which is 1000 at the time of this writing. If LevelDB actually uses this many
@@ -8655,33 +9217,31 @@ index da8384c53..fc4424e30 100644
 -uses `mmap()` + `close()` to open table files without actually retaining
 -references to the table file descriptors. If you are upgrading LevelDB, you must
 -sanity check the changes to make sure that this assumption remains valid.
-+  Upstream at https://github.com/jgarzik/univalue
++### Checking subtrees
  
 -In addition to reviewing the upstream changes in `env_posix.cc`, you can use `lsof` to
 -check this. For example, on Linux this command will show open `.ldb` file counts:
-+### Checking subtrees
- 
--```bash
--$ lsof -p $(pidof bitcoind) |\
--    awk 'BEGIN { fd=0; mem=0; } /ldb$/ { if ($4 == "mem") mem++; else fd++ } END { printf "mem = %s, fd = %s\n", mem, fd}'
--mem = 119, fd = 0
--```
 +There is a tool in
 +[contrib/devtools/git-subtree-check.sh](../contrib/devtools/git-subtree-check.sh)
 +to check a subtree directory for consistency with its upstream repository. Run
 +it for example as:
  
--The `mem` value shows how many files are mmap'ed, and the `fd` value shows you
--many file descriptors these files are using. You should check that `fd` is a
--small number (usually 0 on 64-bit hosts).
+-```bash
+-$ lsof -p $(pidof bitcoind) |\
+-    awk 'BEGIN { fd=0; mem=0; } /ldb$/ { if ($4 == "mem") mem++; else fd++ } END { printf "mem = %s, fd = %s\n", mem, fd}'
+-mem = 119, fd = 0
 +```console
 +$ contrib/devtools/git-subtree-check.sh src/secp256k1
 +src/secp256k1 in HEAD currently refers to tree 8ae830321a35bc7499991d5428bec2b231f0f154
 +src/secp256k1 in HEAD was last updated in commit 520d78e7c9698245e8da1509661922068ffe67ed (tree 8ae830321a35bc7499991d5428bec2b231f0f154)
 +src/secp256k1 in HEAD was last updated to upstream commit f43d43b1a4b9d2eb426d131f9a9b756de6a2cce2 (tree 8ae830321a35bc7499991d5428bec2b231f0f154)
 +GOOD    contrib/devtools/git/subtree
-+```
+ ```
  
+-The `mem` value shows how many files are mmap'ed, and the `fd` value shows you
+-many file descriptors these files are using. You should check that `fd` is a
+-small number (usually 0 on 64-bit hosts).
+-
 -See the notes in the `SetMaxOpenFiles()` function in `dbwrapper.cc` for more
 -details.
 +### Updating subtrees
@@ -8709,7 +9269,7 @@ index da8384c53..fc4424e30 100644
  
  Git and GitHub tips
  ---------------------
-@@ -800,12 +632,26 @@ Git and GitHub tips
+@@ -800,12 +615,26 @@ Git and GitHub tips
  
          [remote "upstream-pull"]
                  fetch = +refs/pull/*:refs/remotes/upstream-pull/*
@@ -8737,7 +9297,7 @@ index da8384c53..fc4424e30 100644
  Scripted diffs
  --------------
  
-@@ -822,9 +668,9 @@ To create a scripted-diff:
+@@ -822,9 +651,9 @@ To create a scripted-diff:
      - `-BEGIN VERIFY SCRIPT-`
      - `-END VERIFY SCRIPT-`
  
@@ -8749,7 +9309,7 @@ index da8384c53..fc4424e30 100644
  
  RPC interface guidelines
  --------------------------
-@@ -850,9 +696,8 @@ A few guidelines for introducing and reviewing new RPC interfaces:
+@@ -850,9 +679,8 @@ A few guidelines for introducing and reviewing new RPC interfaces:
      parsers and formatters hard-code handling decimal numbers as floating point
      values, resulting in potential loss of precision. This is unacceptable for
      monetary values. **Always** use `AmountFromValue` and `ValueFromAmount` when
@@ -8761,7 +9321,7 @@ index da8384c53..fc4424e30 100644
  
  - Missing arguments and 'null' should be treated the same: as default values. If there is no
    default value, both cases should fail in the same way. The easiest way to follow this
-@@ -866,7 +711,7 @@ A few guidelines for introducing and reviewing new RPC interfaces:
+@@ -866,7 +694,7 @@ A few guidelines for introducing and reviewing new RPC interfaces:
  - Try not to overload methods on argument type. E.g. don't make `getblock(true)` and `getblock("hash")`
    do different things.
  
@@ -8770,7 +9330,7 @@ index da8384c53..fc4424e30 100644
  
    - *Exception*: Some RPC calls can take both an `int` and `bool`, most notably when a bool was switched
      to a multi-value, or due to other historical reasons. **Always** have false map to 0 and
-@@ -883,9 +728,10 @@ A few guidelines for introducing and reviewing new RPC interfaces:
+@@ -883,11 +711,11 @@ A few guidelines for introducing and reviewing new RPC interfaces:
    - *Rationale*: Troubleshooting a node in safe mode is difficult if half the
      RPCs don't work.
  
@@ -8779,11 +9339,14 @@ index da8384c53..fc4424e30 100644
 +  in `rpc/parameter_conversion.cpp`.
  
 -  - *Rationale*: `bitcoin-cli` and the GUI debug console use this table to determine how to
-+  - *Rationale*: `unite-cli` and the GUI debug console use this table to determine how to
-     convert a plaintext command line to JSON. If the types don't match, the method can be unusable
-     from there.
+-    convert a plaintext command line to JSON. If the types don't match, the method can be unusable
+-    from there.
++  - *Rationale*: `unite-cli` uses this table to determine how to convert a plaintext command
++    line to JSON. If the types don't match, the method can be unusable from there.
  
-@@ -907,21 +753,10 @@ A few guidelines for introducing and reviewing new RPC interfaces:
+ - A RPC method must either be a wallet method or a non-wallet method. Do not
+   introduce new methods such as `signrawtransaction` that differ in behavior
+@@ -907,21 +735,10 @@ A few guidelines for introducing and reviewing new RPC interfaces:
    RPCs whose behavior does *not* depend on the current chainstate may omit this
    call.
  
@@ -8807,7 +9370,7 @@ index da8384c53..fc4424e30 100644
 -    new RPC is replacing a deprecated RPC, to avoid both RPCs confusingly
 -    showing up in the command list.
 diff --git a/doc/dnsseed-policy.md b/doc/dnsseed-policy.md
-index 55a5c2825..14702ad83 100644
+index 55a5c2825..fe89f1bf1 100644
 --- a/doc/dnsseed-policy.md
 +++ b/doc/dnsseed-policy.md
 @@ -1,12 +1,12 @@
@@ -8844,7 +9407,7 @@ index 55a5c2825..14702ad83 100644
  network and must not be retained longer than necessary nor disclosed
  to any third party.
  
-@@ -42,13 +42,13 @@ details of their operating practices.
+@@ -42,9 +42,9 @@ details of their operating practices.
  related to the DNS seed operation.
  
  If these expectations cannot be satisfied the operator should
@@ -8856,11 +9419,6 @@ index 55a5c2825..14702ad83 100644
  
  Behavior outside of these expectations may be reasonable in some
  situations but should be discussed in public in advance.
- 
- See also
- ----------
--- [bitcoin-seeder](https://github.com/sipa/bitcoin-seeder) is a reference implementation of a DNS seed.
-+- [unite-seeder](https://github.com/sipa/unite-seeder) is a reference implementation of a DNS seed.
 diff --git a/doc/files.md b/doc/files.md
 index 5657b1e6c..aee227e12 100644
 --- a/doc/files.md
@@ -8884,7 +9442,7 @@ index 5657b1e6c..aee227e12 100644
  * indexes/txindex/*: optional transaction index database (LevelDB); since 0.17.0
  * mempool.dat: dump of the mempool's transactions; since 0.14.0.
 diff --git a/doc/fuzzing.md b/doc/fuzzing.md
-index 5dedcb51c..c7e6aabfe 100644
+index 5dedcb51c..7ccad9568 100644
 --- a/doc/fuzzing.md
 +++ b/doc/fuzzing.md
 @@ -1,7 +1,7 @@
@@ -8922,15 +9480,6 @@ index 5dedcb51c..c7e6aabfe 100644
  features "persistent mode" and "deferred forkserver" can be used. See
  https://github.com/mcarpenter/afl/tree/master/llvm_mode for details.
  
-@@ -55,7 +55,7 @@ AFLOUT=$PWD/outputs
- 
- Example inputs are available from:
- 
--- https://download.visucore.com/bitcoin/bitcoin_fuzzy_in.tar.xz
-+- https://download.visucore.com/unite/unite_fuzzy_in.tar.xz
- - http://strateman.ninja/fuzzing.tar.xz
- 
- Extract these (or other starting inputs) into the `inputs` directory before starting fuzzing.
 @@ -65,7 +65,7 @@ Fuzzing
  
  To start the actual fuzzing use:
@@ -8941,15 +9490,149 @@ index 5dedcb51c..c7e6aabfe 100644
  
  You may have to change a few kernel parameters to test optimally - `afl-fuzz`
 diff --git a/doc/gitian-building.md b/doc/gitian-building.md
-index 3a48f4a0b..8d1ec03bf 100644
+index 3a48f4a0b..28ce2a1c7 100644
 --- a/doc/gitian-building.md
 +++ b/doc/gitian-building.md
-@@ -1,4 +1,4 @@
+@@ -1,4 +1,138 @@
  Gitian building
  ================
  
 -This file was moved to [the Bitcoin Core documentation repository](https://github.com/bitcoin-core/docs/blob/master/gitian-building.md) at [https://github.com/bitcoin-core/docs](https://github.com/bitcoin-core/docs).
-+This file was moved to [the unit-e documentation repository](https://github.com/unite-core/docs/blob/master/gitian-building.md) at [https://github.com/unite-core/docs](https://github.com/unite-core/docs).
++### Setup your gitian host
++
++If you are using Ubuntu, Debian or MacOS, running the `gitian-build.py` with
++`--setup` flag should be enough. If you are having problems or if you are using
++different operating system, you can find some more information in [the gitian
++guide](https://github.com/bitcoin-core/docs/tree/master/gitian-building)
++for Bitcoin Core on which the unit-e build process is based. Some of this
++information might need adaption to unit-e, though.
++
++### Build and sign unit-e for Linux, Windows, and OS X:
++
++Run the automated script found in [contrib/gitian-build.py](/contrib/gitian-build.py) from your top level build directory:
++
++	./unit-e/contrib/gitian-build.py [--setup] --build [--verify] [--os lwm] --signer <signer> --version <version>
++
++Build output expected:
++
++ - In the `unit-e-binaries/<version>` directory:
++   * source tarball `unit-e-<version>.tar.gz`
++   * linux 32- and 64-bit dist tarballs `unit-e-<version>-linux[32|64].tar.gz`
++   * windows 32- and 64-bit unsigned installers `unit-e-<version>-win[32|64]-setup-unsigned.exe`
++   * windows 32- and 64-bit unsigned dist zips `unit-e-<version>-win[32|64].zip`
++   * OS X unsigned dist tarball `unit-e-<version>-osx64.tar.gz`
++
++ - In the `unit-e-sigs` directory:
++   * gitian build result `<version>-<linux|{win|osx}-unsigned>/<signer>/unit-e-<linux|win|osx>-<version>-build.assert`
++   * build result signature `<version>-<linux|{win|osx}-unsigned>/<signer>/unit-e-<linux|win|osx>-<version>-build.assert.sig`
++
++The changes will be automatically committed. Push your results to the signatures repository.
++
++The Mac OS X builds require some files from the Apple SDK. See the notes at the
++end of the file how to provide them.
++
++### Optional: Seed the Gitian sources cache and offline git repositories
++
++By default, Gitian will fetch source files as needed. To cache them ahead of time:
++
++    pushd ./gitian-builder
++    make -C ../unit-e/depends download SOURCES_PATH=`pwd`/cache/common
++    popd
++
++Only missing files will be fetched, so this is safe to re-run for each build.
++
++NOTE: Offline builds must use the `--url` flag to ensure Gitian fetches only from local URLs. For example:
++
++    ./unit-e/contrib/gitian-build.py --url file:///path/to/unit-e {rest of arguments}
++
++It is not possible to specify the path to local signatures repository.
++
++### Verify other gitian builders signatures to your own.
++
++Add other unit-e Gitian builders' keys to your gpg keyring, and/or refresh keys: See `../unit-e/contrib/gitian-keys/README.md`.
++
++Run the build script with `--verify` flag. Note that some of the signatures might be missing at this point, so pay attention to the script output.
++
++### Create Windows detached signatures (Codesigner only)
++
++This is only to be done by the codesigner.
++
++- Only one person handles codesigning. Everyone else should skip to the next step.
++- Only once the Windows builds each have 3 matching signatures may they be signed with their respective release keys.
++
++	./unit-e/contrib/gitian-build.py [--setup] [--build] --codesign -o w --signer <signer> --version <version> [--win-code-cert unit-e/contrib/windeploy/win-codesign.cert --win-code-key <path to corresponding key>]
++
++The signatures will be commited in `unit-e-sigs/<version>-detached`. Push them to the repository.
++
++### Create signed Windows binaries
++
++Wait for Windows detached signatures:
++- Once the Windows builds each have 3 matching signatures, they will be signed with their respective release keys.
++- Detached signatures will then be committed to the [unit-e-sigs](https://github.com/dtr-org/unit-e-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
++
++Create the signed Windows binary
++
++	./unit-e/contrib/gitian-build.py [--setup] [--build] --sign [--verify] [--os w] --signer <signer> --version <version>
++
++The signatures for signed builds will be committed in `unit-e-sigs/<version>-win-signed/<signer>`. Verify the signed binaries and push the signatures to the repository.
++
++### Notes for Mac Gitian builds
++
++Apple's version of binutils (called cctools) contains lots of functionality
++missing in the FSF's binutils. In addition to extra linker options for
++frameworks and sysroots, several other tools are needed as well such as
++install_name_tool, lipo, and nmedit. These do not build under linux, so they
++have been patched to do so. The work here was used as a starting point:
++[mingwandroid/toolchain4](https://github.com/mingwandroid/toolchain4).
++
++In order to build a working toolchain, the following source packages are needed
++from Apple: cctools, dyld, and ld64.
++
++These tools inject timestamps by default, which produce non-deterministic
++binaries. The ZERO_AR_DATE environment variable is used to disable that.
++
++This version of cctools has been patched to use the current version of clang's
++headers and its libLTO.so rather than those from llvmgcc, as it was
++originally done in toolchain4.
++
++To complicate things further, all builds must target an Apple SDK. These SDKs
++are free to download, but not redistributable.
++To obtain it, register for a developer account, then download the [Xcode 7.3.1 dmg](https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_7.3.1/Xcode_7.3.1.dmg).
++
++This file is several gigabytes in size, but only a single directory inside is
++needed:
++```
++Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
++```
++
++Unfortunately, the usual linux tools (7zip, hpmount, loopback mount) are incapable of opening this file.
++To create a tarball suitable for Gitian input, there are two options:
++
++Using Mac OS X, you can mount the dmg, and then create it with:
++```
++  $ hdiutil attach Xcode_7.3.1.dmg
++  $ tar -C /Volumes/Xcode/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -czf MacOSX10.11.sdk.tar.gz MacOSX10.11.sdk
++```
++
++Alternatively, you can use 7zip and SleuthKit to extract the files one by one.
++The script contrib/macdeploy/extract-osx-sdk.sh automates this. First ensure
++the dmg file is in the current directory, and then run the script. You may wish
++to delete the intermediate 5.hfs file and MacOSX10.11.sdk (the directory) when
++you've confirmed the extraction succeeded.
++
++```bash
++apt-get install p7zip-full sleuthkit
++contrib/macdeploy/extract-osx-sdk.sh
++rm -rf 5.hfs MacOSX10.11.sdk
++```
++
++The Gitian descriptors build 2 sets of files: Linux tools, then Apple binaries
++which are created using these tools. The build process has been designed to
++avoid including the SDK's files in Gitian's outputs. All interim tarballs are
++fully deterministic and may be freely redistributed.
++
++The MacOSX10.11.sdk.tar.gz file needs to be copied to the gitian-build input
++directory.
 diff --git a/doc/init.md b/doc/init.md
 index 239b74e4e..e259dc1e0 100644
 --- a/doc/init.md
