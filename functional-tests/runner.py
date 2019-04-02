@@ -1,6 +1,6 @@
 # Copyright (c) 2019 The Unit-e developers
 # Distributed under the MIT software license, see the accompanying
-# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+# file COPYING or https://opensource.org/licenses/MIT.
 
 import subprocess
 from pathlib import Path
@@ -85,12 +85,10 @@ class Runner:
         if git_revision != self.bitcoin_git_revision:
             raise RuntimeError(f"Expected git revision '{self.bitcoin_git_revision}', got '{git_revision}'")
 
-    def run_clonemachine(self, option=None, cwd=None):
+    def run_clonemachine(self, cmd="fork", cwd=None):
         if cwd is None:
             cwd = self.git_dir
-        cmd = [self.clonemachine, "--unit-e-branch", "master"]
-        if option:
-            cmd.append(option)
+        cmd = [self.clonemachine, cmd]
         return subprocess.run(cmd, cwd = cwd, stdout=subprocess.PIPE, check=True)
 
     def get_commit_date(self, git_revision, git_dir=None):

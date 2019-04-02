@@ -1,6 +1,6 @@
 # Copyright (c) 2019 The Unit-e developers
 # Distributed under the MIT software license, see the accompanying
-# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+# file COPYING or https://opensource.org/licenses/MIT.
 
 # Regression tests for clonemachine, checks against known good substitutions
 #
@@ -22,7 +22,7 @@ def runner():
 
 def test_urls(runner):
     runner.apply_diff("naming")
-    runner.run_clonemachine("--substitute-unit-e-urls")
+    runner.run_clonemachine("substitute-unit-e-urls")
     runner.commit("Ran clonemachine.py --substitute-unit-e-urls")
     runner.write_diff("urls")
     assert runner.compare_latest_diffs("urls") == ""

@@ -1,3 +1,6 @@
+# Copyright (c) 2019 The Unit-e developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or https://opensource.org/licenses/MIT.
 class UnitESubstituter:
     """
     Logic for substituting strings in the unit-e codebase. This is needed when

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 expandtab
-# Copyright (c) 2018 The Unit-e developers
+# Copyright (c) 2018-2019 The Unit-e developers
 # Distributed under the MIT software license, see the accompanying
-# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+# file COPYING or https://opensource.org/licenses/MIT.
 
 import subprocess
 
@@ -105,7 +105,7 @@ class Fork:
         self.processor = Processor(self.config)
 
     def show_upstream_diff(self, unit_e_branch, bitcoin_branch):
-        result = subprocess.run(['git', 'merge-base', 'HEAD', unit_e_branch], stdout=subprocess.PIPE)
+        result = subprocess.run(['git', 'merge-base', bitcoin_branch, unit_e_branch], stdout=subprocess.PIPE)
         merge_base = result.stdout.decode('utf-8').rstrip()
         print("Changes of appropriated files since last merge:")
         for file in self.config.appropriated_files:
@@ -209,10 +209,7 @@ class Fork:
         source_revision = self.processor.appropriate_files(unit_e_branch)
         self.commit(f'Appropriate files from unit-e\n\nSource revision: {source_revision}\n')
 
-    def run(self, unit_e_branch, bitcoin_branch):
-        if unit_e_branch and bitcoin_branch:
-            self.show_upstream_diff(unit_e_branch, bitcoin_branch)
-
+    def run(self, unit_e_branch):
         self.remove_files(unit_e_branch)
         self.replace_ports()
         self.replace_currency_symbol()
