@@ -5,6 +5,7 @@
 # file COPYING or https://opensource.org/licenses/MIT.
 
 import subprocess
+import yaml
 
 from processor import Processor
 
@@ -99,26 +100,44 @@ class ForkConfig:
             ".github/ISSUE_TEMPLATE.md",
         ]
 
+    def read_from_branch(self, branch, git_dir="."):
+        """
+        Read configuration from the YAML file `.clonemachine` on the given
+        branch of the given repository and merge it with the predefined values
+        from this class.
+        """
+        if branch:
+            result = subprocess.run(['git', 'show', branch + ':.clonemachine'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=git_dir)
+            if result.returncode == 0:
+                config = yaml.safe_load(result.stdout.decode('utf-8'))
+                self.appropriated_files = list(set(config["appropriated_files"]).union(self.appropriated_files))
+                self.removed_files = list(set(config["removed_files"]).union(self.removed_files))
+
 class Fork:
-    def __init__(self):
+    def __init__(self, unit_e_branch = None, bitcoin_branch = None):
+        self.unit_e_branch = unit_e_branch
+        self.bitcoin_branch = bitcoin_branch
+
         self.config = ForkConfig()
+        self.config.read_from_branch(self.unit_e_branch)
+
         self.processor = Processor(self.config)
 
-    def show_upstream_diff(self, unit_e_branch, bitcoin_branch):
-        result = subprocess.run(['git', 'merge-base', bitcoin_branch, unit_e_branch], stdout=subprocess.PIPE)
+    def show_upstream_diff(self):
+        result = subprocess.run(['git', 'merge-base', self.bitcoin_branch, self.unit_e_branch], stdout=subprocess.PIPE)
         merge_base = result.stdout.decode('utf-8').rstrip()
         print("Changes of appropriated files since last merge:")
         for file in self.config.appropriated_files:
-            subprocess.run(['git', 'log', '-p', merge_base + '..' + bitcoin_branch, file])
+            subprocess.run(['git', 'log', '-p', merge_base + '..' + self.bitcoin_branch, file])
         print("Changes of removed files since last merge:")
         for file in self.config.removed_files:
-            subprocess.run(['git', 'log', '-p', merge_base + '..' + bitcoin_branch, file])
+            subprocess.run(['git', 'log', '-p', merge_base + '..' + self.bitcoin_branch, file])
 
     def commit(self, message):
         subprocess.run(['git', 'commit', '-am', message])
 
-    def remove_files(self, unit_e_branch):
-        self.processor.remove_files(unit_e_branch)
+    def remove_files(self):
+        self.processor.remove_files(self.unit_e_branch)
         self.commit('Remove files')
 
     def replace_ports(self):
@@ -177,6 +196,29 @@ class Fork:
         self.processor.apply_recursively(self.processor.substitute_bitcoin_core_identifier_in_file, ['git', 'grep', '-il', 'bitcoin core'])
         self.commit('Rename occurences of "bitcoin core" to "unit-e"')
 
+    def adapt_executables(self):
+        self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoind", "unit-e"))
+        self.processor.replace_recursively('bitcoind', 'unit_e', match_before="_")
+        self.processor.replace_recursively('bitcoind', 'unit_e', match_after="_")
+        self.processor.replace_recursively('bitcoind', 'unit-e')
+        self.processor.replace_recursively('BITCOIND', 'UNIT_E')
+        self.processor.replace_recursively('bitcoinds', 'unit-e daemons')
+
+        self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoin-cli", "unit-e-cli"))
+        self.processor.git_move_file("test/functional/interface_bitcoin_cli.py", "bitcoin_cli", "unit_e_cli")
+        self.processor.replace_recursively('bitcoin-cli', 'unit-e-cli')
+        self.processor.replace_recursively('bitcoin_cli', 'unit_e_cli')
+        self.processor.replace_recursively('BITCOINCLI', 'UNIT_E_CLI')
+
+        self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoin-tx", "unit-e-tx"))
+        self.processor.replace_recursively('bitcoin-tx', 'unit-e-tx')
+        self.processor.replace_recursively('bitcoin_tx', 'unit_e_tx')
+        self.processor.replace_recursively('BITCOINTX', 'UNIT_E_TX')
+
+        self.processor.replace_recursively('bitcoin.conf', 'unit-e.conf')
+
+        self.commit('Adapt names of executables')
+
     def replace_bitcoin_identifiers(self):
         # special case of daemon name at beginning of the sentence
         self.processor.replace_in_file('doc/zmq.md', 'Bitcoind appends', 'The unit-e daemon appends')
@@ -205,14 +247,15 @@ class Fork:
         self.processor.remove_trailing_whitespace('*.py')
         self.commit('Remove trailing whitespace')
 
-    def appropriate_files(self, unit_e_branch):
-        source_revision = self.processor.appropriate_files(unit_e_branch)
+    def appropriate_files(self):
+        source_revision = self.processor.appropriate_files(self.unit_e_branch)
         self.commit(f'Appropriate files from unit-e\n\nSource revision: {source_revision}\n')
 
-    def run(self, unit_e_branch):
-        self.remove_files(unit_e_branch)
+    def run(self):
+        self.remove_files()
         self.replace_ports()
         self.replace_currency_symbol()
+        self.adapt_executables()
         self.move_paths()
         self.adapt_urls()
         self.replace_bitcoin_core_identifiers()
@@ -220,5 +263,5 @@ class Fork:
         self.adjust_code()
         self.replace_unit_names()
         self.remove_trailing_whitespace()
-        if unit_e_branch:
-            self.appropriate_files(unit_e_branch)
+        if self.unit_e_branch:
+            self.appropriate_files()

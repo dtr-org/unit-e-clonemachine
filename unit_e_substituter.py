@@ -56,3 +56,24 @@ class UnitESubstituter:
             r"https://docs.unit-e.io/reference/p2p/\1.html")
         processor.replace_recursively("www.unite.org", "unit-e.io")
         processor.replace_recursively("unite.org", "bitcoin.org")
+
+    def substitute_executables(self, processor):
+        processor.apply_recursively(lambda path: processor.git_move_file(path, "united", "unit-e"))
+        processor.replace_recursively('united', 'unit_e', match_before="_")
+        processor.replace_recursively('united', 'unit_e', match_after="_")
+        processor.replace_recursively('united', 'unit-e')
+        processor.replace_recursively('UNITED', 'UNIT_E')
+        processor.replace_recursively('uniteds', 'unit-e daemons')
+
+        processor.apply_recursively(lambda path: processor.git_move_file(path, "unite-cli", "unit-e-cli"))
+        processor.git_move_file("test/functional/interface_unite_cli.py", "unite_cli", "unit_e_cli")
+        processor.replace_recursively('unite-cli', 'unit-e-cli')
+        processor.replace_recursively('unite_cli', 'unit_e_cli')
+        processor.replace_recursively('UNITECLI', 'UNIT_E_CLI')
+
+        processor.apply_recursively(lambda path: processor.git_move_file(path, "unite-tx", "unit-e-tx"))
+        processor.replace_recursively('unite-tx', 'unit-e-tx')
+        processor.replace_recursively('unite_tx', 'unit_e_tx')
+        processor.replace_recursively('UNITETX', 'UNIT_E_TX')
+
+        processor.replace_recursively('unite.conf', 'unit-e.conf')

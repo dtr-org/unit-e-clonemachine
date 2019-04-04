@@ -135,7 +135,7 @@ class Processor:
 
     def git_move_file(self, path, needle, replacement):
         target = path.replace(needle, replacement)
-        if target == path:
+        if target == path or not os.path.exists(path):
             return
         target_parent = '/'.join(target.split('/')[:-1])
         subprocess.run(['mkdir', '-p', target_parent])
@@ -210,22 +210,13 @@ class Processor:
 
         return subst
 
-    def read_config(self, branch: str, config_key: str, initial_value: List[str]) -> set:
-        combined_value = set(initial_value)
-        if branch:
-            result = subprocess.run(['git', 'show', branch + ':.clonemachine'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            if result.returncode == 0:
-                config = yaml.safe_load(result.stdout.decode('utf-8'))
-                combined_value = set(config[config_key]).union(initial_value)
-        return combined_value
-
     def appropriate_files(self, branch):
-        for file in self.read_config(branch, "appropriated_files", self.config.appropriated_files):
+        for file in self.config.appropriated_files:
             subprocess.run(['git', 'checkout', branch, file])
         result = subprocess.run(['git', 'rev-parse', branch], stdout=subprocess.PIPE)
         return result.stdout.decode('utf-8').rstrip()
 
     def remove_files(self, branch):
-        for file in self.read_config(branch, "removed_files", self.config.removed_files):
+        for file in self.config.removed_files:
             if os.path.exists(file):
                 subprocess.run(['git', 'rm', file])

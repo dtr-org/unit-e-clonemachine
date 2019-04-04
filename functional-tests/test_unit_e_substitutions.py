@@ -23,6 +23,13 @@ def runner():
 def test_urls(runner):
     runner.apply_diff("naming")
     runner.run_clonemachine("substitute-unit-e-urls")
-    runner.commit("Ran clonemachine.py --substitute-unit-e-urls")
+    runner.commit("Ran clonemachine.py substitute-unit-e-urls")
     runner.write_diff("urls")
     assert runner.compare_latest_diffs("urls") == ""
+
+def test_executables(runner):
+    runner.apply_diff("urls")
+    runner.run_clonemachine("substitute-unit-e-executables")
+    runner.commit("Ran clonemachine.py substitute-unit-e-executables")
+    runner.write_diff("executables")
+    assert runner.compare_latest_diffs("executables") == ""

@@ -7,6 +7,7 @@
   clonemachine.py file <filename>
   clonemachine.py substitute-unit-e-naming
   clonemachine.py substitute-unit-e-urls
+  clonemachine.py substitute-unit-e-executables
   clonemachine.py show-upstream-diff --bitcoin-branch=<name>
   clonemachine.py -h | --help
 
@@ -25,6 +26,7 @@ Commands:
                               and "UnitE" by "Unit-e".
   substitute-unit-e-urls      Substitute wrongly subsituted URLs such as to the
                               bitcoin repo or the bips.
+  substitute-unit-e-executables  Rename `united` to `unit-e`
   show-upstream-diff          Show how upstream has changed appropriated and
                               removed files since last merge. Requires a
                               `--bitcoin-branch`.
@@ -55,7 +57,7 @@ if __name__ == "__main__":
     unit_e_branch = arguments["--unit-e-branch"]
     bitcoin_branch = arguments["--bitcoin-branch"]
     if arguments["fork"]:
-        Fork().run(unit_e_branch)
+        Fork(unit_e_branch, bitcoin_branch).run()
     elif arguments["file"]:
         filename = arguments["filename"]
         print(f"Substituting strings in file {filename}")
@@ -66,9 +68,9 @@ if __name__ == "__main__":
         UnitESubstituter().substitute_naming(processor)
     elif arguments["substitute-unit-e-urls"]:
         UnitESubstituter().substitute_urls(processor)
+    elif arguments["substitute-unit-e-executables"]:
+        UnitESubstituter().substitute_executables(processor)
     elif arguments["show-upstream-diff"]:
-        if not bitcoin_branch:
-            sys.exit("--show-upstream-diff requires the --bitcoin-branch option")
-        Fork().show_upstream_diff(unit_e_branch, bitcoin_branch)
+        Fork(unit_e_branch, bitcoin_branch).show_upstream_diff()
     else:
         sys.exit("Unable to process command")

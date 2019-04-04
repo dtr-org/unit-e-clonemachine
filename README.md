@@ -110,7 +110,7 @@ they yield the same results:
   base and compare with a newly created one after applying `clonemachine.py
   --substitute-unit-e-*`.
 * Create a new reference diff by running `./create_reference_data.py` in the
-  `functional-tests` directrory.
+  `functional-tests` directory.
 * Implement the corresponding changes in clonemachine in `fork.py`.
 * Run `pytest test_unit_e_substitutions.py` to check that the changes have the
   same result. If they don't you can find the diff in

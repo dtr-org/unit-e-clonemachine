@@ -8,6 +8,12 @@ import os
 import datetime
 import yaml
 
+import sys
+from os.path import dirname, abspath
+sys.path.insert(0, dirname(dirname(abspath(__file__))))
+from fork import ForkConfig
+from processor import Processor
+
 class Runner:
     def __init__(self, git_dir):
         self.base_path = Path(os.path.dirname(__file__))
@@ -105,6 +111,10 @@ class Runner:
         return self.run_git(["rev-parse", rev], cwd=cwd)
 
     def write_diff(self, label, expected=False, verbose=False):
+        config = ForkConfig()
+        config.read_from_branch("master", self.git_dir)
+        exclude_files = config.appropriated_files + config.removed_files
+
         if verbose:
             print(f"Writing diff '{label}' ...")
 
@@ -114,7 +124,10 @@ class Runner:
             suffix = "actual"
         clonemachine_filename = f"clonemachine-{label}-{suffix}.diff"
         diff_file = self.test_data_path / clonemachine_filename
-        diff = self.run_git(["diff", self.bitcoin_git_revision])
+
+        exclude_options = [f":(exclude){filename}" for filename in exclude_files]
+        diff = self.run_git(["diff", self.bitcoin_git_revision] + exclude_options)
+
         with diff_file.open("w") as file:
             file.write(diff)
             file.write("\n")

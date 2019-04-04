@@ -20,7 +20,7 @@ def runner():
     runner.fetch_bitcoin()
     return runner
 
-def test_naming(runner):
+def test_executables(runner):
     runner.run_clonemachine()
-    runner.write_diff("urls")
-    assert runner.compare_latest_diffs("urls") == ""
+    runner.write_diff("executables")
+    assert runner.compare_latest_diffs("executables") == ""
