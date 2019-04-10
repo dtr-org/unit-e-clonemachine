@@ -224,6 +224,8 @@ class Fork:
         self.processor.replace_in_file('doc/zmq.md', 'Bitcoind appends', 'The unit-e daemon appends')
         # it's a unit, not a name, in this file
         self.processor.replace_in_file('test/functional/wallet_labels.py', "50 Bitcoins", "50 UTEs")
+        # default datadir on Unix
+        self.processor.replace_recursively("/.bitcoin", "/.unit-e", match_before="")
         # all other cases
         self.processor.apply_recursively(self.processor.substitute_bitcoin_identifier_in_file, ['git', 'grep', '-il', 'bitcoin', '.'])
         self.commit('Rename occurences of "bitcoin" to "unit-e"')
