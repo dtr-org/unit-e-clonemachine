@@ -9,13 +9,13 @@ This python script applies basic transformations to the Bitcoin Core codebase:
 - fixes tests accordingly
 - etc.
 
-## purpose
+## Purpose
 
 The idea is to apply this script every time we rebase against/merge with the
 [Bitcoin Core repository](https://github.com/bitcoin/bitcoin). This way we can
 have things renamed nicely and save ourselves a lot of merge headaches.
 
-## workflow
+## Workflow
 
 We work on our fork of bitcoin. Whenever we want to merge with bitcoin upstream
 we fork the bitcoin branch we want to merge with _again_ and apply the clonemachine
@@ -40,36 +40,36 @@ running `clonemachine.py show-upstream-diff`. You need to specify the
 `--bitcoin-branch` option (in the scenario from above it would be
 `--bitcoin-branch=bitcoin/master`).
 
-## mechanics
+## Mechanics
 
 The transformations are carried out in a safe way, i.e. certain replacements
 must not happen (so there is a blacklist to prevent that), as for example
 the mac build downloads dependencies from `bitcoincore.org` (the blacklist
 item would be exactly that `bitcoincore.org`, i.e. the script does not replace
-some occurences if they occur in a certain context).
+some occurrences if they occur in a certain context).
 
-Also some replacements only happen if they are not preceeded or followed by
-a certain regular expression (artifical example: to replace `unt` safely but
+Also some replacements only happen if they are not preceded or followed by
+a certain regular expression (contrived example: to replace `unt` safely but
 not `grunt`).
 
-## what it does not do
+## What it does not do
 
 It does not apply certain patches which alter the behavior of the coin.
 All you get from applying this script is a generic altcoin which works
 exactly like bitcoin but is named unit-e. It helps, but it does not do
 everything (and it is not intended to).
 
-## requirements
+## Requirements
 
 Clonemachine requires Python 3.6 or later.
 
-## setup
+## Setup
 
 In order to run clonemachine and its tests you need to install its dependencies.
 You can do so by running `pip3 install -r requirements.txt` in the root dir of
 the repository.
 
-## tests
+## Tests
 
 Clonemachine comes with a couple of unit, integration, and regression tests.
 They can be run through `make`. See the [`Makefile`](Makefile) for some more
@@ -91,7 +91,7 @@ If the regression fails, it writes a file `diff.diff` in the `tmp` directory.
 There you can see what changes are different from what is expected. It's a diff
 of diffs so brace yourself with some abstraction when reading it ;-).
 
-## changes of how substitutions are done
+## Changes of how substitutions are done
 
 If substitutions are changed in clonemachine so that it substitutes differently
 than at previous runs, there will be merge conflicts, if the code in the
@@ -118,3 +118,18 @@ they yield the same results:
   passes.
 * Submit pull request for `unit-e` after applying `clonemachine.py
   --substitute-unit-e-*` and for clonemachine commit the changes there.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on how to contribute
+to unit-e-clonemachine.
+
+The Unit-e team is committed to fostering a welcoming and harassment-free
+environment. All participants are expected to adhere to our [code of
+conduct](CODE_OF_CONDUCT.md).
+
+## License
+
+unit-e-clonemachine is released under the terms of the MIT license. See
+[COPYING](COPYING) for more information or see
+https://opensource.org/licenses/MIT.
