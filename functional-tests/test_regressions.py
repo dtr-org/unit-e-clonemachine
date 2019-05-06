@@ -17,10 +17,16 @@ def runner():
     """
     runner = Runner("unit-e")
     runner.checkout_unit_e_clone(label="urls")
-    runner.fetch_bitcoin()
     return runner
 
 def test_latest(runner):
+    runner.fetch_bitcoin()
     runner.run_clonemachine()
     runner.write_diff("latest")
     assert runner.compare_latest_diffs("latest") == ""
+
+def test_bitcoin_0_18(runner):
+    runner.fetch_bitcoin(branch="0.18")
+    runner.run_clonemachine()
+    runner.write_diff("0.18")
+    assert runner.compare_latest_diffs("0.18") == ""

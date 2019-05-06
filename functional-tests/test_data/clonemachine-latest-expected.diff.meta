@@ -1,7 +1,7 @@
 bitcoin_branch: 0.17
 bitcoin_commit_date: 2018-11-06T09:43:57+01:00
 bitcoin_git_revision: 1e49fe450dbb0c258776526dba3ee583461d42ff
-clonemachine_commit_date: 2019-04-10T09:54:26Z
-clonemachine_git_revision: 88e6f963859b2c48bc51687c84b61f651f9d454c+changes
+clonemachine_commit_date: 2019-05-03T14:54:39Z
+clonemachine_git_revision: 414d47655650821db55ce39bfd38b7eecbc135b6+changes
 unit_e_commit_date: 2019-03-26T12:08:02+01:00
 unit_e_git_revision: cc3bb51638a2e3dc756412f055aae92ae305a467

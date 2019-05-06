@@ -71,7 +71,7 @@ class Processor:
         files = subprocess.run(["git", "grep", "-l", needle], stdout=subprocess.PIPE)
         for f in files.stdout.splitlines():
             path = f.decode('utf8')
-            if self.is_hidden_file(path) or self.is_in_excluded_path(path):
+            if self.is_in_excluded_path(path):
                 continue
             with open(path, 'r') as source_file:
                 contents = source_file.read()
@@ -105,9 +105,6 @@ class Processor:
         with open(path, 'w') as source_file:
             source_file.write(out)
 
-    def is_hidden_file(self, path):
-        return any(map(lambda x: len(x) > 1 and x.startswith('.'), path.split('/')[:-1]))
-
     def is_in_excluded_path(self, path):
         normalized = "/".join(filter(lambda x: x != '.' and len(x) > 0, path.split('/')))
         for excl in self.config.excluded_paths:
@@ -115,11 +112,11 @@ class Processor:
                 return True
         return False
 
-    def apply_recursively(self, func, command=['find', '.', '-type', 'f']):
+    def apply_recursively(self, func, command=['git', 'ls-tree', '-r', 'HEAD', '--name-only']):
         files = subprocess.run(command, stdout=subprocess.PIPE)
         for f in files.stdout.splitlines():
             path = f.decode('utf8')
-            if self.is_hidden_file(path) or self.is_in_excluded_path(path):
+            if self.is_in_excluded_path(path):
                 continue
             func(path)
 
@@ -138,7 +135,8 @@ class Processor:
         if target == path or not os.path.exists(path):
             return
         target_parent = '/'.join(target.split('/')[:-1])
-        subprocess.run(['mkdir', '-p', target_parent])
+        if target_parent:
+            subprocess.run(['mkdir', '-p', target_parent])
         result = subprocess.run(["git", "mv", path, target])
         if result.returncode != 0:
             exit(result.returncode)

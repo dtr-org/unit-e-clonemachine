@@ -59,7 +59,7 @@ if __name__ == "__main__":
     if arguments["fork"]:
         Fork(unit_e_branch, bitcoin_branch).run()
     elif arguments["file"]:
-        filename = arguments["filename"]
+        filename = arguments["<filename>"]
         print(f"Substituting strings in file {filename}")
         processor.substitute_bitcoin_core_identifier_in_file(filename)
         processor.substitute_bitcoin_identifier_in_file(filename)

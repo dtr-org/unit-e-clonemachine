@@ -30,10 +30,10 @@ class ForkConfig:
             "bitcointalk.org",
             # some comments link to discussions on stackexchange
             "bitcoin.stackexchange",
-            # reference to secp256k1
-            "github.com/bitcoin-core/secp256k1",
-            # reference to ctaes
-            "github.com/unite-core/ctaes",
+            # references to bitcoin specific infrastructure such as the upstream
+            # sources for git subtrees
+            "bitcoin-core",
+            "branch bitcoin-fork",
             # Python packagages used in functional tests
             "python-bitcoinrpc",
             "python-bitcoinlib",
@@ -86,6 +86,15 @@ class ForkConfig:
                 # the message now contains "Unit-e" in strMessageMagic instead of "Bitcoin", thus its signature changes
                 "expected_signature = 'INbVnW4e6PeRmsv2Qgu8NuopvrVjkcxob+sX8OcZG0SALhWybUjzMLPdAsXI46YZGb0KQTRii+wWIQzRpG/U+S0='": \
                     "expected_signature = 'IBn0HqnF0UhqTgGOiEaQouMyisWG4AOVQS+OJwVXGF2eK+11/YswSl3poGNeDLqYcNIIfTxMMy7o3XfEnxozgIM='"
+            },
+            'util_tests.cpp': {
+                # capitalization of substituted strings does not work
+                '(Capitalize("unite"), "Unit-e")': '(Capitalize("unit"), "Unit")'
+            },
+            'test_node.py': {
+                # executable name used as variable
+                'timewait, unit-e, unit_e_cli': 'timewait, unit_e, unit_e_cli',
+                'self.binary = unit-e': 'self.binary = unit_e'
             }
         }
 
@@ -167,8 +176,16 @@ class Fork:
         self.commit(msg)
 
     def replace_currency_symbol(self):
+        msg = "Change currency symbol\n\n"
+
         self.processor.replace_recursively("BTC", "UTE", match_before="$|[^a-bd-ln-tv-zA-Z]")
-        self.commit('Change currency token BTC to UTE')
+        msg += "* Change currency token BTC to UTE\n"
+
+        self.processor.replace_in_file('src/test/fs_tests.cpp', '₿', 'U⋮')
+        self.processor.replace_in_file('test/functional/test_runner.py', '₿', 'U⋮')
+        msg += "* Change unicode symbol\n"
+
+        self.commit(msg)
 
     def move_paths(self):
         self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoin", "unite"))
@@ -197,13 +214,16 @@ class Fork:
         self.commit('Rename occurences of "bitcoin core" to "unit-e"')
 
     def adapt_executables(self):
+        self.processor.replace_in_file('test/functional/test_framework/test_framework.py', 'options.bitcoind', 'options.unit_e')
+        self.processor.replace_in_file('test/functional/test_framework/test_framework.py', 'options.bitcoind', 'options.unit_e')
         self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoind", "unit-e"))
         self.processor.replace_recursively('bitcoind', 'unit_e', match_before="_")
-        self.processor.replace_recursively('bitcoind', 'unit_e', match_after="_")
+        self.processor.replace_recursively('bitcoind', 'unit_e', match_after="[_=]")
         self.processor.replace_recursively('bitcoind', 'unit-e')
         self.processor.replace_recursively('BITCOIND', 'UNIT_E')
         self.processor.replace_recursively('bitcoinds', 'unit-e daemons')
 
+        self.processor.replace_in_file('test/functional/test_framework/test_framework.py', 'options.bitcoincli', 'options.unit_e_cli')
         self.processor.apply_recursively(lambda path: self.processor.git_move_file(path, "bitcoin-cli", "unit-e-cli"))
         self.processor.git_move_file("test/functional/interface_bitcoin_cli.py", "bitcoin_cli", "unit_e_cli")
         self.processor.replace_recursively('bitcoin-cli', 'unit-e-cli')

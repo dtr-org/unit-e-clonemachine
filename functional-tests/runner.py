@@ -23,7 +23,6 @@ class Runner:
         self.test_data_path = self.base_path / "test_data"
         self.clonemachine = (self.base_path / "../clonemachine.py").resolve()
         self.bitcoin_branch = "0.17"
-        self.bitcoin_git_revision = "1e49fe450dbb0c258776526dba3ee583461d42ff"
         self.unite_git_revision_known = "cc3bb51638a2e3dc756412f055aae92ae305a467"
 
     def run_git(self, arguments, cwd=None):
@@ -78,7 +77,15 @@ class Runner:
         self.run_git(["add", ".clonemachine"])
         self.run_git(["commit", "-m", "Add clonemachine configuration"])
 
-    def fetch_bitcoin(self):
+    def fetch_bitcoin(self, branch="0.17"):
+        if branch == "0.17":
+            self.bitcoin_git_revision = "1e49fe450dbb0c258776526dba3ee583461d42ff"
+        elif branch == "0.18":
+            self.bitcoin_git_revision = "825ecb5758f687563e12d7e499750a50021cbb9a"
+        else:
+            raise Exception("Unrecognized bitcoin branch: '{self.bitcoin_branch}'")
+        self.bitcoin_branch = branch
+
         remotes = self.run_git(["remote"])
         if remotes == "origin":
             self.run_git(["remote", "add", "upstream", "https://github.com/bitcoin/bitcoin"])
