@@ -175,6 +175,10 @@ class Fork:
 
         self.commit(msg)
 
+    def replace_testnet3(self):
+        self.processor.replace_recursively("testnet3", "testnet")
+        self.commit('Change testnet directory name testnet3 to testnet')
+
     def replace_currency_symbol(self):
         msg = "Change currency symbol\n\n"
 
@@ -276,6 +280,7 @@ class Fork:
     def run(self):
         self.remove_files()
         self.replace_ports()
+        self.replace_testnet3()
         self.replace_currency_symbol()
         self.adapt_executables()
         self.move_paths()

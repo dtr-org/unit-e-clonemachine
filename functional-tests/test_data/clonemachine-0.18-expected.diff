@@ -3808,7 +3808,7 @@ index 298510698..a2b485762 100644
  linearize-hashes.py.
  * `max_out_sz`: Maximum size for files created by the `output_file` option.
 diff --git a/contrib/linearize/example-linearize.cfg b/contrib/linearize/example-linearize.cfg
-index 2315898bf..c03856aee 100644
+index 2315898bf..14299c976 100644
 --- a/contrib/linearize/example-linearize.cfg
 +++ b/contrib/linearize/example-linearize.cfg
 @@ -1,17 +1,17 @@
@@ -3845,7 +3845,7 @@ index 2315898bf..c03856aee 100644
  #netmagic=0b110907
  #genesis=000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943
 -#input=/home/example/.bitcoin/testnet3/blocks
-+#input=/home/example/.unit-e/testnet3/blocks
++#input=/home/example/.unit-e/testnet/blocks
  
  # "output" option causes blockchain files to be written to the given location,
  # with "output_file" ignored. If not used, "output_file" is used instead.
@@ -13118,7 +13118,7 @@ index 6ff3dbb7e..33767f50f 100644
 -#endif // BITCOIN_CHAINPARAMS_H
 +#endif // UNITE_CHAINPARAMS_H
 diff --git a/src/chainparamsbase.cpp b/src/chainparamsbase.cpp
-index f0559a319..30b254606 100644
+index f0559a319..87b566a8f 100644
 --- a/src/chainparamsbase.cpp
 +++ b/src/chainparamsbase.cpp
 @@ -34,11 +34,11 @@ const CBaseChainParams& BaseParams()
@@ -13129,7 +13129,7 @@ index f0559a319..30b254606 100644
 +        return MakeUnique<CBaseChainParams>("", 7181);
      else if (chain == CBaseChainParams::TESTNET)
 -        return MakeUnique<CBaseChainParams>("testnet3", 18332);
-+        return MakeUnique<CBaseChainParams>("testnet3", 17181);
++        return MakeUnique<CBaseChainParams>("testnet", 17181);
      else if (chain == CBaseChainParams::REGTEST)
 -        return MakeUnique<CBaseChainParams>("regtest", 18443);
 +        return MakeUnique<CBaseChainParams>("regtest", 17291);
@@ -22642,7 +22642,7 @@ index f2e274743..c18a11335 100644
 -#endif // BITCOIN_UTIL_TIME_H
 +#endif // UNITE_UTIL_TIME_H
 diff --git a/src/validation.cpp b/src/validation.cpp
-index 0f860a4f1..f73c2e1a1 100644
+index 0f860a4f1..fc98d1902 100644
 --- a/src/validation.cpp
 +++ b/src/validation.cpp
 @@ -48,7 +48,7 @@
@@ -22690,6 +22690,15 @@ index 0f860a4f1..f73c2e1a1 100644
      scriptcheckqueue.Thread();
  }
  
+@@ -1933,7 +1933,7 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
+     // edge case when manipulating the UTXO and it would be simpler not to have
+     // another edge case to deal with.
+ 
+-    // testnet3 has no blocks before the BIP34 height with indicated heights
++    // testnet has no blocks before the BIP34 height with indicated heights
+     // post BIP34 before approximately height 486,000,000 and presumably will
+     // be reset before it reaches block 1,983,702 and starts doing unnecessary
+     // BIP30 checking again.
 diff --git a/src/validation.h b/src/validation.h
 index 65a378d8b..27ec03b94 100644
 --- a/src/validation.h
@@ -27686,7 +27695,7 @@ index 4bd58519c..6bc1626ce 100755
          for x in blocks:
              self.headers.append(CBlockHeader(x))
 diff --git a/test/functional/test_framework/mininode.py b/test/functional/test_framework/mininode.py
-index ac7cc068b..b88fb9ca0 100755
+index ac7cc068b..4af4f7e2a 100755
 --- a/test/functional/test_framework/mininode.py
 +++ b/test/functional/test_framework/mininode.py
 @@ -4,7 +4,7 @@
@@ -27698,6 +27707,15 @@ index ac7cc068b..b88fb9ca0 100755
  
  This python code was modified from ArtForz' public domain half-a-node, as
  found in the mini-node branch of http://github.com/jgarzik/pynode.
+@@ -84,7 +84,7 @@ MESSAGEMAP = {
+ 
+ MAGIC_BYTES = {
+     "mainnet": b"\xf9\xbe\xb4\xd9",   # mainnet
+-    "testnet3": b"\x0b\x11\x09\x07",  # testnet3
++    "testnet": b"\x0b\x11\x09\x07",  # testnet
+     "regtest": b"\xfa\xbf\xb5\xda",   # regtest
+ }
+ 
 @@ -119,7 +119,7 @@ class P2PConnection(asyncio.Protocol):
          self.on_connection_send_msg = None
          self.recvbuf = b""
